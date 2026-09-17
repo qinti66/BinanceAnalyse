@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "@/components/module-nav.css";
 
 export const metadata: Metadata = {
   title: "Alpha Radar｜币安情绪与合约高手雷达",

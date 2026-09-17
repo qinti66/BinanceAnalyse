@@ -15,6 +15,8 @@ export interface PositionEvidence {
   history: { verified: boolean; closedCycles: number; days: number; netPnlUsd: number; maxDrawdownPct: number } | null;
 }
 export interface SquarePost {
+  sourceUrl?: string; classificationNote?: string;
+  sharedPosition?: {side:string;notionalUsd:number|null;marginUsd:number|null;pnlUsd:number|null;roiPct:number|null;openedAt:string|null;note:string};
   id: string; authorId: string; authorName: string; symbol: string;
   postedAt: string; text: string; direction: Direction; isCall: boolean;
   likes: number; comments: number; duplicateOf?: string;

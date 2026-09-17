@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { Activity, ArrowLeft, ArrowUpDown, RefreshCw, AlertTriangle, Database, CheckCircle2 } from "lucide-react";
+import { Activity, ArrowUpDown, RefreshCw, AlertTriangle, Database, CheckCircle2 } from "lucide-react";
+import { ModuleNav } from "@/components/module-nav";
 import { Tabs,TabsList,TabsTrigger } from "@/components/ui/tabs";
 import { Select,SelectTrigger,SelectValue,SelectContent,SelectItem } from "@/components/ui/select";
 import type { IndicatorCoin,IndicatorSnapshot } from "@/lib/indicators/model";
@@ -61,7 +62,7 @@ export default function IndicatorsPage(){
  },[data,view,query,tag,sort,ascending]);
  const coin=data?.coins.find(c=>c.token===selected)??rows[0];
  const old=data?Date.now()-data.cutoff>6*3600000:false;
- return <main className="sq im"><header className="sq-header"><div className="sq-shell sq-row"><div className="sq-brand"><span className="sq-mark"><Activity size={21}/></span><div><strong>Alpha Radar</strong><small>全市场合约指标 / SOURCE 02</small></div></div><div className="im-nav"><a href="/square">广场情绪</a><a href="/"><ArrowLeft size={15}/>原有融合分析</a></div></div></header>
+ return <main className="sq im"><header className="sq-header"><div className="sq-shell sq-row"><div className="sq-brand"><span className="sq-mark"><Activity size={21}/></span><div><strong>Alpha Radar</strong><small>全市场合约指标 / SOURCE 02</small></div></div><ModuleNav current="/indicators"/></div></header>
  <div className="sq-shell sq-content"><div className="sq-row sq-heading"><div><span className="sq-eyebrow">资金流 × 持仓 × 市值 × 技术</span><h1>从全市场，筛出值得留意的变化。</h1><p>IO 看主动买卖成交资金；持仓增减与持仓市值单独衡量。</p></div><div className="im-actions"><button className="sq-button" disabled={polling} onClick={()=>readSnapshot().catch(e=>setError(e.message))}>读取已保存快照</button><button className="sq-button sq-primary" onClick={update} disabled={polling||!local}><RefreshCw size={16} className={polling?"sq-spin":""}/>{polling?"采集进行中…":"更新指标数据"}</button></div></div>
  <div className="sq-status sq-row"><span role="status" aria-live="polite">{status||"正在读取真实快照…"}</span><span>一次性手动采集 · 无交易操作</span></div>
  {error&&<div className="sq-notice" role="alert"><AlertTriangle size={18}/>{error}</div>}
