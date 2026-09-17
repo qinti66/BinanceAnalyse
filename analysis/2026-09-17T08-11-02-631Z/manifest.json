@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-09-17T08:46:05.288Z",
+  "snapshotId": "2026-09-17T08-11-02-631Z",
+  "capturedAt": "2026-09-17T08:15:12.870Z",
+  "files": {
+    "trader-analysis.json": {
+      "bytes": 149780,
+      "sha256": "c59095d7f232ab0a9af7cf4dae46d05bf9992f09717e141f92e278bf9c2e15b2"
+    },
+    "position-cycles.json": {
+      "bytes": 2660851,
+      "sha256": "93f03dcfa689518504607d4150be610a1fb145850d9159b7236a2e085c052487"
+    },
+    "coin-analysis.json": {
+      "bytes": 19527,
+      "sha256": "2de2d588284f3b2c0687742613906ef1f9a8e46067b03efb5741559746e78404"
+    },
+    "trader-ranking.csv": {
+      "bytes": 12455,
+      "sha256": "953a086fc02fc5cb974669c53e4de693b3e054af84c54c1535fbd30e842d7328"
+    },
+    "coin-ranking.csv": {
+      "bytes": 3953,
+      "sha256": "c555f58462036ca046aacca2edb57bbf3bbc8ad677b00aafa673dc995f4974b5"
+    },
+    "report.md": {
+      "bytes": 3325,
+      "sha256": "f5b47b69f893fb03fdac4568fb702692a0b2f050a1e70af32cc5e63798e8be37"
+    }
+  },
+  "summary": {
+    "eligibleTraders": 18,
+    "highRiskTraders": 3,
+    "reconstructedCycles": 5722,
+    "analyzedCoins": 31
+  }
+}

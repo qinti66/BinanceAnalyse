@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Framework and build output
+.next/
+.vinext/
+/dist/
+
+# Local Cloudflare runtime state
+.wrangler/state/
+
+# TypeScript incremental build metadata
+*.tsbuildinfo
+
+# Local environment files
+.env*
+!.env.example
+

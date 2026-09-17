@@ -1,0 +1,73 @@
+{
+  "source": "Binance official USD-M Futures public API",
+  "capturedAt": "2026-09-17T08:00:23.632Z",
+  "markets": [
+    {
+      "symbol": "ZECUSDT",
+      "lastPrice": 1371.05,
+      "priceChangePercent": 16.294,
+      "quoteVolume": 4291697275.87,
+      "markPrice": 1370.81458076,
+      "fundingRate": -0.00021688,
+      "openInterest": 559961.307,
+      "longShortRatio": 0.3928,
+      "takerBuySellRatio": 1.4463
+    },
+    {
+      "symbol": "DOTUSDT",
+      "lastPrice": 1.0112,
+      "priceChangePercent": 6.836,
+      "quoteVolume": 69516829.64224,
+      "markPrice": 1.01126535,
+      "fundingRate": 0.0001,
+      "openInterest": 37063067.7,
+      "longShortRatio": 2.046,
+      "takerBuySellRatio": 0.2946
+    },
+    {
+      "symbol": "ARBUSDT",
+      "lastPrice": 0.16474,
+      "priceChangePercent": 6.669,
+      "quoteVolume": 357209816.000263,
+      "markPrice": 0.16475,
+      "fundingRate": -0.00003451,
+      "openInterest": 305588797.6,
+      "longShortRatio": 1.6539,
+      "takerBuySellRatio": 0.4524
+    },
+    {
+      "symbol": "1000PEPEUSDT",
+      "lastPrice": 0.0034887,
+      "priceChangePercent": 4.047,
+      "quoteVolume": 183991505.8448382,
+      "markPrice": 0.00349055,
+      "fundingRate": 0.0001,
+      "openInterest": 17929276052,
+      "longShortRatio": 1.6525,
+      "takerBuySellRatio": 0.8003
+    },
+    {
+      "symbol": "SOLUSDT",
+      "lastPrice": 100.01,
+      "priceChangePercent": 3.199,
+      "quoteVolume": 1843757785.1005,
+      "markPrice": 100.01648271,
+      "fundingRate": 0.00000949,
+      "openInterest": 8130500.13,
+      "longShortRatio": 2.0386,
+      "takerBuySellRatio": 0.6783
+    },
+    {
+      "symbol": "XRPUSDT",
+      "lastPrice": 1.3011,
+      "priceChangePercent": 1.277,
+      "quoteVolume": 1320969358.5488,
+      "markPrice": 1.30111869,
+      "fundingRate": 0.0000092,
+      "openInterest": 292744210.6,
+      "longShortRatio": 2.5224,
+      "takerBuySellRatio": 1.4568
+    }
+  ],
+  "errors": []
+}

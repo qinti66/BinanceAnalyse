@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-17T08:15:12.870Z",
+  "completedAt": "2026-09-17T08:31:33.658Z",
+  "scope": {
+    "leaderboardSlices": 28,
+    "rowsPerSlice": 50,
+    "selectedTraderProfiles": 136,
+    "hotTokens": 31
+  },
+  "results": {
+    "leaderboardSlicesSucceeded": 28,
+    "leaderboardSlicesFailed": 0,
+    "uniqueRankedTraders": 225,
+    "profilesSucceeded": 136,
+    "profilesFailed": 0,
+    "profilesWithPublicPositions": 55,
+    "orderHistoriesSucceeded": 55,
+    "orderHistoriesFailed": 0,
+    "publicOrdersCollected": 22371,
+    "futuresSymbolsSucceeded": 27,
+    "futuresSymbolsUnsupported": 4,
+    "futuresSymbolsFailed": 0,
+    "spotSymbolsSucceeded": 31,
+    "spotSymbolsUnsupported": 0,
+    "spotSymbolsFailed": 0
+  },
+  "files": [
+    "hot-coins.json",
+    "market-overview.json",
+    "copy-trader-leaderboards.json",
+    "copy-trader-profiles.json",
+    "copy-trader-order-history.json",
+    "hot-coin-market-data.json"
+  ],
+  "sourceNotes": {
+    "binanceHotCoin": "Connected Binance official market-data tool",
+    "marketOverview": "Connected Binance official market-data tool",
+    "futuresAndSpot": "Official public REST market-data endpoints",
+    "copyTrading": "Binance public web BAPI used by public copy-trading pages",
+    "limitation": "Orders are available only when the lead trader exposes positions; hidden portfolios are explicitly marked positionShow=false."
+  }
+}

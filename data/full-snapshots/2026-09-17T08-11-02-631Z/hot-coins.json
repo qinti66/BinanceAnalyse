@@ -1,0 +1,2582 @@
+{
+  "coinDetails": {
+    "1000SATS": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 375,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "1000SATS",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600263576,
+          "buyVolumeUsdt": 6152.71219704,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600263576,
+          "buyVolumeUsdt": 6152.71219704,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600397715,
+          "buyVolumeUsdt": 6154.08175623,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 642526767,
+          "buyVolumeUsdt": 6565.05915996,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600263576,
+          "buyVolumeUsdt": 6152.71219704,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 4,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600263576,
+          "buyVolumeUsdt": 6152.71219704,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600263576,
+          "buyVolumeUsdt": 6152.71219704,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600397715,
+          "buyVolumeUsdt": 6154.08175623,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 847254500,
+          "buyVolumeUsdt": 8595.77890014,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 600263576,
+          "buyVolumeUsdt": 6152.71219704,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427041
+    },
+    "BLUR": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 7,
+      "searchCount": 294,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "BLUR",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 427.5,
+          "sellVolumeUsdt": 7.169175,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是卖出。卖出量是买入量的9.4877倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was selling. The selling volume was 9.4877 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 10,
+          "buyRatio": 0.9,
+          "buyVolume": 43095.9,
+          "buyVolumeUsdt": 702.424382,
+          "sellRatio": 9.1,
+          "sellVolume": 408702.5,
+          "sellVolumeUsdt": 6684.760903,
+          "timePeriod": "24h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.3200倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was selling. The selling volume was 1.3200 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 43,
+          "buyRatio": 4.3,
+          "buyVolume": 3334,
+          "buyVolumeUsdt": 55.97786,
+          "sellRatio": 5.7,
+          "sellVolume": 4401,
+          "sellVolumeUsdt": 73.982053,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是卖出。卖出量是买入量的13.3869倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was selling. The selling volume was 13.3869 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 7,
+          "buyRatio": 0.6,
+          "buyVolume": 32746.7,
+          "buyVolumeUsdt": 537.3188,
+          "sellRatio": 9.4,
+          "sellVolume": 438575.9,
+          "sellVolumeUsdt": 7188.257537,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 3345,
+          "sellVolumeUsdt": 56.251813,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427151
+    },
+    "BOME": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 2,
+      "searchCount": 1996,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "BOME",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 2898,
+          "buyVolumeUsdt": 2.7133974,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 2898,
+          "buyVolumeUsdt": 2.7133974,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的29.5478倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was 29.5478 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 97,
+          "buyRatio": 9.6,
+          "buyVolume": 29083440,
+          "buyVolumeUsdt": 27512.4679393,
+          "sellRatio": 0.4,
+          "sellVolume": 984283,
+          "sellVolumeUsdt": 923.5314438,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是卖出。卖出量是买入量的1.3674倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was selling. The selling volume was 1.3674 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 42,
+          "buyRatio": 4.2,
+          "buyVolume": 38729996,
+          "buyVolumeUsdt": 36050.7188536,
+          "sellRatio": 5.8,
+          "sellVolume": 52959317,
+          "sellVolumeUsdt": 46354.7300905,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 1836983,
+          "buyVolumeUsdt": 1784.6668279,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 2898,
+          "buyVolumeUsdt": 2.7133974,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 27493,
+          "buyVolumeUsdt": 25.9384559,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的26.0807倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 26.0807 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 96,
+          "buyRatio": 9.6,
+          "buyVolume": 29400148,
+          "buyVolumeUsdt": 27817.4035879,
+          "sellRatio": 0.4,
+          "sellVolume": 1127278,
+          "sellVolumeUsdt": 1057.9452371,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.3452倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was selling. The selling volume was 1.3452 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 43,
+          "buyRatio": 4.2,
+          "buyVolume": 41549550,
+          "buyVolumeUsdt": 38558.8926891,
+          "sellRatio": 5.8,
+          "sellVolume": 55889100,
+          "sellVolumeUsdt": 48943.2480912,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 2065326,
+          "buyVolumeUsdt": 2007.8179738,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427081
+    },
+    "FTT": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2Njc5NTIzMjE4NDI3OQ==",
+        "releaseTime": 1789440825000,
+        "summaryCn": "美国国会推动《CLARITY法案》以监管数字资产经纪商和交易所，解决FTX挪用客户资金的监管空白，旨在将传统金融标准引入增长但监管滞后的数字资产市场。",
+        "summaryEn": "The U.S. Congress is moving forward with the CLARITY Act to regulate digital asset brokers and exchanges, addressing gaps that allowed FTX's misuse of customer funds, aiming to implement traditional financial standards in the growing but under-regulated digital asset market.",
+        "userAvatar": "https://public.bnbstatic.com/image/avatar/202510/b03844a2ccb81daef064dd7f848ab1c9.jpeg",
+        "userName": "ME News",
+        "viewCount": 653
+      },
+      "favouriteCount": 0,
+      "hotRank": 10,
+      "searchCount": 206,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "FTT",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 24745.64,
+          "buyVolumeUsdt": 4942.964563,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的86.2448倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 86.2448 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 99,
+          "buyRatio": 9.8,
+          "buyVolume": 27130.04,
+          "buyVolumeUsdt": 5407.766849,
+          "sellRatio": 0.2,
+          "sellVolume": 314.57,
+          "sellVolumeUsdt": 61.75147,
+          "timePeriod": "24h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的416.9442倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 416.9442 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "buyVolume": 24745.64,
+          "buyVolumeUsdt": 4942.964563,
+          "sellRatio": 0.1,
+          "sellVolume": 59.35,
+          "sellVolumeUsdt": 11.65634,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的447.3955倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 447.3955 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "buyVolume": 26552.92,
+          "buyVolumeUsdt": 5294.478193,
+          "sellRatio": 0.1,
+          "sellVolume": 59.35,
+          "sellVolumeUsdt": 11.65634,
+          "timePeriod": "24h"
+        }
+      ],
+      "updateTime": 1789632426840
+    },
+    "GALA": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2NzUwOTk4OTE1Mzg3Nw==",
+        "releaseTime": 1789615324000,
+        "summaryCn": "KuCoin将于2026年9月20日更新GALA、BSV和WAXL的代号与API符号，要求用户关闭相关交易机器人，届时存取款服务将暂停，交易将中止；2026年9月21日更新期间，Pro和Classic WebSocket可能会暂时断开连接。",
+        "summaryEn": "KuCoin will update the codes and API symbols for GALA, BSV, and WAXL on September 20, 2026, requiring users to close trading bots for these pairs, as deposit and withdrawal services will be halted, and trading will be suspended; Pro and Classic WebSocket may experience temporary disconnections during an update on September 21, 2026.",
+        "userAvatar": "https://public.bnbstatic.com/image/pgc/202406/a279747d0cffed79e987d0b9e7b3ec68.png",
+        "userName": "币界网",
+        "viewCount": 189
+      },
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 1095,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "GALA",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 100063,
+          "buyVolumeUsdt": 166.905084,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的17.91倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was 17.91 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 95,
+          "buyRatio": 9.4,
+          "buyVolume": 100063,
+          "buyVolumeUsdt": 166.905084,
+          "sellRatio": 0.6,
+          "sellVolume": 5587,
+          "sellVolumeUsdt": 9.302355,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的5.0317倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was 5.0317 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 83,
+          "buyRatio": 8.3,
+          "buyVolume": 782861,
+          "buyVolumeUsdt": 1291.011417,
+          "sellRatio": 1.7,
+          "sellVolume": 155587,
+          "sellVolumeUsdt": 256.852355,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的8.4374倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 8.4374 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 89,
+          "buyRatio": 8.9,
+          "buyVolume": 18230185,
+          "buyVolumeUsdt": 29278.273872,
+          "sellRatio": 1.1,
+          "sellVolume": 2160643,
+          "sellVolumeUsdt": 3469.597618,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的17.91倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was 17.91 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 95,
+          "buyRatio": 9.4,
+          "buyVolume": 100063,
+          "buyVolumeUsdt": 166.905084,
+          "sellRatio": 0.6,
+          "sellVolume": 5587,
+          "sellVolumeUsdt": 9.302355,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 6,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 100063,
+          "buyVolumeUsdt": 166.905084,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的8.863倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was 8.863 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 90,
+          "buyRatio": 8.9,
+          "buyVolume": 100063,
+          "buyVolumeUsdt": 166.905084,
+          "sellRatio": 1.1,
+          "sellVolume": 11290,
+          "sellVolumeUsdt": 18.803553,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的4.3793倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 4.3793 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 81,
+          "buyRatio": 8.1,
+          "buyVolume": 813164,
+          "buyVolumeUsdt": 1341.011367,
+          "sellRatio": 1.9,
+          "sellVolume": 185683,
+          "sellVolumeUsdt": 306.761452,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的1.4478倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 1.4478 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 59,
+          "buyRatio": 5.9,
+          "buyVolume": 62434742,
+          "buyVolumeUsdt": 99811.079465,
+          "sellRatio": 4.1,
+          "sellVolume": 43123328,
+          "sellVolumeUsdt": 68630.533906,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的6.0851倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was 6.0851 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 86,
+          "buyRatio": 8.5,
+          "buyVolume": 100063,
+          "buyVolumeUsdt": 166.905084,
+          "sellRatio": 1.5,
+          "sellVolume": 16444,
+          "sellVolumeUsdt": 27.384963,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427112
+    },
+    "GENIUS": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2Njc5NTIzMjE4NDI3OQ==",
+        "releaseTime": 1789440825000,
+        "summaryCn": "FTX崩溃近四年后，美国国会终于推动《CLARITY法案》进入参议院审议，该法案旨在以传统金融市场标准对数字资产经纪商和交易所进行监管，填补FTX当年利用的监管漏洞，若立法继续拖延，市场可能会出现更大规模的崩溃。",
+        "summaryEn": "Four years after FTX's collapse, the U.S. Congress is finally pushing the CLARITY Act, which aims to regulate digital asset brokers and exchanges with traditional financial market standards, into Senate review, addressing regulatory gaps that allowed FTX to misuse customer funds, with the potential consequences of further delays including even larger failures in the market.",
+        "userAvatar": "https://public.bnbstatic.com/image/avatar/202510/b03844a2ccb81daef064dd7f848ab1c9.jpeg",
+        "userName": "ME News",
+        "viewCount": 653
+      },
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 177,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "GENIUS",
+      "topHolders": [],
+      "topTraderRank": 9,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 73783,
+          "buyVolumeUsdt": 22071.17499,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "24h"
+        }
+      ],
+      "updateTime": 1789632427180
+    },
+    "HIVE": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2Njc1ODIyNDc5MTg2NA==",
+        "releaseTime": 1789431826000,
+        "summaryCn": "HIVE的价格在五分钟内迅速上涨12.62%，达到$0.0589，24小时内增加了18.99%，在广泛的市场动态中，由强烈的看涨情绪和显著的交易活动推动。",
+        "summaryEn": "HIVE experienced a rapid price surge of 12.62% within five minutes, reaching $0.0589, with a 24-hour increase of 18.99%, driven by strong bullish sentiment and significant trading activity amid mixed broader market dynamics.",
+        "userAvatar": "https://public.bnbstatic.com/image/pgc/202211/5a404b2eaf7ef878ce923e77d1bb9010.jpg",
+        "userName": "Coinfomania",
+        "viewCount": 183
+      },
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 425,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "HIVE",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的1470.5883倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was 1470.5883 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0.1,
+          "sellVolume": 578,
+          "sellVolumeUsdt": 29.3892,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的37.4017倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 37.4017 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 97,
+          "buyRatio": 9.7,
+          "buyVolume": 933622,
+          "buyVolumeUsdt": 47857.3868,
+          "sellRatio": 0.3,
+          "sellVolume": 24962,
+          "sellVolumeUsdt": 1280.2,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的3171.6418倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was 3171.6418 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0.1,
+          "sellVolume": 268,
+          "sellVolumeUsdt": 13.6412,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 2,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的1470.5883倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 1470.5883 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0.1,
+          "sellVolume": 578,
+          "sellVolumeUsdt": 29.3892,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的65.5155倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 65.5155 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 98,
+          "buyRatio": 9.8,
+          "buyVolume": 1732622,
+          "buyVolumeUsdt": 88306.4627,
+          "sellRatio": 0.2,
+          "sellVolume": 26446,
+          "sellVolumeUsdt": 1355.4388,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的3171.6418倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was 3171.6418 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "buyVolume": 850000,
+          "buyVolumeUsdt": 43580.0186,
+          "sellRatio": 0.1,
+          "sellVolume": 268,
+          "sellVolumeUsdt": 13.6412,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427026
+    },
+    "MET": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 4,
+      "searchCount": 752,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "MET",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 4862.6,
+          "buyVolumeUsdt": 1006.5582,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 108983.8,
+          "buyVolumeUsdt": 21659.6489,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "24h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的23.939倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 23.939 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 96,
+          "buyRatio": 9.5,
+          "buyVolume": 93082.2,
+          "buyVolumeUsdt": 19347.98707,
+          "sellRatio": 0.5,
+          "sellVolume": 3888.3,
+          "sellVolumeUsdt": 808.48222,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的6.7101倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 6.7101 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 87,
+          "buyRatio": 8.7,
+          "buyVolume": 251408.8,
+          "buyVolumeUsdt": 50889.51106,
+          "sellRatio": 1.3,
+          "sellVolume": 37467.4,
+          "sellVolumeUsdt": 7556.05578,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的21.473倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was 21.473 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 96,
+          "buyRatio": 9.5,
+          "buyVolume": 14178.6,
+          "buyVolumeUsdt": 2987.99145,
+          "sellRatio": 0.5,
+          "sellVolume": 660.3,
+          "sellVolumeUsdt": 139.58742,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427064
+    },
+    "MRNAB": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 27,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "MRNAB",
+      "topHolders": [],
+      "topTraderRank": 10,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的6.0799倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 6.0799 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 86,
+          "buyRatio": 8.5,
+          "buyVolume": 19.176,
+          "buyVolumeUsdt": 2755.57529,
+          "sellRatio": 1.5,
+          "sellVolume": 3.154,
+          "sellVolumeUsdt": 459.59273,
+          "timePeriod": "24h"
+        }
+      ],
+      "updateTime": 1789632426894
+    },
+    "NEIRO": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 5,
+      "searchCount": 549,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "NEIRO",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 122761359,
+          "sellVolumeUsdt": 10068.93618138,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的2.2104倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was 2.2104 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 69,
+          "buyRatio": 6.8,
+          "buyVolume": 272233822,
+          "buyVolumeUsdt": 22214.5980697,
+          "sellRatio": 3.2,
+          "sellVolume": 123161359,
+          "sellVolumeUsdt": 10101.48618138,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的1.8251倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 1.8251 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 65,
+          "buyRatio": 6.4,
+          "buyVolume": 317478600,
+          "buyVolumeUsdt": 25770.89169173,
+          "sellRatio": 3.6,
+          "sellVolume": 173950884,
+          "sellVolumeUsdt": 14110.59838526,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是卖出。卖出量是买入量的109.8901倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was selling. The selling volume was 109.8901 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 1,
+          "buyRatio": 0,
+          "buyVolume": 1120468,
+          "buyVolumeUsdt": 92.08930493,
+          "sellRatio": 10,
+          "sellVolume": 122761359,
+          "sellVolumeUsdt": 10068.93618138,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 36738280,
+          "sellVolumeUsdt": 3002.99995499,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 159499639,
+          "sellVolumeUsdt": 13071.93613637,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的1.4336倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 1.4336 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 59,
+          "buyRatio": 5.8,
+          "buyVolume": 407276245,
+          "buyVolumeUsdt": 33329.61293475,
+          "sellRatio": 4.2,
+          "sellVolume": 284093665,
+          "sellVolumeUsdt": 23164.20224237,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的1.1524倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 1.1524 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 54,
+          "buyRatio": 5.3,
+          "buyVolume": 774669834,
+          "buyVolumeUsdt": 62464.67976747,
+          "sellRatio": 4.7,
+          "sellVolume": 672225620,
+          "sellVolumeUsdt": 53803.22744897,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.2441倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was selling. The selling volume was 1.2441 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 45,
+          "buyRatio": 4.4,
+          "buyVolume": 128200627,
+          "buyVolumeUsdt": 10557.15979811,
+          "sellRatio": 5.6,
+          "sellVolume": 159499639,
+          "sellVolumeUsdt": 13071.93613637,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427166
+    },
+    "NMR": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 8,
+      "searchCount": 198,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "NMR",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 8.34,
+          "buyVolumeUsdt": 74.1462,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "24h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.7467倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was selling. The selling volume was 1.7467 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 36,
+          "buyRatio": 3.6,
+          "buyVolume": 19.54,
+          "buyVolumeUsdt": 172.5345,
+          "sellRatio": 6.4,
+          "sellVolume": 34.13,
+          "sellVolumeUsdt": 294.4345,
+          "timePeriod": "24h"
+        }
+      ],
+      "updateTime": 1789632426972
+    },
+    "ORCA": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 3,
+      "searchCount": 353,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "ORCA",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 315.77,
+          "sellVolumeUsdt": 418.71102,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的4.6114倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 4.6114 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 82,
+          "buyRatio": 8.2,
+          "buyVolume": 5889.42,
+          "buyVolumeUsdt": 7827.23201,
+          "sellRatio": 1.8,
+          "sellVolume": 1277.15,
+          "sellVolumeUsdt": 1676.19093,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 315.77,
+          "sellVolumeUsdt": 418.71102,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 3697.75,
+          "sellVolumeUsdt": 4948.60243,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 3697.75,
+          "sellVolumeUsdt": 4948.60243,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 4364.57,
+          "sellVolumeUsdt": 5832.64301,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是卖出。卖出量是买入量的4.8614倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was selling. The selling volume was 4.8614 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 17,
+          "buyRatio": 1.7,
+          "buyVolume": 6920.78,
+          "buyVolumeUsdt": 9164.05413,
+          "sellRatio": 8.3,
+          "sellVolume": 33652.55,
+          "sellVolumeUsdt": 44127.18729,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是卖出。卖出量是买入量的∞倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was selling. The selling volume was ∞ times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 0,
+          "buyRatio": 0,
+          "buyVolume": 0,
+          "buyVolumeUsdt": 0,
+          "sellRatio": 10,
+          "sellVolume": 4156.29,
+          "sellVolumeUsdt": 5556.71797,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632426929
+    },
+    "PENGU": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 6,
+      "searchCount": 1865,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "PENGU",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 2737,
+          "buyVolumeUsdt": 19.941782,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的7.9945倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was 7.9945 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 89,
+          "buyRatio": 8.8,
+          "buyVolume": 8706,
+          "buyVolumeUsdt": 63.498946,
+          "sellRatio": 1.2,
+          "sellVolume": 1089,
+          "sellVolumeUsdt": 7.941696,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的1.6457倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was 1.6457 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 62,
+          "buyRatio": 6.2,
+          "buyVolume": 104380,
+          "buyVolumeUsdt": 754.247502,
+          "sellRatio": 3.8,
+          "sellVolume": 63425,
+          "sellVolumeUsdt": 453.813149,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的2.6817倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 2.6817 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 73,
+          "buyRatio": 7.2,
+          "buyVolume": 32228132,
+          "buyVolumeUsdt": 224854.639201,
+          "sellRatio": 2.8,
+          "sellVolume": 12017917,
+          "sellVolumeUsdt": 81766.485655,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的2.649倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was 2.649 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 73,
+          "buyRatio": 7.2,
+          "buyVolume": 23017,
+          "buyVolumeUsdt": 167.960729,
+          "sellRatio": 2.8,
+          "sellVolume": 8689,
+          "sellVolumeUsdt": 63.414196,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 2737,
+          "buyVolumeUsdt": 19.941782,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的72.7053倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was 72.7053 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 99,
+          "buyRatio": 9.8,
+          "buyVolume": 1388381,
+          "buyVolumeUsdt": 10123.91676,
+          "sellRatio": 0.2,
+          "sellVolume": 19096,
+          "sellVolumeUsdt": 139.626887,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.5305倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was selling. The selling volume was 1.5305 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 40,
+          "buyRatio": 3.9,
+          "buyVolume": 11097580,
+          "buyVolumeUsdt": 79799.527921,
+          "sellRatio": 6.1,
+          "sellVolume": 16985444,
+          "sellVolumeUsdt": 121861.360968,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的1.3419倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 1.3419 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 57,
+          "buyRatio": 5.7,
+          "buyVolume": 56662566,
+          "buyVolumeUsdt": 396824.215537,
+          "sellRatio": 4.3,
+          "sellVolume": 42227011,
+          "sellVolumeUsdt": 295895.128165,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的1.3119倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was 1.3119 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 57,
+          "buyRatio": 5.6,
+          "buyVolume": 1425074,
+          "buyVolumeUsdt": 10391.579136,
+          "sellRatio": 4.4,
+          "sellVolume": 1086300,
+          "sellVolumeUsdt": 7923.377698,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632426862
+    },
+    "PNUT": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 1,
+      "searchCount": 501,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "PNUT",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 58.6,
+          "buyVolumeUsdt": 2.71904,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 58.6,
+          "buyVolumeUsdt": 2.71904,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是卖出。卖出量是买入量的142.8571倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was selling. The selling volume was 142.8571 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 1,
+          "buyRatio": 0,
+          "buyVolume": 827.2,
+          "buyVolumeUsdt": 38.1515,
+          "sellRatio": 10,
+          "sellVolume": 117883.6,
+          "sellVolumeUsdt": 5399.06888,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是卖出。卖出量是买入量的35.7143倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was selling. The selling volume was 35.7143 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 3,
+          "buyRatio": 0.2,
+          "buyVolume": 3970.6,
+          "buyVolumeUsdt": 175.2177,
+          "sellRatio": 9.8,
+          "sellVolume": 141883.5,
+          "sellVolumeUsdt": 6447.65657,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 58.6,
+          "buyVolumeUsdt": 2.71904,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 58.6,
+          "buyVolumeUsdt": 2.71904,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 58.6,
+          "buyVolumeUsdt": 2.71904,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是卖出。卖出量是买入量的142.8571倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was selling. The selling volume was 142.8571 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 1,
+          "buyRatio": 0,
+          "buyVolume": 827.2,
+          "buyVolumeUsdt": 38.1515,
+          "sellRatio": 10,
+          "sellVolume": 117883.6,
+          "sellVolumeUsdt": 5399.06888,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是卖出。卖出量是买入量的2.6302倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was selling. The selling volume was 2.6302 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 28,
+          "buyRatio": 2.7,
+          "buyVolume": 121962.7,
+          "buyVolumeUsdt": 5368.27988,
+          "sellRatio": 7.3,
+          "sellVolume": 320813.4,
+          "sellVolumeUsdt": 14203.17593,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 58.6,
+          "buyVolumeUsdt": 2.71904,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427006
+    },
+    "POWR": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 834,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "POWR",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 523579,
+          "buyVolumeUsdt": 32116.7257,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 605105,
+          "buyVolumeUsdt": 37079.2036,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 605105,
+          "buyVolumeUsdt": 37079.2036,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的550.596倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 550.596 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "buyVolume": 605105,
+          "buyVolumeUsdt": 37079.2036,
+          "sellRatio": 0.1,
+          "sellVolume": 1099,
+          "sellVolumeUsdt": 68.0281,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 605105,
+          "buyVolumeUsdt": 37079.2036,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 1,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 523579,
+          "buyVolumeUsdt": 32116.7257,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 605105,
+          "buyVolumeUsdt": 37079.2036,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的59.0962倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 59.0962 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 98,
+          "buyRatio": 9.8,
+          "buyVolume": 610641,
+          "buyVolumeUsdt": 37418.4345,
+          "sellRatio": 0.2,
+          "sellVolume": 10333,
+          "sellVolumeUsdt": 629.584,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的9.0473倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 9.0473 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 90,
+          "buyRatio": 9,
+          "buyVolume": 648737,
+          "buyVolumeUsdt": 39829.4711,
+          "sellRatio": 1,
+          "sellVolume": 71705,
+          "sellVolumeUsdt": 4444.4627,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的175.2925倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was 175.2925 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 99,
+          "buyRatio": 9.9,
+          "buyVolume": 605285,
+          "buyVolumeUsdt": 37090.1836,
+          "sellRatio": 0.1,
+          "sellVolume": 3453,
+          "sellVolumeUsdt": 210.2877,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427008
+    },
+    "RLUSD": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2Njc3MzcyOTEyNjUwNQ==",
+        "releaseTime": 1789435575000,
+        "summaryCn": "美国参议院计划投票《数字资产市场清晰法案》，以明确数字资产的监管分工，但无论法案结果如何，华尔街已经在推进数字资产的采用。",
+        "summaryEn": "The U.S. Senate is set to vote on the Digital Asset Market Clarity Act, which aims to clarify regulatory roles over digital assets, but Wall Street is already advancing in digital asset adoption regardless of the bill's outcome.",
+        "userAvatar": "https://bin.bnbstatic.com/internal_upload/live-admin-api/images/exuhaoujiazgtydp83qras.png",
+        "userName": "链得得ChainDD",
+        "viewCount": 764
+      },
+      "favouriteCount": 0,
+      "hotRank": 9,
+      "searchCount": 176,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "RLUSD",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的∞倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was ∞ times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "buyVolume": 4523,
+          "buyVolumeUsdt": 4527.0707,
+          "sellRatio": 0,
+          "sellVolume": 0,
+          "sellVolumeUsdt": 0,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的2.1477倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was 2.1477 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 68,
+          "buyRatio": 6.8,
+          "buyVolume": 75168,
+          "buyVolumeUsdt": 75237.1271,
+          "sellRatio": 3.2,
+          "sellVolume": 35000,
+          "sellVolumeUsdt": 35031.5,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是卖出。卖出量是买入量的2.3776倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was selling. The selling volume was 2.3776 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 30,
+          "buyRatio": 2.9,
+          "buyVolume": 341404,
+          "buyVolumeUsdt": 341712.7395,
+          "sellRatio": 7.1,
+          "sellVolume": 811767,
+          "sellVolumeUsdt": 812509.9472,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是卖出。卖出量是买入量的4.7755倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was selling. The selling volume was 4.7755 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 17,
+          "buyRatio": 1.7,
+          "buyVolume": 1933921,
+          "buyVolumeUsdt": 1935459.8622,
+          "sellRatio": 8.3,
+          "sellVolume": 9237456,
+          "sellVolumeUsdt": 9245355.0927,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是卖出。卖出量是买入量的1.5029倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was selling. The selling volume was 1.5029 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 40,
+          "buyRatio": 3.9,
+          "buyVolume": 117470,
+          "buyVolumeUsdt": 117577.1989,
+          "sellRatio": 6.1,
+          "sellVolume": 176538,
+          "sellVolumeUsdt": 176711.038,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 0,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是卖出。卖出量是买入量的1.3978倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was selling. The selling volume was 1.3978 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 42,
+          "buyRatio": 4.1,
+          "buyVolume": 6073,
+          "buyVolumeUsdt": 6078.6217,
+          "sellRatio": 5.9,
+          "sellVolume": 8489,
+          "sellVolumeUsdt": 8496.6401,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的4.2802倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 4.2802 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 81,
+          "buyRatio": 8.1,
+          "buyVolume": 4473036,
+          "buyVolumeUsdt": 4477456.9479,
+          "sellRatio": 1.9,
+          "sellVolume": 1045042,
+          "sellVolumeUsdt": 1045956.6508,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.5995倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was selling. The selling volume was 1.5995 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 38,
+          "buyRatio": 3.8,
+          "buyVolume": 8371510,
+          "buyVolumeUsdt": 8379220.9356,
+          "sellRatio": 6.2,
+          "sellVolume": 13390999,
+          "sellVolumeUsdt": 13402535.1161,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的53.7709倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was 53.7709 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 98,
+          "buyRatio": 9.8,
+          "buyVolume": 4045940,
+          "buyVolumeUsdt": 4049981.2585,
+          "sellRatio": 0.2,
+          "sellVolume": 75244,
+          "sellVolumeUsdt": 75315.666,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427093
+    },
+    "SAPIEN": {
+      "article": null,
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 149,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "SAPIEN",
+      "topHolders": [],
+      "topTraderRank": 8,
+      "topTraders": [],
+      "updateTime": 1789632426912
+    },
+    "SNDKB": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2Njg3MzQxMzQ1ODgxMQ==",
+        "releaseTime": 1789459914000,
+        "summaryCn": "本文探讨了代币化股票的交易活动增速已超过资产规模，市场换手率显著提高，分发渠道成为关键增长动力，同时代币化股票正从发行阶段转向实际在 DeFi 中应用，强调了市场动态从发行竞争转向分发和应用竞争的演变。",
+        "summaryEn": "The article discusses the rapid growth in trading activities of tokenized stocks outpacing asset scale, with significant increases in market turnover and distribution channels becoming key growth drivers, while tokenized stocks are also transitioning towards real-world applications in DeFi, highlighting the evolving market dynamics from issuance to distribution and application competition.",
+        "userAvatar": "https://bin.bnbstatic.com/internal_upload/live-admin-api/images/exuhaoujiazgtydp83qras.png",
+        "userName": "链得得ChainDD",
+        "viewCount": 409
+      },
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 712,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "SNDKB",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的2.9498倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 2.9498 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 75,
+          "buyRatio": 7.4,
+          "buyVolume": 226.7682,
+          "buyVolumeUsdt": 348045.716493,
+          "sellRatio": 2.6,
+          "sellVolume": 76.8768,
+          "sellVolumeUsdt": 118345.988465,
+          "timePeriod": "24h"
+        }
+      ],
+      "topTraderRank": 3,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是卖出。卖出量是买入量的2.5170倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was selling. The selling volume was 2.5170 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 28,
+          "buyRatio": 2.8,
+          "buyVolume": 0.1769,
+          "buyVolumeUsdt": 272.568588,
+          "sellRatio": 7.2,
+          "sellVolume": 0.4453,
+          "sellVolumeUsdt": 686.55791,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是卖出。卖出量是买入量的2.1487倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was selling. The selling volume was 2.1487 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 32,
+          "buyRatio": 3.1,
+          "buyVolume": 0.3662,
+          "buyVolumeUsdt": 563.773562,
+          "sellRatio": 6.9,
+          "sellVolume": 0.7868,
+          "sellVolumeUsdt": 1211.945448,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.7753倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was selling. The selling volume was 1.7753 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 36,
+          "buyRatio": 3.6,
+          "buyVolume": 7.4933,
+          "buyVolumeUsdt": 11503.81949,
+          "sellRatio": 6.4,
+          "sellVolume": 13.3019,
+          "sellVolumeUsdt": 20476.720747,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.0446倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was selling. The selling volume was 1.0446 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 49,
+          "buyRatio": 4.8,
+          "buyVolume": 531.5922,
+          "buyVolumeUsdt": 814347.490179,
+          "sellRatio": 5.2,
+          "sellVolume": 555.2854,
+          "sellVolumeUsdt": 750803.309918,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是卖出。卖出量是买入量的13.6986倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was selling. The selling volume was 13.6986 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 7,
+          "buyRatio": 0.6,
+          "buyVolume": 0.4793,
+          "buyVolumeUsdt": 737.913794,
+          "sellRatio": 9.4,
+          "sellVolume": 6.5616,
+          "sellVolumeUsdt": 10104.289398,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632426955
+    },
+    "SOL": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2NzEyODc5MjI4OTA5Mg==",
+        "releaseTime": 1789522646000,
+        "summaryCn": "参议院程序性投票未能通过CLARITY法案，影响市场预期并导致加密投资损失惨重，而尽管存在政治冲突，特别是与特朗普家族利益相关，机构资金仍通过ETF继续流入加密领域。",
+        "summaryEn": "A procedural vote in the Senate failed to pass the CLARITY Act, affecting market expectations and causing significant losses in crypto investments, while institutional funds continued to flow into crypto ETFs despite political conflicts over the act, particularly concerning the Trump family's interests.",
+        "userAvatar": "https://public.bnbstatic.com/image/pgc/202403/5fa6f824b856a8dc32ae1a782be866dd.png",
+        "userName": "挖矿的小羊",
+        "viewCount": 34048
+      },
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 10873,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "SOL",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是买入。买入量是卖出量的8.1651倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was buying. The buying volume was 8.1651 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 89,
+          "buyRatio": 8.9,
+          "buyVolume": 5134.729,
+          "buyVolumeUsdt": 513636.71231,
+          "sellRatio": 1.1,
+          "sellVolume": 628.861,
+          "sellVolumeUsdt": 62905.42693,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是买入。买入量是卖出量的1.7655倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was buying. The buying volume was 1.7655 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 64,
+          "buyRatio": 6.3,
+          "buyVolume": 8692.511,
+          "buyVolumeUsdt": 869603.1394,
+          "sellRatio": 3.7,
+          "sellVolume": 4923.485,
+          "sellVolumeUsdt": 492610.73041,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的1.6113倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was 1.6113 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 62,
+          "buyRatio": 6.1,
+          "buyVolume": 59248.538,
+          "buyVolumeUsdt": 5914689.74474,
+          "sellRatio": 3.9,
+          "sellVolume": 36770.631,
+          "sellVolumeUsdt": 3668480.10796,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的1.0391倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 1.0391 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 51,
+          "buyRatio": 5,
+          "buyVolume": 349621.767,
+          "buyVolumeUsdt": 34378305.26752,
+          "sellRatio": 5,
+          "sellVolume": 336480.14,
+          "sellVolumeUsdt": 33038105.68191,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的2.3028倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was 2.3028 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 70,
+          "buyRatio": 6.9,
+          "buyVolume": 22710.339,
+          "buyVolumeUsdt": 2272704.36576,
+          "sellRatio": 3.1,
+          "sellVolume": 9862.104,
+          "sellVolumeUsdt": 986980.22286,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 5,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是买入。买入量是卖出量的2.0151倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was buying. The buying volume was 2.0151 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 67,
+          "buyRatio": 6.6,
+          "buyVolume": 6031.353,
+          "buyVolumeUsdt": 603317.39886,
+          "sellRatio": 3.4,
+          "sellVolume": 2993.049,
+          "sellVolumeUsdt": 299153.72981,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是买入。买入量是卖出量的1.3018倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was buying. The buying volume was 1.3018 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 57,
+          "buyRatio": 5.6,
+          "buyVolume": 9775.023,
+          "buyVolumeUsdt": 977891.35915,
+          "sellRatio": 4.4,
+          "sellVolume": 7508.632,
+          "sellVolumeUsdt": 750974.90841,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的1.4411倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 1.4411 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 59,
+          "buyRatio": 5.9,
+          "buyVolume": 66537.033,
+          "buyVolumeUsdt": 6642342.71693,
+          "sellRatio": 4.1,
+          "sellVolume": 46170.092,
+          "sellVolumeUsdt": 4605780.54628,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的1.0264倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 1.0264 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 51,
+          "buyRatio": 5,
+          "buyVolume": 399402.203,
+          "buyVolumeUsdt": 39270217.95241,
+          "sellRatio": 5,
+          "sellVolume": 389117.403,
+          "sellVolumeUsdt": 38221050.69041,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是买入。买入量是卖出量的1.8794倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was buying. The buying volume was 1.8794 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 65,
+          "buyRatio": 6.5,
+          "buyVolume": 24324.952,
+          "buyVolumeUsdt": 2434289.48442,
+          "sellRatio": 3.5,
+          "sellVolume": 12943.253,
+          "sellVolumeUsdt": 1295062.70224,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632427129
+    },
+    "SYN": {
+      "article": {
+        "deepLink": "bnc://app.binance.com/mp/app?appId=znf9fpiMh6ufdU3vDtAvi4&startPagePath=cGFnZXMvYXJ0aWNsZS1idXp6L2luZGV4&startPageQuery=YXJ0aWNsZUlkPTM2NzQ1ODY1MTI4MTQzNw==",
+        "releaseTime": 1789602823000,
+        "summaryCn": "火星财经消息，9月16日，部分山寨币出现显著反弹，其中BR上涨130.7%，SYN上涨123.8%，LSK上涨64.7%，“4”上涨19%，ARB上涨16.5%，USELESS上涨14.2%。",
+        "summaryEn": "On September 16, Mars Finance reported that several altcoins experienced significant rebounds, with BR rising 130.7%, SYN 123.8%, LSK 64.7%, \"4\" 19%, ARB 16.5%, and USELESS 14.2% in the past 24 hours.",
+        "userAvatar": "https://public.bnbstatic.com/image/pgc/202310/c4e1a823af610a3117d9d63807e3be41.png",
+        "userName": "MarsBit News",
+        "viewCount": 855
+      },
+      "favouriteCount": 0,
+      "hotRank": 0,
+      "searchCount": 14634,
+      "sentiment": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "squareCount": 0,
+      "token": "SYN",
+      "topHolders": [
+        {
+          "aiSummaryCn": "在过去的15min中，持仓大户的交易趋势是卖出。卖出量是买入量的12.1065倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 15min, the top holders' transactions trend was selling. The selling volume was 12.1065 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 8,
+          "buyRatio": 0.7,
+          "buyVolume": 811.4,
+          "buyVolumeUsdt": 144.997628,
+          "sellRatio": 9.3,
+          "sellVolume": 9822.2,
+          "sellVolumeUsdt": 1751.707467,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，持仓大户的交易趋势是卖出。卖出量是买入量的23.4742倍，显示出强烈的卖出趋势。",
+          "aiSummaryEn": "In the last 30min, the top holders' transactions trend was selling. The selling volume was 23.4742 times of the buying volume, showing a strong selling trend.",
+          "buyPercent": 4,
+          "buyRatio": 0.4,
+          "buyVolume": 811.4,
+          "buyVolumeUsdt": 144.997628,
+          "sellRatio": 9.6,
+          "sellVolume": 19041.9,
+          "sellVolumeUsdt": 3409.410002,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，持仓大户的交易趋势是买入。买入量是卖出量的5.8882倍，显示出强烈的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top holders' transactions trend was buying. The buying volume was 5.8882 times of the selling volume, showing a strong buying trend.",
+          "buyPercent": 85,
+          "buyRatio": 8.5,
+          "buyVolume": 448776.2,
+          "buyVolumeUsdt": 80628.218146,
+          "sellRatio": 1.5,
+          "sellVolume": 76215.8,
+          "sellVolumeUsdt": 13610.799132,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，持仓大户的交易趋势是买入。买入量是卖出量的1.2818倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top holders' transactions trend was buying. The buying volume was 1.2818 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 56,
+          "buyRatio": 5.6,
+          "buyVolume": 5022157.7,
+          "buyVolumeUsdt": 896453.676138,
+          "sellRatio": 4.4,
+          "sellVolume": 3918105.9,
+          "sellVolumeUsdt": 697337.977934,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，持仓大户的交易趋势是买入。买入量是卖出量的1.7298倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 1h, the top holders' transactions trend was buying. The buying volume was 1.7298 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 63,
+          "buyRatio": 6.3,
+          "buyVolume": 44975.8,
+          "buyVolumeUsdt": 7780.385085,
+          "sellRatio": 3.7,
+          "sellVolume": 26001,
+          "sellVolumeUsdt": 4624.194797,
+          "timePeriod": "1h"
+        }
+      ],
+      "topTraderRank": 7,
+      "topTraders": [
+        {
+          "aiSummaryCn": "在过去的15min中，头部交易者的交易趋势是卖出。卖出量是买入量的1.2641倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 15min, the top traders' transactions trend was selling. The selling volume was 1.2641 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 44,
+          "buyRatio": 4.4,
+          "buyVolume": 67965.1,
+          "buyVolumeUsdt": 12103.363357,
+          "sellRatio": 5.6,
+          "sellVolume": 85916.4,
+          "sellVolumeUsdt": 15357.757295,
+          "timePeriod": "15min"
+        },
+        {
+          "aiSummaryCn": "在过去的30min中，头部交易者的交易趋势是卖出。卖出量是买入量的1.6098倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 30min, the top traders' transactions trend was selling. The selling volume was 1.6098 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 38,
+          "buyRatio": 3.8,
+          "buyVolume": 78047.6,
+          "buyVolumeUsdt": 13907.956389,
+          "sellRatio": 6.2,
+          "sellVolume": 125638.8,
+          "sellVolumeUsdt": 22512.518056,
+          "timePeriod": "30min"
+        },
+        {
+          "aiSummaryCn": "在过去的4h中，头部交易者的交易趋势是买入。买入量是卖出量的1.8667倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 4h, the top traders' transactions trend was buying. The buying volume was 1.8667 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 65,
+          "buyRatio": 6.5,
+          "buyVolume": 1148629.3,
+          "buyVolumeUsdt": 205838.294175,
+          "sellRatio": 3.5,
+          "sellVolume": 615330.5,
+          "sellVolumeUsdt": 110744.436403,
+          "timePeriod": "4h"
+        },
+        {
+          "aiSummaryCn": "在过去的24h中，头部交易者的交易趋势是买入。买入量是卖出量的1.1765倍，显示出温和的买入趋势。",
+          "aiSummaryEn": "In the last 24h, the top traders' transactions trend was buying. The buying volume was 1.1765 times of the selling volume, showing a moderate buying trend.",
+          "buyPercent": 54,
+          "buyRatio": 5.4,
+          "buyVolume": 10404417.6,
+          "buyVolumeUsdt": 1873405.04589,
+          "sellRatio": 4.6,
+          "sellVolume": 8843785.9,
+          "sellVolumeUsdt": 1613314.748019,
+          "timePeriod": "24h"
+        },
+        {
+          "aiSummaryCn": "在过去的1h中，头部交易者的交易趋势是卖出。卖出量是买入量的1.4449倍，显示出温和的卖出趋势。",
+          "aiSummaryEn": "In the last 1h, the top traders' transactions trend was selling. The selling volume was 1.4449 times of the buying volume, showing a moderate selling trend.",
+          "buyPercent": 41,
+          "buyRatio": 4,
+          "buyVolume": 144777.8,
+          "buyVolumeUsdt": 25512.267664,
+          "sellRatio": 6,
+          "sellVolume": 209200.4,
+          "sellVolumeUsdt": 37188.714448,
+          "timePeriod": "1h"
+        }
+      ],
+      "updateTime": 1789632426870
+    }
+  },
+  "coins": [
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 100,
+        "buyRatio": 10,
+        "sellRatio": 0
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.05454545,
+      "searchCount": 404,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "PNUT",
+      "tradersRatio": {
+        "buyPercent": 100,
+        "buyRatio": 10,
+        "sellRatio": 0
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 100,
+        "buyRatio": 10,
+        "sellRatio": 0
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.08537293,
+      "searchCount": 1911,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "BOME",
+      "tradersRatio": {
+        "buyPercent": 100,
+        "buyRatio": 10,
+        "sellRatio": 0
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 0,
+        "buyRatio": 0,
+        "sellRatio": 10
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.02370031,
+      "searchCount": 337,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "ORCA",
+      "tradersRatio": {
+        "buyPercent": 0,
+        "buyRatio": 0,
+        "sellRatio": 10
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.06828528,
+      "searchCount": 734,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "MET",
+      "tradersRatio": {
+        "buyPercent": 96,
+        "buyRatio": 9.5,
+        "sellRatio": 0.5
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 1,
+        "buyRatio": 0.1,
+        "sellRatio": 9.9
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.05086705,
+      "searchCount": 544,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "NEIRO",
+      "tradersRatio": {
+        "buyPercent": 45,
+        "buyRatio": 4.4,
+        "sellRatio": 5.6
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 73,
+        "buyRatio": 7.2,
+        "sellRatio": 2.8
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.07079906,
+      "searchCount": 1817,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "PENGU",
+      "tradersRatio": {
+        "buyPercent": 57,
+        "buyRatio": 5.6,
+        "sellRatio": 4.4
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.01821494,
+      "searchCount": 295,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "BLUR",
+      "tradersRatio": {
+        "buyPercent": 0,
+        "buyRatio": 0,
+        "sellRatio": 10
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.03725262,
+      "searchCount": 197,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "NMR",
+      "tradersRatio": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 40,
+        "buyRatio": 3.9,
+        "sellRatio": 6.1
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0,
+      "searchCount": 178,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "RLUSD",
+      "tradersRatio": {
+        "buyPercent": 98,
+        "buyRatio": 9.8,
+        "sellRatio": 0.2
+      }
+    },
+    {
+      "coinType": "",
+      "desc": "",
+      "favouriteCount": 0,
+      "holdersRatio": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      },
+      "icon": "",
+      "price": 0,
+      "priceChange": 0.01828339,
+      "searchCount": 208,
+      "squareCount": 0,
+      "symbol": "",
+      "token": "FTT",
+      "tradersRatio": {
+        "buyPercent": 50,
+        "buyRatio": 5,
+        "sellRatio": 5
+      }
+    }
+  ],
+  "currentRankType": "COMMUNITY_FOCUS",
+  "rankTypeData": {
+    "TOP_PLAYER_MOVES": [
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "sellRatio": 0
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": 0.01487603,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "POWR",
+        "tradersRatio": {
+          "buyPercent": 99,
+          "buyRatio": 9.9,
+          "sellRatio": 0.1
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "sellRatio": 0.1
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": -0.00390625,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "HIVE",
+        "tradersRatio": {
+          "buyPercent": 100,
+          "buyRatio": 9.9,
+          "sellRatio": 0.1
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 50,
+          "buyRatio": 5,
+          "sellRatio": 5
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": -0.0072939,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "SNDKB",
+        "tradersRatio": {
+          "buyPercent": 6,
+          "buyRatio": 0.6,
+          "sellRatio": 9.4
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "sellRatio": 0
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": 0.02705411,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "1000SATS",
+        "tradersRatio": {
+          "buyPercent": 100,
+          "buyRatio": 10,
+          "sellRatio": 0
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 69,
+          "buyRatio": 6.8,
+          "sellRatio": 3.2
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": 0.03157243,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "SOL",
+        "tradersRatio": {
+          "buyPercent": 65,
+          "buyRatio": 6.5,
+          "sellRatio": 3.5
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 95,
+          "buyRatio": 9.4,
+          "sellRatio": 0.6
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": 0.03094059,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "GALA",
+        "tradersRatio": {
+          "buyPercent": 86,
+          "buyRatio": 8.5,
+          "sellRatio": 1.5
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 61,
+          "buyRatio": 6,
+          "sellRatio": 4
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": -0.13659033,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "SYN",
+        "tradersRatio": {
+          "buyPercent": 44,
+          "buyRatio": 4.3,
+          "sellRatio": 5.7
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 50,
+          "buyRatio": 5,
+          "sellRatio": 5
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": 0.01410437,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "SAPIEN",
+        "tradersRatio": {
+          "buyPercent": 50,
+          "buyRatio": 5,
+          "sellRatio": 5
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 50,
+          "buyRatio": 5,
+          "sellRatio": 5
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": 0.00623769,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "GENIUS",
+        "tradersRatio": {
+          "buyPercent": 50,
+          "buyRatio": 5,
+          "sellRatio": 5
+        }
+      },
+      {
+        "coinType": "",
+        "desc": "",
+        "favouriteCount": 0,
+        "holdersRatio": {
+          "buyPercent": 50,
+          "buyRatio": 5,
+          "sellRatio": 5
+        },
+        "icon": "",
+        "price": 0,
+        "priceChange": 0.02560011,
+        "searchCount": 0,
+        "squareCount": 0,
+        "symbol": "",
+        "token": "MRNAB",
+        "tradersRatio": {
+          "buyPercent": 50,
+          "buyRatio": 5,
+          "sellRatio": 5
+        }
+      }
+    ]
+  },
+  "rankTypes": [
+    {
+      "rankType": "COMMUNITY_FOCUS",
+      "rankTypeKey": "CommunityFocus"
+    },
+    {
+      "rankType": "TOP_PLAYER_MOVES",
+      "rankTypeKey": "TopPlayerMoves"
+    }
+  ],
+  "updateTime": 1789632426759
+}

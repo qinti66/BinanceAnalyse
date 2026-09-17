@@ -1,0 +1,5553 @@
+{
+  "generatedAt": "2026-09-17T08:46:05.217Z",
+  "snapshotId": "2026-09-17T08-11-02-631Z",
+  "capturedAt": "2026-09-17T08:15:12.870Z",
+  "methodology": {
+    "cycleDefinition": "同一品种与持仓方向从首次开仓到数量归零；支持加仓和部分平仓。",
+    "boundaryRule": "未配对平仓与当前未归零持仓单独报告，不强行补齐。",
+    "riskDisclaimer": "washRiskScore 是数据膨胀/对刷风险筛查信号，不是对刷行为的定性证据。",
+    "eligibility": "公开订单、完整周期>=30、覆盖>=7天、置信度>=0.25、跟单者PnL>0、MDD<=50%、风险分<50，且中位持仓不少于60秒。",
+    "feeNote": "公开订单历史未提供手续费字段，因此不估算手续费或手续费占比。"
+  },
+  "coverage": {
+    "rankedUniqueProfiles": 136,
+    "publicOrderHistories": 55,
+    "hiddenProfiles": 81,
+    "totalOrders": 22371,
+    "reconstructedCompleteCycles": 5722
+  },
+  "traders": [
+    {
+      "id": "4886996900008285697",
+      "nickname": "加油加油再加油",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 10,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 10
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 13.6667,
+        "pnl": 2869.8821,
+        "aum": 36893.15,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 6637.6694,
+        "sharpRatio": 3.02210954,
+        "currentCopyCount": 24
+      },
+      "tenureDays": 236,
+      "compositeScore": 88.7,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 47.1,
+        "drawdown": 100,
+        "sharpe": 100,
+        "copierAlignment": 95.6,
+        "winRate": 100,
+        "tenure": 100,
+        "authenticity": 100
+      },
+      "metrics": {
+        "orderCount": 0,
+        "completeCycleCount": 0,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 0,
+        "symbolCount": 0,
+        "medianHoldSeconds": null,
+        "p25HoldSeconds": null,
+        "p75HoldSeconds": null,
+        "under60sRatio": null,
+        "under5mRatio": null,
+        "under30mRatio": null,
+        "rapidReopenRatio": null,
+        "oppositeReversalRatio": null,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": null,
+        "totalTurnover": 0,
+        "dailyTurnoverToEquity": null,
+        "realizedPnl": 0,
+        "cycleWinRate": null,
+        "profitFactor": null,
+        "top1ProfitConcentration": null,
+        "top5ProfitConcentration": null,
+        "washRiskScore": 0,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 0,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0
+      },
+      "rank": 1
+    },
+    {
+      "id": "5080014986897740289",
+      "nickname": "青云执策",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 4,
+        "ranks": [
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "7D",
+            "rank": 7
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "30D",
+            "rank": 4
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "90D",
+            "rank": 4
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "180D",
+            "rank": 4
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 81.5936,
+        "pnl": 2892.3368,
+        "aum": 359624.08,
+        "mdd": 10.1009,
+        "winRate": 52.6316,
+        "copierPnl": 430780.236,
+        "sharpRatio": 5.1059385,
+        "currentCopyCount": 400
+      },
+      "tenureDays": 102.8,
+      "compositeScore": 81.4,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 77.3,
+        "drawdown": 79.8,
+        "sharpe": 100,
+        "copierAlignment": 100,
+        "winRate": 52.6,
+        "tenure": 57.1,
+        "authenticity": 90
+      },
+      "metrics": {
+        "orderCount": 377,
+        "completeCycleCount": 70,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 4,
+        "coverageDays": 58.173,
+        "symbolCount": 16,
+        "medianHoldSeconds": 49992.8,
+        "p25HoldSeconds": 18239.5,
+        "p75HoldSeconds": 92868.1,
+        "under60sRatio": 0.0143,
+        "under5mRatio": 0.0143,
+        "under30mRatio": 0.0571,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.1293,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 1010253.64,
+        "dailyTurnoverToEquity": 8.958,
+        "realizedPnl": 6448.2082,
+        "cycleWinRate": 0.6,
+        "profitFactor": 3.998,
+        "top1ProfitConcentration": 0.0863,
+        "top5ProfitConcentration": 0.3409,
+        "washRiskScore": 10,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 4.1,
+          "shortHolding": 2.4,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 44.8,
+          "repeatedQuantity": 21.5,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 1
+      },
+      "rank": 2
+    },
+    {
+      "id": "5116343973122243585",
+      "nickname": "Galaxy Bot 6",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 14,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 14
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 14
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 14
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 14
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 87.0018,
+        "pnl": 1286.2994,
+        "aum": 53930.67,
+        "mdd": 6.1183,
+        "winRate": 74.6667,
+        "copierPnl": 8229.3168,
+        "sharpRatio": 7.55539358,
+        "currentCopyCount": 166
+      },
+      "tenureDays": 77.7,
+      "compositeScore": 80.9,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 78.5,
+        "drawdown": 87.8,
+        "sharpe": 100,
+        "copierAlignment": 97.9,
+        "winRate": 74.7,
+        "tenure": 43.2,
+        "authenticity": 62.3
+      },
+      "metrics": {
+        "orderCount": 1409,
+        "completeCycleCount": 120,
+        "incompleteCycleCount": 4,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 59.53,
+        "symbolCount": 29,
+        "medianHoldSeconds": 457.5,
+        "p25HoldSeconds": 66.6,
+        "p75HoldSeconds": 19002.5,
+        "under60sRatio": 0.2333,
+        "under5mRatio": 0.4667,
+        "under30mRatio": 0.6083,
+        "rapidReopenRatio": 0.1261,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.341,
+        "nearZeroRoundTripRatio": 0.0083,
+        "totalTurnover": 314069.73,
+        "dailyTurnoverToEquity": 1.91,
+        "realizedPnl": 2053.9878,
+        "cycleWinRate": 0.8667,
+        "profitFactor": 7.859,
+        "top1ProfitConcentration": 0.1348,
+        "top5ProfitConcentration": 0.3231,
+        "washRiskScore": 37.7,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 66.7,
+          "shortHolding": 77.8,
+          "rapidReopen": 36,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 9.5,
+          "repeatedQuantity": 56.8,
+          "nearZeroRoundTrips": 1.7
+        },
+        "confidence": 1
+      },
+      "rank": 3
+    },
+    {
+      "id": "5074084420726024192",
+      "nickname": "User-66301",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 25,
+        "ranks": [
+          {
+            "dataType": "PNL",
+            "timeRange": "180D",
+            "rank": 25
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 35.7589,
+        "pnl": 102621.0025,
+        "aum": 1112.13,
+        "mdd": 0,
+        "winRate": 80,
+        "copierPnl": 223.3844,
+        "sharpRatio": 3.84390488,
+        "currentCopyCount": 23
+      },
+      "tenureDays": 106.9,
+      "compositeScore": 80.4,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 63.2,
+        "drawdown": 100,
+        "sharpe": 100,
+        "copierAlignment": 58.8,
+        "winRate": 80,
+        "tenure": 59.4,
+        "authenticity": 100
+      },
+      "metrics": {
+        "orderCount": 0,
+        "completeCycleCount": 0,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 0,
+        "symbolCount": 0,
+        "medianHoldSeconds": null,
+        "p25HoldSeconds": null,
+        "p75HoldSeconds": null,
+        "under60sRatio": null,
+        "under5mRatio": null,
+        "under30mRatio": null,
+        "rapidReopenRatio": null,
+        "oppositeReversalRatio": null,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": null,
+        "totalTurnover": 0,
+        "dailyTurnoverToEquity": null,
+        "realizedPnl": 0,
+        "cycleWinRate": null,
+        "profitFactor": null,
+        "top1ProfitConcentration": null,
+        "top5ProfitConcentration": null,
+        "washRiskScore": 0,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 0,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0
+      },
+      "rank": 4
+    },
+    {
+      "id": "5126298543040831233",
+      "nickname": "Bran Brandon",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 8,
+        "bestRank": 4,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "90D",
+            "rank": 11
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "180D",
+            "rank": 11
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "30D",
+            "rank": 4
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "90D",
+            "rank": 7
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "180D",
+            "rank": 8
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "30D",
+            "rank": 16
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "90D",
+            "rank": 26
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "180D",
+            "rank": 27
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 226.3568,
+        "pnl": 427269.9177,
+        "aum": 461610.14,
+        "mdd": 20.2661,
+        "winRate": 66.6667,
+        "copierPnl": 68176.629,
+        "sharpRatio": 4.49594656,
+        "currentCopyCount": 500
+      },
+      "tenureDays": 70.9,
+      "compositeScore": 80.1,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 95.1,
+        "drawdown": 59.5,
+        "sharpe": 100,
+        "copierAlignment": 100,
+        "winRate": 66.7,
+        "tenure": 39.4,
+        "authenticity": 85.8
+      },
+      "metrics": {
+        "orderCount": 39,
+        "completeCycleCount": 5,
+        "incompleteCycleCount": 2,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 31.439,
+        "symbolCount": 6,
+        "medianHoldSeconds": 142531.2,
+        "p25HoldSeconds": 33477.9,
+        "p75HoldSeconds": 552764.2,
+        "under60sRatio": 0,
+        "under5mRatio": 0.2,
+        "under30mRatio": 0.2,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.125,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 16653844.92,
+        "dailyTurnoverToEquity": 9.539,
+        "realizedPnl": 397011.9117,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.4416,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 14.2,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 33.3,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 47.7,
+          "repeatedQuantity": 20.8,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.415
+      },
+      "rank": 5
+    },
+    {
+      "id": "5076854789130646529",
+      "nickname": "Leo-Hamsters",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 23,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 23
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 23
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 23
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 23
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 23.0792,
+        "pnl": 190.7717,
+        "aum": 36065.05,
+        "mdd": 2.894,
+        "winRate": 98.8095,
+        "copierPnl": 1886.6453,
+        "sharpRatio": 6.72912047,
+        "currentCopyCount": 41
+      },
+      "tenureDays": 105,
+      "compositeScore": 79.3,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 55.7,
+        "drawdown": 94.2,
+        "sharpe": 100,
+        "copierAlignment": 81.9,
+        "winRate": 98.8,
+        "tenure": 58.3,
+        "authenticity": 63.3
+      },
+      "metrics": {
+        "orderCount": 360,
+        "completeCycleCount": 4,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 3,
+        "coverageDays": 58.406,
+        "symbolCount": 1,
+        "medianHoldSeconds": 257250.8,
+        "p25HoldSeconds": 228.3,
+        "p75HoldSeconds": 946500.5,
+        "under60sRatio": 0.25,
+        "under5mRatio": 0.25,
+        "under30mRatio": 0.5,
+        "rapidReopenRatio": 0.6667,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.0448,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 34776.56,
+        "dailyTurnoverToEquity": 0.585,
+        "realizedPnl": 136.3667,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.7092,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 36.7,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 71.4,
+          "shortHolding": 41.7,
+          "rapidReopen": 100,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 2.9,
+          "repeatedQuantity": 7.5,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.402
+      },
+      "rank": 6
+    },
+    {
+      "id": "5176738977864057344",
+      "nickname": "Falcon-Hamsters",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 3,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 3
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 3
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 3
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 3
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 42.5919,
+        "pnl": 215.7953,
+        "aum": 28317.35,
+        "mdd": 1.5076,
+        "winRate": 72.4437,
+        "copierPnl": 2464.0165,
+        "sharpRatio": 13.47270098,
+        "currentCopyCount": 19
+      },
+      "tenureDays": 36.1,
+      "compositeScore": 78.7,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 66.1,
+        "drawdown": 97,
+        "sharpe": 100,
+        "copierAlignment": 84.8,
+        "winRate": 72.4,
+        "tenure": 20,
+        "authenticity": 90.9
+      },
+      "metrics": {
+        "orderCount": 3222,
+        "completeCycleCount": 1046,
+        "incompleteCycleCount": 11,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 35.993,
+        "symbolCount": 144,
+        "medianHoldSeconds": 3756,
+        "p25HoldSeconds": 1968.4,
+        "p75HoldSeconds": 8599.6,
+        "under60sRatio": 0.0535,
+        "under5mRatio": 0.0784,
+        "under30mRatio": 0.2304,
+        "rapidReopenRatio": 0.0115,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.0182,
+        "nearZeroRoundTripRatio": 0.0086,
+        "totalTurnover": 106200.11,
+        "dailyTurnoverToEquity": 4.084,
+        "realizedPnl": 239.0181,
+        "cycleWinRate": 0.738,
+        "profitFactor": 2.584,
+        "top1ProfitConcentration": 0.0293,
+        "top5ProfitConcentration": 0.101,
+        "washRiskScore": 9.1,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 15.3,
+          "shortHolding": 13.1,
+          "rapidReopen": 3.3,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 20.4,
+          "repeatedQuantity": 3,
+          "nearZeroRoundTrips": 1.7
+        },
+        "confidence": 1
+      },
+      "rank": 7
+    },
+    {
+      "id": "4287847543651684864",
+      "nickname": "星火研究院-大象",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 3,
+        "bestRank": 23,
+        "ranks": [
+          {
+            "dataType": "PNL",
+            "timeRange": "30D",
+            "rank": 23
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "90D",
+            "rank": 23
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "180D",
+            "rank": 28
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 61.6226,
+        "pnl": 92654.0441,
+        "aum": 304244.98,
+        "mdd": 11.2994,
+        "winRate": 98.4694,
+        "copierPnl": 2454.3648,
+        "sharpRatio": 1.09718308,
+        "currentCopyCount": 500
+      },
+      "tenureDays": 649.3,
+      "compositeScore": 78.5,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 72.5,
+        "drawdown": 77.4,
+        "sharpe": 45.6,
+        "copierAlignment": 84.8,
+        "winRate": 98.5,
+        "tenure": 100,
+        "authenticity": 91.1
+      },
+      "metrics": {
+        "orderCount": 770,
+        "completeCycleCount": 75,
+        "incompleteCycleCount": 7,
+        "unmatchedCloseOrders": 13,
+        "coverageDays": 55.888,
+        "symbolCount": 12,
+        "medianHoldSeconds": 13653.2,
+        "p25HoldSeconds": 4488.6,
+        "p75HoldSeconds": 101332.7,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.1067,
+        "rapidReopenRatio": 0.0135,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.4444,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 15503410.18,
+        "dailyTurnoverToEquity": 1.191,
+        "realizedPnl": 15714.3243,
+        "cycleWinRate": 0.9867,
+        "profitFactor": 3.579,
+        "top1ProfitConcentration": 0.3652,
+        "top5ProfitConcentration": 0.6912,
+        "washRiskScore": 8.9,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 3.9,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 6,
+          "repeatedQuantity": 74.1,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 1
+      },
+      "rank": 8
+    },
+    {
+      "id": "5139859220682929920",
+      "nickname": "Desperados1905",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 21,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 21
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 24.996,
+        "pnl": 2083.1538,
+        "aum": 11924.9,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 251.1098,
+        "sharpRatio": 3.63322486,
+        "currentCopyCount": 16
+      },
+      "tenureDays": 61.5,
+      "compositeScore": 78.5,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 57.1,
+        "drawdown": 100,
+        "sharpe": 100,
+        "copierAlignment": 60,
+        "winRate": 100,
+        "tenure": 34.2,
+        "authenticity": 96.5
+      },
+      "metrics": {
+        "orderCount": 426,
+        "completeCycleCount": 170,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 59.901,
+        "symbolCount": 71,
+        "medianHoldSeconds": 4268.2,
+        "p25HoldSeconds": 1645.5,
+        "p75HoldSeconds": 9445.6,
+        "under60sRatio": 0.0059,
+        "under5mRatio": 0.0529,
+        "under30mRatio": 0.2706,
+        "rapidReopenRatio": 0.0059,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.0426,
+        "nearZeroRoundTripRatio": 0.0059,
+        "totalTurnover": 662074.28,
+        "dailyTurnoverToEquity": 1.061,
+        "realizedPnl": 8767.0658,
+        "cycleWinRate": 0.9412,
+        "profitFactor": 12.167,
+        "top1ProfitConcentration": 0.1461,
+        "top5ProfitConcentration": 0.4415,
+        "washRiskScore": 3.5,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 1.7,
+          "shortHolding": 8.8,
+          "rapidReopen": 1.7,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 5.3,
+          "repeatedQuantity": 7.1,
+          "nearZeroRoundTrips": 1.2
+        },
+        "confidence": 1
+      },
+      "rank": 9
+    },
+    {
+      "id": "5163855802101492736",
+      "nickname": "Smart2X",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 30,
+        "ranks": [
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "180D",
+            "rank": 30
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 22.9924,
+        "pnl": 506.5337,
+        "aum": 291691.13,
+        "mdd": 7.393,
+        "winRate": 76.6667,
+        "copierPnl": 61754.8614,
+        "sharpRatio": 4.00258856,
+        "currentCopyCount": 17
+      },
+      "tenureDays": 45,
+      "compositeScore": 77.6,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 55.7,
+        "drawdown": 85.2,
+        "sharpe": 100,
+        "copierAlignment": 100,
+        "winRate": 76.7,
+        "tenure": 25,
+        "authenticity": 92.8
+      },
+      "metrics": {
+        "orderCount": 1025,
+        "completeCycleCount": 205,
+        "incompleteCycleCount": 6,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 44.421,
+        "symbolCount": 69,
+        "medianHoldSeconds": 20076,
+        "p25HoldSeconds": 2187.5,
+        "p75HoldSeconds": 249340.1,
+        "under60sRatio": 0.0293,
+        "under5mRatio": 0.0976,
+        "under30mRatio": 0.2195,
+        "rapidReopenRatio": 0.0049,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.1223,
+        "nearZeroRoundTripRatio": 0.0049,
+        "totalTurnover": 66553.06,
+        "dailyTurnoverToEquity": 1.055,
+        "realizedPnl": 570.3507,
+        "cycleWinRate": 0.7902,
+        "profitFactor": 3.843,
+        "top1ProfitConcentration": 0.058,
+        "top5ProfitConcentration": 0.2248,
+        "washRiskScore": 7.2,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 8.4,
+          "shortHolding": 16.3,
+          "rapidReopen": 1.4,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 5.3,
+          "repeatedQuantity": 20.4,
+          "nearZeroRoundTrips": 1
+        },
+        "confidence": 1
+      },
+      "rank": 10
+    },
+    {
+      "id": "5167142418360791041",
+      "nickname": "青岛啤酒",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 3,
+        "bestRank": 17,
+        "ranks": [
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "30D",
+            "rank": 17
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "90D",
+            "rank": 27
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "180D",
+            "rank": 28
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 217.3014,
+        "pnl": 22214.8821,
+        "aum": 124523.74,
+        "mdd": 25.1929,
+        "winRate": 60,
+        "copierPnl": 67239.7565,
+        "sharpRatio": 4.22171036,
+        "currentCopyCount": 98
+      },
+      "tenureDays": 42.7,
+      "compositeScore": 76,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 94.4,
+        "drawdown": 49.6,
+        "sharpe": 100,
+        "copierAlignment": 100,
+        "winRate": 60,
+        "tenure": 23.7,
+        "authenticity": 88.2
+      },
+      "metrics": {
+        "orderCount": 362,
+        "completeCycleCount": 65,
+        "incompleteCycleCount": 2,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 42.65,
+        "symbolCount": 19,
+        "medianHoldSeconds": 28524.4,
+        "p25HoldSeconds": 7597.1,
+        "p75HoldSeconds": 76377.1,
+        "under60sRatio": 0.0462,
+        "under5mRatio": 0.0769,
+        "under30mRatio": 0.1385,
+        "rapidReopenRatio": 0.0156,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0.0154,
+        "totalTurnover": 10146412.15,
+        "dailyTurnoverToEquity": 8.408,
+        "realizedPnl": 35174.1944,
+        "cycleWinRate": 0.6154,
+        "profitFactor": 2.659,
+        "top1ProfitConcentration": 0.1397,
+        "top5ProfitConcentration": 0.4773,
+        "washRiskScore": 11.8,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 13.2,
+          "shortHolding": 12.8,
+          "rapidReopen": 4.5,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 42,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 3.1
+        },
+        "confidence": 1
+      },
+      "rank": 11
+    },
+    {
+      "id": "5095471773900927232",
+      "nickname": "允哲bit",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 28,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 28
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 47.7813,
+        "pnl": 1824.621,
+        "aum": 9407.11,
+        "mdd": 0,
+        "winRate": 68.9655,
+        "copierPnl": 738.3128,
+        "sharpRatio": 1.96569247,
+        "currentCopyCount": 1
+      },
+      "tenureDays": 92.1,
+      "compositeScore": 76,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 68.1,
+        "drawdown": 100,
+        "sharpe": 70.4,
+        "copierAlignment": 71.7,
+        "winRate": 69,
+        "tenure": 51.2,
+        "authenticity": 90.4
+      },
+      "metrics": {
+        "orderCount": 522,
+        "completeCycleCount": 202,
+        "incompleteCycleCount": 2,
+        "unmatchedCloseOrders": 2,
+        "coverageDays": 57.065,
+        "symbolCount": 74,
+        "medianHoldSeconds": 8199,
+        "p25HoldSeconds": 2062.2,
+        "p75HoldSeconds": 26976.9,
+        "under60sRatio": 0.005,
+        "under5mRatio": 0.0297,
+        "under30mRatio": 0.2327,
+        "rapidReopenRatio": 0.0199,
+        "oppositeReversalRatio": 0.01,
+        "repeatedQuantityRatio": 0.1842,
+        "nearZeroRoundTripRatio": 0.0149,
+        "totalTurnover": 1608186.79,
+        "dailyTurnoverToEquity": 4.994,
+        "realizedPnl": 3906.1772,
+        "cycleWinRate": 0.6683,
+        "profitFactor": 1.892,
+        "top1ProfitConcentration": 0.0989,
+        "top5ProfitConcentration": 0.2752,
+        "washRiskScore": 9.6,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 1.4,
+          "shortHolding": 5,
+          "rapidReopen": 5.7,
+          "oppositeReversal": 4,
+          "turnoverIntensity": 25,
+          "repeatedQuantity": 30.7,
+          "nearZeroRoundTrips": 3
+        },
+        "confidence": 1
+      },
+      "rank": 12
+    },
+    {
+      "id": "5023393329641422337",
+      "nickname": "天晴ETH",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 7,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 7
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 30.5657,
+        "pnl": 4889.2521,
+        "aum": 3814.05,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 1396.3828,
+        "sharpRatio": 0.10786891,
+        "currentCopyCount": 74
+      },
+      "tenureDays": 141.9,
+      "compositeScore": 74.1,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 60.5,
+        "drawdown": 100,
+        "sharpe": 17.4,
+        "copierAlignment": 78.6,
+        "winRate": 100,
+        "tenure": 78.8,
+        "authenticity": 97.1
+      },
+      "metrics": {
+        "orderCount": 8,
+        "completeCycleCount": 2,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 28.963,
+        "symbolCount": 2,
+        "medianHoldSeconds": 144240.7,
+        "p25HoldSeconds": 74872.4,
+        "p75HoldSeconds": 213609,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 55400.08,
+        "dailyTurnoverToEquity": 3.826,
+        "realizedPnl": 376.236,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.9952,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 2.9,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 19.1,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.364
+      },
+      "rank": 13
+    },
+    {
+      "id": "5176989034382976512",
+      "nickname": "三元里资管",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 11,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 11
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 11
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 11
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 11
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 16.1056,
+        "pnl": 162.7174,
+        "aum": 4461.3,
+        "mdd": 0.5155,
+        "winRate": 91.6667,
+        "copierPnl": 96.9547,
+        "sharpRatio": 8.16965651,
+        "currentCopyCount": 6
+      },
+      "tenureDays": 35.9,
+      "compositeScore": 73.4,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 49.8,
+        "drawdown": 99,
+        "sharpe": 100,
+        "copierAlignment": 49.8,
+        "winRate": 91.7,
+        "tenure": 19.9,
+        "authenticity": 99.8
+      },
+      "metrics": {
+        "orderCount": 39,
+        "completeCycleCount": 11,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 34.958,
+        "symbolCount": 1,
+        "medianHoldSeconds": 86876.1,
+        "p25HoldSeconds": 35635.4,
+        "p75HoldSeconds": 167094.3,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.0909,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 10497.35,
+        "dailyTurnoverToEquity": 0.256,
+        "realizedPnl": 171.7674,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.6024,
+        "top5ProfitConcentration": 0.8686,
+        "washRiskScore": 0.2,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 1.3,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.493
+      },
+      "rank": 14
+    },
+    {
+      "id": "5176692031499906560",
+      "nickname": "dorofeevxyz",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 7,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 7
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 7
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 7
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 7
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 12.4501,
+        "pnl": 1692.9459,
+        "aum": 17323.72,
+        "mdd": 1.0967,
+        "winRate": 98.1481,
+        "copierPnl": 84.6798,
+        "sharpRatio": 9.38657423,
+        "currentCopyCount": 10
+      },
+      "tenureDays": 36.1,
+      "compositeScore": 72.6,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 45.5,
+        "drawdown": 97.8,
+        "sharpe": 100,
+        "copierAlignment": 48.3,
+        "winRate": 98.1,
+        "tenure": 20.1,
+        "authenticity": 98.9
+      },
+      "metrics": {
+        "orderCount": 135,
+        "completeCycleCount": 55,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 34.201,
+        "symbolCount": 4,
+        "medianHoldSeconds": 14513.3,
+        "p25HoldSeconds": 5293.1,
+        "p75HoldSeconds": 32868.4,
+        "under60sRatio": 0,
+        "under5mRatio": 0.0182,
+        "under30mRatio": 0.1636,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 409443.03,
+        "dailyTurnoverToEquity": 0.806,
+        "realizedPnl": 1814.1637,
+        "cycleWinRate": 0.9818,
+        "profitFactor": 3058.442,
+        "top1ProfitConcentration": 0.0954,
+        "top5ProfitConcentration": 0.3453,
+        "washRiskScore": 1.1,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 3,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 4,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 1
+      },
+      "rank": 15
+    },
+    {
+      "id": "5011194359301530625",
+      "nickname": "JoeMua",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 6,
+        "bestRank": 18,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 18
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 27
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 18
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 18
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 18
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 18
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 924.9598,
+        "pnl": 9249.5976,
+        "aum": 6266.66,
+        "mdd": 33.888,
+        "winRate": 65.7895,
+        "copierPnl": 676.4618,
+        "sharpRatio": 2.06602257,
+        "currentCopyCount": 34
+      },
+      "tenureDays": 150.3,
+      "compositeScore": 71.7,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 32.2,
+        "sharpe": 73.3,
+        "copierAlignment": 70.8,
+        "winRate": 65.8,
+        "tenure": 83.5,
+        "authenticity": 87.2
+      },
+      "metrics": {
+        "orderCount": 124,
+        "completeCycleCount": 38,
+        "incompleteCycleCount": 2,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 43.57,
+        "symbolCount": 8,
+        "medianHoldSeconds": 26886.7,
+        "p25HoldSeconds": 9691.1,
+        "p75HoldSeconds": 66119.4,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.0526,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 1,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 723093.36,
+        "dailyTurnoverToEquity": 3.785,
+        "realizedPnl": 3253.1974,
+        "cycleWinRate": 0.6579,
+        "profitFactor": 3.225,
+        "top1ProfitConcentration": 0.2128,
+        "top5ProfitConcentration": 0.6862,
+        "washRiskScore": 12.8,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 18.9,
+          "repeatedQuantity": 100,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.844
+      },
+      "rank": 16
+    },
+    {
+      "id": "5107068459928572672",
+      "nickname": "Winston-Hamsters",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 10,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 10
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 10
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 10
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 10
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 7.778,
+        "pnl": 39.107,
+        "aum": 3075.93,
+        "mdd": 0.7548,
+        "winRate": 100,
+        "copierPnl": 153.4272,
+        "sharpRatio": 8.26434918,
+        "currentCopyCount": 15
+      },
+      "tenureDays": 84.1,
+      "compositeScore": 71.4,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 38.1,
+        "drawdown": 98.5,
+        "sharpe": 100,
+        "copierAlignment": 54.7,
+        "winRate": 100,
+        "tenure": 46.7,
+        "authenticity": 61.8
+      },
+      "metrics": {
+        "orderCount": 961,
+        "completeCycleCount": 17,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 59.358,
+        "symbolCount": 1,
+        "medianHoldSeconds": 23.6,
+        "p25HoldSeconds": 8,
+        "p75HoldSeconds": 1159.2,
+        "under60sRatio": 0.6471,
+        "under5mRatio": 0.6471,
+        "under30mRatio": 0.7647,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.1638,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 19999.17,
+        "dailyTurnoverToEquity": 0.656,
+        "realizedPnl": 6.0498,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.3839,
+        "top5ProfitConcentration": 0.8387,
+        "washRiskScore": 38.2,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 100,
+          "shortHolding": 100,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 3.3,
+          "repeatedQuantity": 27.3,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.571
+      },
+      "rank": 17
+    },
+    {
+      "id": "5180749446854508289",
+      "nickname": "Kira-Hamsters",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 1,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 1
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 1
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 1
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 1
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 35.17,
+        "pnl": 176.2514,
+        "aum": 2904.17,
+        "mdd": 0.4174,
+        "winRate": 73.1437,
+        "copierPnl": 23.7948,
+        "sharpRatio": 19.80567107,
+        "currentCopyCount": 5
+      },
+      "tenureDays": 33.3,
+      "compositeScore": 71,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 62.9,
+        "drawdown": 99.2,
+        "sharpe": 100,
+        "copierAlignment": 34.9,
+        "winRate": 73.1,
+        "tenure": 18.5,
+        "authenticity": 92.3
+      },
+      "metrics": {
+        "orderCount": 3895,
+        "completeCycleCount": 1341,
+        "incompleteCycleCount": 6,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 32.83,
+        "symbolCount": 142,
+        "medianHoldSeconds": 4016.1,
+        "p25HoldSeconds": 2005.8,
+        "p75HoldSeconds": 8157.1,
+        "under60sRatio": 0.047,
+        "under5mRatio": 0.0686,
+        "under30mRatio": 0.2245,
+        "rapidReopenRatio": 0.0067,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.0217,
+        "nearZeroRoundTripRatio": 0.0097,
+        "totalTurnover": 71448.59,
+        "dailyTurnoverToEquity": 3.213,
+        "realizedPnl": 185.3814,
+        "cycleWinRate": 0.7457,
+        "profitFactor": 2.799,
+        "top1ProfitConcentration": 0.0231,
+        "top5ProfitConcentration": 0.0986,
+        "washRiskScore": 7.7,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 13.4,
+          "shortHolding": 11.4,
+          "rapidReopen": 1.9,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 16.1,
+          "repeatedQuantity": 3.6,
+          "nearZeroRoundTrips": 1.9
+        },
+        "confidence": 1
+      },
+      "rank": 18
+    },
+    {
+      "id": "5175518798015488768",
+      "nickname": "有梦想的10u王",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 24,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 24
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 24
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 24
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 24
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 143.7979,
+        "pnl": 2316.0621,
+        "aum": 5320.57,
+        "mdd": 25.6805,
+        "winRate": 79.2208,
+        "copierPnl": 613.3708,
+        "sharpRatio": 6.71667941,
+        "currentCopyCount": 18
+      },
+      "tenureDays": 36.9,
+      "compositeScore": 70.8,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 87.2,
+        "drawdown": 48.6,
+        "sharpe": 100,
+        "copierAlignment": 69.7,
+        "winRate": 79.2,
+        "tenure": 20.5,
+        "authenticity": 81.6
+      },
+      "metrics": {
+        "orderCount": 194,
+        "completeCycleCount": 85,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 36.577,
+        "symbolCount": 38,
+        "medianHoldSeconds": 12214.5,
+        "p25HoldSeconds": 4804.3,
+        "p75HoldSeconds": 37880.7,
+        "under60sRatio": 0.0235,
+        "under5mRatio": 0.0471,
+        "under30mRatio": 0.1647,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.2778,
+        "nearZeroRoundTripRatio": 0.0235,
+        "totalTurnover": 1011768.5,
+        "dailyTurnoverToEquity": 14.322,
+        "realizedPnl": 3611.6291,
+        "cycleWinRate": 0.8118,
+        "profitFactor": 2.765,
+        "top1ProfitConcentration": 0.125,
+        "top5ProfitConcentration": 0.3908,
+        "washRiskScore": 18.4,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 6.7,
+          "shortHolding": 7.8,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 71.6,
+          "repeatedQuantity": 46.3,
+          "nearZeroRoundTrips": 4.7
+        },
+        "confidence": 1
+      },
+      "rank": 19
+    },
+    {
+      "id": "4708220152086930177",
+      "nickname": "风雪哥",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 12,
+        "bestRank": 10,
+        "ranks": [
+          {
+            "dataType": "PNL",
+            "timeRange": "7D",
+            "rank": 27
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "30D",
+            "rank": 12
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "90D",
+            "rank": 26
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "180D",
+            "rank": 11
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "7D",
+            "rank": 16
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "30D",
+            "rank": 16
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "90D",
+            "rank": 16
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "180D",
+            "rank": 16
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "7D",
+            "rank": 23
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "30D",
+            "rank": 30
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "90D",
+            "rank": 10
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "180D",
+            "rank": 10
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 40.6021,
+        "pnl": 178628.5295,
+        "aum": 944733.71,
+        "mdd": 10.2138,
+        "winRate": 31.5789,
+        "copierPnl": 42342.7891,
+        "sharpRatio": 0.56078046,
+        "currentCopyCount": 133
+      },
+      "tenureDays": 359.3,
+      "compositeScore": 70.6,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 65.3,
+        "drawdown": 79.6,
+        "sharpe": 30.3,
+        "copierAlignment": 100,
+        "winRate": 31.6,
+        "tenure": 100,
+        "authenticity": 88.9
+      },
+      "metrics": {
+        "orderCount": 95,
+        "completeCycleCount": 29,
+        "incompleteCycleCount": 4,
+        "unmatchedCloseOrders": 2,
+        "coverageDays": 58.994,
+        "symbolCount": 21,
+        "medianHoldSeconds": 187808.6,
+        "p25HoldSeconds": 92024.6,
+        "p75HoldSeconds": 570399.6,
+        "under60sRatio": 0,
+        "under5mRatio": 0.0345,
+        "under30mRatio": 0.0345,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.6,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 12856721.4,
+        "dailyTurnoverToEquity": 0.355,
+        "realizedPnl": 95685.6114,
+        "cycleWinRate": 0.3103,
+        "profitFactor": 1.597,
+        "top1ProfitConcentration": 0.2647,
+        "top5ProfitConcentration": 0.8099,
+        "washRiskScore": 11.1,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 5.7,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 1.8,
+          "repeatedQuantity": 100,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.727
+      },
+      "rank": 20
+    },
+    {
+      "id": "5152003633589705728",
+      "nickname": "PROTOCOLO 4X",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 8,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 8
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 220.316,
+        "pnl": 5614.3928,
+        "aum": 8136.13,
+        "mdd": 0,
+        "winRate": 50,
+        "copierPnl": 0,
+        "sharpRatio": 2.77060206,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 53.1,
+      "compositeScore": 70.6,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 94.6,
+        "drawdown": 100,
+        "sharpe": 93.4,
+        "copierAlignment": 0,
+        "winRate": 50,
+        "tenure": 29.5,
+        "authenticity": 97.5
+      },
+      "metrics": {
+        "orderCount": 15,
+        "completeCycleCount": 7,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 52.548,
+        "symbolCount": 1,
+        "medianHoldSeconds": 69525.9,
+        "p25HoldSeconds": 31307.1,
+        "p75HoldSeconds": 190055,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 1412428.39,
+        "dailyTurnoverToEquity": 3.304,
+        "realizedPnl": 5730.4065,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.2904,
+        "top5ProfitConcentration": 0.8844,
+        "washRiskScore": 2.5,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 16.5,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.441
+      },
+      "rank": 21
+    },
+    {
+      "id": "5162458529863472128",
+      "nickname": "长风驭手",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 6,
+        "ranks": [
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "7D",
+            "rank": 28
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "30D",
+            "rank": 6
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "90D",
+            "rank": 11
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "180D",
+            "rank": 13
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 79.5315,
+        "pnl": 933.0721,
+        "aum": 113359.14,
+        "mdd": 30.1105,
+        "winRate": 52.6316,
+        "copierPnl": 220096.4417,
+        "sharpRatio": 3.35138866,
+        "currentCopyCount": 149
+      },
+      "tenureDays": 45.9,
+      "compositeScore": 70.3,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 76.9,
+        "drawdown": 39.8,
+        "sharpe": 100,
+        "copierAlignment": 100,
+        "winRate": 52.6,
+        "tenure": 25.5,
+        "authenticity": 91.3
+      },
+      "metrics": {
+        "orderCount": 226,
+        "completeCycleCount": 42,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 37.759,
+        "symbolCount": 16,
+        "medianHoldSeconds": 63133.8,
+        "p25HoldSeconds": 25329.3,
+        "p75HoldSeconds": 104526.4,
+        "under60sRatio": 0.0238,
+        "under5mRatio": 0.0238,
+        "under30mRatio": 0.0476,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.1609,
+        "nearZeroRoundTripRatio": 0.0238,
+        "totalTurnover": 352378.3,
+        "dailyTurnoverToEquity": 4.824,
+        "realizedPnl": 1385.3391,
+        "cycleWinRate": 0.5714,
+        "profitFactor": 2.274,
+        "top1ProfitConcentration": 0.1761,
+        "top5ProfitConcentration": 0.5834,
+        "washRiskScore": 8.7,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 6.8,
+          "shortHolding": 4,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 24.1,
+          "repeatedQuantity": 26.8,
+          "nearZeroRoundTrips": 4.8
+        },
+        "confidence": 0.896
+      },
+      "rank": 22
+    },
+    {
+      "id": "5158917501351455745",
+      "nickname": "没u烦恼吧",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 7,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 7
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 23.1024,
+        "pnl": 5848.297,
+        "aum": 28718.74,
+        "mdd": 0,
+        "winRate": 71.4286,
+        "copierPnl": 96.6609,
+        "sharpRatio": 2.21992572,
+        "currentCopyCount": 8
+      },
+      "tenureDays": 48.4,
+      "compositeScore": 69.7,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 55.8,
+        "drawdown": 100,
+        "sharpe": 77.7,
+        "copierAlignment": 49.7,
+        "winRate": 71.4,
+        "tenure": 26.9,
+        "authenticity": 95.7
+      },
+      "metrics": {
+        "orderCount": 79,
+        "completeCycleCount": 22,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 44.108,
+        "symbolCount": 6,
+        "medianHoldSeconds": 94233,
+        "p25HoldSeconds": 29734.9,
+        "p75HoldSeconds": 329314,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.0455,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0.0476,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 2239685.59,
+        "dailyTurnoverToEquity": 1.934,
+        "realizedPnl": 11134.318,
+        "cycleWinRate": 0.9545,
+        "profitFactor": 36.778,
+        "top1ProfitConcentration": 0.3137,
+        "top5ProfitConcentration": 0.5934,
+        "washRiskScore": 4.3,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 19,
+          "turnoverIntensity": 9.7,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.636
+      },
+      "rank": 23
+    },
+    {
+      "id": "5218493701996013313",
+      "nickname": "百辉财经",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 9,
+        "bestRank": 3,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 11
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 3
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "90D",
+            "rank": 10
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "180D",
+            "rank": 10
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "7D",
+            "rank": 15
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 11
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 11
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 11
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 11
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 2508.0586,
+        "pnl": 12540.2928,
+        "aum": 149288.53,
+        "mdd": 8.6394,
+        "winRate": 85.7143,
+        "copierPnl": 23414.2913,
+        "sharpRatio": null,
+        "currentCopyCount": 309
+      },
+      "tenureDays": 7.3,
+      "compositeScore": 69.5,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 82.7,
+        "sharpe": 14.3,
+        "copierAlignment": 100,
+        "winRate": 85.7,
+        "tenure": 4,
+        "authenticity": 68.6
+      },
+      "metrics": {
+        "orderCount": 68,
+        "completeCycleCount": 24,
+        "incompleteCycleCount": 4,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 7.177,
+        "symbolCount": 5,
+        "medianHoldSeconds": 20871.4,
+        "p25HoldSeconds": 1882.7,
+        "p75HoldSeconds": 37958.6,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.25,
+        "rapidReopenRatio": 0.0435,
+        "oppositeReversalRatio": 0.1304,
+        "repeatedQuantityRatio": 0.4,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 1425243.61,
+        "dailyTurnoverToEquity": 27.441,
+        "realizedPnl": 13209.3087,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.1993,
+        "top5ProfitConcentration": 0.5933,
+        "washRiskScore": 31.4,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 12.4,
+          "oppositeReversal": 52.2,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 66.7,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.396
+      },
+      "rank": 24
+    },
+    {
+      "id": "5106865156864612097",
+      "nickname": "PhamDoanHiep",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 17,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 17
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 35.9412,
+        "pnl": 1980.3206,
+        "aum": 5500,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 0.2174,
+        "sharpRatio": 6.02938331,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 84.3,
+      "compositeScore": 68.6,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 63.2,
+        "drawdown": 100,
+        "sharpe": 100,
+        "copierAlignment": 2.1,
+        "winRate": 100,
+        "tenure": 46.8,
+        "authenticity": 59.9
+      },
+      "metrics": {
+        "orderCount": 261,
+        "completeCycleCount": 40,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 56.735,
+        "symbolCount": 1,
+        "medianHoldSeconds": 5.1,
+        "p25HoldSeconds": 1,
+        "p75HoldSeconds": 4428.7,
+        "under60sRatio": 0.525,
+        "under5mRatio": 0.55,
+        "under30mRatio": 0.675,
+        "rapidReopenRatio": 0.1282,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.0169,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 243145.7,
+        "dailyTurnoverToEquity": 0.779,
+        "realizedPnl": 722.1529,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.2955,
+        "top5ProfitConcentration": 0.5323,
+        "washRiskScore": 40.1,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 100,
+          "shortHolding": 91.7,
+          "rapidReopen": 36.6,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 3.9,
+          "repeatedQuantity": 2.8,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.87
+      },
+      "rank": 25
+    },
+    {
+      "id": "4899644417168105985",
+      "nickname": "法号扯淡",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 2,
+        "bestRank": 20,
+        "ranks": [
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "30D",
+            "rank": 29
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "90D",
+            "rank": 20
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 32.073,
+        "pnl": 28607.919,
+        "aum": 396179.26,
+        "mdd": 16.3344,
+        "winRate": 47.8261,
+        "copierPnl": 46673.9242,
+        "sharpRatio": 0.34641523,
+        "currentCopyCount": 2
+      },
+      "tenureDays": 227.2,
+      "compositeScore": 68.5,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 61.3,
+        "drawdown": 67.3,
+        "sharpe": 24.2,
+        "copierAlignment": 100,
+        "winRate": 47.8,
+        "tenure": 100,
+        "authenticity": 93.5
+      },
+      "metrics": {
+        "orderCount": 153,
+        "completeCycleCount": 43,
+        "incompleteCycleCount": 7,
+        "unmatchedCloseOrders": 18,
+        "coverageDays": 58.585,
+        "symbolCount": 33,
+        "medianHoldSeconds": 112929.3,
+        "p25HoldSeconds": 40422.6,
+        "p75HoldSeconds": 617121.1,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.0233,
+        "rapidReopenRatio": 0.0476,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.25,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 2496420.64,
+        "dailyTurnoverToEquity": 0.362,
+        "realizedPnl": 37020.4956,
+        "cycleWinRate": 0.5814,
+        "profitFactor": 4.41,
+        "top1ProfitConcentration": 0.6045,
+        "top5ProfitConcentration": 0.7927,
+        "washRiskScore": 6.5,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 13.6,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 1.8,
+          "repeatedQuantity": 41.7,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.909
+      },
+      "rank": 26
+    },
+    {
+      "id": "5217743622504837633",
+      "nickname": "BTC拖拉机",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 8,
+        "bestRank": 4,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 14
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 4
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "90D",
+            "rank": 12
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "180D",
+            "rank": 12
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 14
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 14
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 14
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 14
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 2404.0822,
+        "pnl": 12020.411,
+        "aum": 33146.23,
+        "mdd": 1.9442,
+        "winRate": 65.7895,
+        "copierPnl": 1235.4114,
+        "sharpRatio": null,
+        "currentCopyCount": 201
+      },
+      "tenureDays": 7.8,
+      "compositeScore": 67.8,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 96.1,
+        "sharpe": 14.3,
+        "copierAlignment": 77.3,
+        "winRate": 65.8,
+        "tenure": 4.3,
+        "authenticity": 78.7
+      },
+      "metrics": {
+        "orderCount": 100,
+        "completeCycleCount": 25,
+        "incompleteCycleCount": 13,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 7.766,
+        "symbolCount": 10,
+        "medianHoldSeconds": 26335.7,
+        "p25HoldSeconds": 3955.3,
+        "p75HoldSeconds": 73788.2,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.16,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.375,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 1202885.1,
+        "dailyTurnoverToEquity": 25.788,
+        "realizedPnl": 12665.5418,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.4439,
+        "top5ProfitConcentration": 0.8153,
+        "washRiskScore": 21.3,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 62.5,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.416
+      },
+      "rank": 27
+    },
+    {
+      "id": "5204085690209897472",
+      "nickname": "Legend Wall",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 29,
+        "ranks": [
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "7D",
+            "rank": 29
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 111.6599,
+        "pnl": 3067.4787,
+        "aum": 24085.6,
+        "mdd": 10.4464,
+        "winRate": 92.8571,
+        "copierPnl": 8748.4795,
+        "sharpRatio": null,
+        "currentCopyCount": 31
+      },
+      "tenureDays": 17.2,
+      "compositeScore": 67.7,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 82.8,
+        "drawdown": 79.1,
+        "sharpe": 14.3,
+        "copierAlignment": 98.5,
+        "winRate": 92.9,
+        "tenure": 9.6,
+        "authenticity": 81.3
+      },
+      "metrics": {
+        "orderCount": 87,
+        "completeCycleCount": 29,
+        "incompleteCycleCount": 3,
+        "unmatchedCloseOrders": 2,
+        "coverageDays": 17.12,
+        "symbolCount": 11,
+        "medianHoldSeconds": 7137.8,
+        "p25HoldSeconds": 4094.1,
+        "p75HoldSeconds": 38054.8,
+        "under60sRatio": 0.0345,
+        "under5mRatio": 0.069,
+        "under30mRatio": 0.1379,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 1336460.36,
+        "dailyTurnoverToEquity": 26.939,
+        "realizedPnl": 5090.2127,
+        "cycleWinRate": 0.9655,
+        "profitFactor": 3.948,
+        "top1ProfitConcentration": 0.1346,
+        "top5ProfitConcentration": 0.4478,
+        "washRiskScore": 18.7,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 9.9,
+          "shortHolding": 11.5,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.577
+      },
+      "rank": 28
+    },
+    {
+      "id": "4903021797259023617",
+      "nickname": "无聊的基神",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 6,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "90D",
+            "rank": 6
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 2706.2621,
+        "pnl": 1741.9418,
+        "aum": 4590.59,
+        "mdd": 63.6364,
+        "winRate": 89.5833,
+        "copierPnl": 1876.6919,
+        "sharpRatio": 1.13609029,
+        "currentCopyCount": 17
+      },
+      "tenureDays": 224.9,
+      "compositeScore": 67.3,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 0,
+        "sharpe": 46.7,
+        "copierAlignment": 81.8,
+        "winRate": 89.6,
+        "tenure": 100,
+        "authenticity": 90.2
+      },
+      "metrics": {
+        "orderCount": 172,
+        "completeCycleCount": 30,
+        "incompleteCycleCount": 4,
+        "unmatchedCloseOrders": 7,
+        "coverageDays": 58.916,
+        "symbolCount": 3,
+        "medianHoldSeconds": 65122.2,
+        "p25HoldSeconds": 12310.8,
+        "p75HoldSeconds": 268363.9,
+        "under60sRatio": 0,
+        "under5mRatio": 0.0333,
+        "under30mRatio": 0.1,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0.0345,
+        "repeatedQuantityRatio": 0.0909,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 757808.69,
+        "dailyTurnoverToEquity": 7.158,
+        "realizedPnl": 2102.0473,
+        "cycleWinRate": 0.9,
+        "profitFactor": 73.024,
+        "top1ProfitConcentration": 0.1741,
+        "top5ProfitConcentration": 0.6971,
+        "washRiskScore": 9.8,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 5.6,
+          "rapidReopen": 0,
+          "oppositeReversal": 13.8,
+          "turnoverIntensity": 35.8,
+          "repeatedQuantity": 15.2,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.74
+      },
+      "rank": 29
+    },
+    {
+      "id": "5224804224922056448",
+      "nickname": "User-jsy",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 10,
+        "bestRank": 6,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 7
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 29
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 10
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 10
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 6
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "180D",
+            "rank": 6
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 7
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 7
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 7
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 7
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 893.4314,
+        "pnl": 4467.1568,
+        "aum": 10148.62,
+        "mdd": 0,
+        "winRate": 75,
+        "copierPnl": 153.8918,
+        "sharpRatio": null,
+        "currentCopyCount": 7
+      },
+      "tenureDays": 2.9,
+      "compositeScore": 67.2,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 54.8,
+        "winRate": 75,
+        "tenure": 1.6,
+        "authenticity": 91.4
+      },
+      "metrics": {
+        "orderCount": 48,
+        "completeCycleCount": 3,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 2.608,
+        "symbolCount": 4,
+        "medianHoldSeconds": 8285.9,
+        "p25HoldSeconds": 4715.8,
+        "p75HoldSeconds": 10888.3,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.3333,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.3077,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 59652.21,
+        "dailyTurnoverToEquity": 4.633,
+        "realizedPnl": 4269.4147,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.5098,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 8.6,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 23.2,
+          "repeatedQuantity": 51.3,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.069
+      },
+      "rank": 30
+    },
+    {
+      "id": "5156287639231681792",
+      "nickname": "爱喝快乐肥宅水",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 14,
+        "ranks": [
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "7D",
+            "rank": 19
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "30D",
+            "rank": 14
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "90D",
+            "rank": 19
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "180D",
+            "rank": 22
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 61.541,
+        "pnl": 5009.3965,
+        "aum": 182498.18,
+        "mdd": 33.1028,
+        "winRate": 51.1111,
+        "copierPnl": 79499.6886,
+        "sharpRatio": 2.98176944,
+        "currentCopyCount": 213
+      },
+      "tenureDays": 50.2,
+      "compositeScore": 66.9,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 72.5,
+        "drawdown": 33.8,
+        "sharpe": 99.5,
+        "copierAlignment": 100,
+        "winRate": 51.1,
+        "tenure": 27.9,
+        "authenticity": 77.9
+      },
+      "metrics": {
+        "orderCount": 618,
+        "completeCycleCount": 76,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 3,
+        "coverageDays": 49.698,
+        "symbolCount": 15,
+        "medianHoldSeconds": 22719.4,
+        "p25HoldSeconds": 2790.9,
+        "p75HoldSeconds": 85978.8,
+        "under60sRatio": 0.0526,
+        "under5mRatio": 0.0789,
+        "under30mRatio": 0.2105,
+        "rapidReopenRatio": 0.08,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.503,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 4384849.9,
+        "dailyTurnoverToEquity": 7.137,
+        "realizedPnl": 11847.8316,
+        "cycleWinRate": 0.5526,
+        "profitFactor": 2.165,
+        "top1ProfitConcentration": 0.154,
+        "top5ProfitConcentration": 0.5119,
+        "washRiskScore": 22.1,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 15,
+          "shortHolding": 13.2,
+          "rapidReopen": 22.9,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 35.7,
+          "repeatedQuantity": 83.8,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 1
+      },
+      "rank": 31
+    },
+    {
+      "id": "5148095637390130944",
+      "nickname": "海森堡实验室",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 25,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 25
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 142.5703,
+        "pnl": 1914.7586,
+        "aum": 4568.84,
+        "mdd": 0,
+        "winRate": 88.8889,
+        "copierPnl": 433.6521,
+        "sharpRatio": -3.00894908,
+        "currentCopyCount": 6
+      },
+      "tenureDays": 55.8,
+      "compositeScore": 66.9,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 87,
+        "drawdown": 100,
+        "sharpe": 0,
+        "copierAlignment": 66,
+        "winRate": 88.9,
+        "tenure": 31,
+        "authenticity": 76.3
+      },
+      "metrics": {
+        "orderCount": 638,
+        "completeCycleCount": 184,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 30,
+        "coverageDays": 55.605,
+        "symbolCount": 89,
+        "medianHoldSeconds": 9970.9,
+        "p25HoldSeconds": 3551.1,
+        "p75HoldSeconds": 20520.8,
+        "under60sRatio": 0.0109,
+        "under5mRatio": 0.0217,
+        "under30mRatio": 0.1087,
+        "rapidReopenRatio": 0.0055,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.3988,
+        "nearZeroRoundTripRatio": 0.0326,
+        "totalTurnover": 4457192.92,
+        "dailyTurnoverToEquity": 24.605,
+        "realizedPnl": -3529.0544,
+        "cycleWinRate": 0.4728,
+        "profitFactor": 0.827,
+        "top1ProfitConcentration": 0.1247,
+        "top5ProfitConcentration": 0.2835,
+        "washRiskScore": 23.7,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 3.1,
+          "shortHolding": 3.6,
+          "rapidReopen": 1.6,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 66.5,
+          "nearZeroRoundTrips": 6.5
+        },
+        "confidence": 1
+      },
+      "rank": 32
+    },
+    {
+      "id": "4976493653311741953",
+      "nickname": "Tianhao8888",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 8,
+        "bestRank": 1,
+        "ranks": [
+          {
+            "dataType": "PNL",
+            "timeRange": "30D",
+            "rank": 29
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "90D",
+            "rank": 12
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "180D",
+            "rank": 12
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "7D",
+            "rank": 21
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "30D",
+            "rank": 21
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "90D",
+            "rank": 21
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "180D",
+            "rank": 21
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 1
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 2.4838,
+        "pnl": 78664.2073,
+        "aum": 739145.98,
+        "mdd": 0,
+        "winRate": 71.4286,
+        "copierPnl": 835.3113,
+        "sharpRatio": 0.8559046,
+        "currentCopyCount": 158
+      },
+      "tenureDays": 174.2,
+      "compositeScore": 65.8,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 21.9,
+        "drawdown": 100,
+        "sharpe": 38.7,
+        "copierAlignment": 73.1,
+        "winRate": 71.4,
+        "tenure": 96.8,
+        "authenticity": 78.1
+      },
+      "metrics": {
+        "orderCount": 310,
+        "completeCycleCount": 33,
+        "incompleteCycleCount": 5,
+        "unmatchedCloseOrders": 4,
+        "coverageDays": 30.649,
+        "symbolCount": 10,
+        "medianHoldSeconds": 874.6,
+        "p25HoldSeconds": 385.1,
+        "p75HoldSeconds": 16308.9,
+        "under60sRatio": 0.0303,
+        "under5mRatio": 0.2121,
+        "under30mRatio": 0.5758,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.4493,
+        "nearZeroRoundTripRatio": 0.0909,
+        "totalTurnover": 164775246.16,
+        "dailyTurnoverToEquity": 7.392,
+        "realizedPnl": 8527.8035,
+        "cycleWinRate": 0.6364,
+        "profitFactor": 1.043,
+        "top1ProfitConcentration": 0.2187,
+        "top5ProfitConcentration": 0.5189,
+        "washRiskScore": 21.9,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 8.7,
+          "shortHolding": 35.4,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 37,
+          "repeatedQuantity": 74.9,
+          "nearZeroRoundTrips": 18.2
+        },
+        "confidence": 0.779
+      },
+      "rank": 33
+    },
+    {
+      "id": "5176362150483535105",
+      "nickname": "空军四号",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 9,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 9
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 9
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 9
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 9
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 22.2865,
+        "pnl": 1765.1794,
+        "aum": 9281.45,
+        "mdd": 1.3832,
+        "winRate": 79.7101,
+        "copierPnl": 0,
+        "sharpRatio": 8.85959034,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 36.3,
+      "compositeScore": 65,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 55.2,
+        "drawdown": 97.2,
+        "sharpe": 100,
+        "copierAlignment": 0,
+        "winRate": 79.7,
+        "tenure": 20.2,
+        "authenticity": 95.4
+      },
+      "metrics": {
+        "orderCount": 161,
+        "completeCycleCount": 73,
+        "incompleteCycleCount": 6,
+        "unmatchedCloseOrders": 4,
+        "coverageDays": 34.978,
+        "symbolCount": 65,
+        "medianHoldSeconds": 8332.4,
+        "p25HoldSeconds": 1432.6,
+        "p75HoldSeconds": 47938,
+        "under60sRatio": 0,
+        "under5mRatio": 0.1096,
+        "under30mRatio": 0.2877,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0.0137,
+        "totalTurnover": 671607.82,
+        "dailyTurnoverToEquity": 2.069,
+        "realizedPnl": 1612.8093,
+        "cycleWinRate": 0.8356,
+        "profitFactor": 2.666,
+        "top1ProfitConcentration": 0.1239,
+        "top5ProfitConcentration": 0.3771,
+        "washRiskScore": 4.6,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 18.3,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 10.3,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 2.7
+        },
+        "confidence": 1
+      },
+      "rank": 34
+    },
+    {
+      "id": "5223307357197824513",
+      "nickname": "星河左侧量化",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 12,
+        "bestRank": 1,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 1
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 7
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "90D",
+            "rank": 17
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "180D",
+            "rank": 19
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 3
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 3
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 2
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "180D",
+            "rank": 2
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 1
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 1
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 1
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 1
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 1966.234,
+        "pnl": 9831.1702,
+        "aum": 7933.09,
+        "mdd": 0,
+        "winRate": 66.6667,
+        "copierPnl": 72.9718,
+        "sharpRatio": null,
+        "currentCopyCount": 19
+      },
+      "tenureDays": 3.9,
+      "compositeScore": 63.3,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 46.7,
+        "winRate": 66.7,
+        "tenure": 2.2,
+        "authenticity": 72.2
+      },
+      "metrics": {
+        "orderCount": 36,
+        "completeCycleCount": 14,
+        "incompleteCycleCount": 7,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 3.897,
+        "symbolCount": 7,
+        "medianHoldSeconds": 3923.6,
+        "p25HoldSeconds": 628.6,
+        "p75HoldSeconds": 32385.6,
+        "under60sRatio": 0,
+        "under5mRatio": 0.1429,
+        "under30mRatio": 0.5,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0.1538,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 1084491.08,
+        "dailyTurnoverToEquity": 41.97,
+        "realizedPnl": 10355.4334,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.3508,
+        "top5ProfitConcentration": 0.6666,
+        "washRiskScore": 27.8,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 23.8,
+          "rapidReopen": 0,
+          "oppositeReversal": 61.5,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.227
+      },
+      "rank": 35
+    },
+    {
+      "id": "5226832820352338432",
+      "nickname": "邓山先生",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 9,
+        "bestRank": 8,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 10
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 13
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 12
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 8
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "180D",
+            "rank": 8
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 10
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 10
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 10
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 10
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 706.7026,
+        "pnl": 3533.5131,
+        "aum": 4033.51,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 0.0429,
+        "sharpRatio": null,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 1.5,
+      "compositeScore": 60.3,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 0.5,
+        "winRate": 100,
+        "tenure": 0.8,
+        "authenticity": 80
+      },
+      "metrics": {
+        "orderCount": 10,
+        "completeCycleCount": 5,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 1.319,
+        "symbolCount": 1,
+        "medianHoldSeconds": 15663.1,
+        "p25HoldSeconds": 4345.3,
+        "p75HoldSeconds": 23561.9,
+        "under60sRatio": 0,
+        "under5mRatio": 0.2,
+        "under30mRatio": 0.2,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 184331.71,
+        "dailyTurnoverToEquity": 34.643,
+        "realizedPnl": 3622.493,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.3692,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 20,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 33.3,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.08
+      },
+      "rank": 36
+    },
+    {
+      "id": "4925133974869249281",
+      "nickname": "一亏三千里-装逼资本",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 9,
+        "bestRank": 5,
+        "ranks": [
+          {
+            "dataType": "PNL",
+            "timeRange": "7D",
+            "rank": 10
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "30D",
+            "rank": 9
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "90D",
+            "rank": 10
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "180D",
+            "rank": 5
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "7D",
+            "rank": 15
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "30D",
+            "rank": 15
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "90D",
+            "rank": 15
+          },
+          {
+            "dataType": "AUM",
+            "timeRange": "180D",
+            "rank": 15
+          },
+          {
+            "dataType": "COPIER_PNL",
+            "timeRange": "7D",
+            "rank": 17
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 60.8265,
+        "pnl": 285289.4392,
+        "aum": 963313.68,
+        "mdd": 17.3248,
+        "winRate": 50,
+        "copierPnl": -15036.6986,
+        "sharpRatio": 2.02924691,
+        "currentCopyCount": 279
+      },
+      "tenureDays": 209.6,
+      "compositeScore": 59.9,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 72.3,
+        "drawdown": 65.4,
+        "sharpe": 72.3,
+        "copierAlignment": 0,
+        "winRate": 50,
+        "tenure": 100,
+        "authenticity": 65.6
+      },
+      "metrics": {
+        "orderCount": 52,
+        "completeCycleCount": 3,
+        "incompleteCycleCount": 6,
+        "unmatchedCloseOrders": 19,
+        "coverageDays": 51.429,
+        "symbolCount": 10,
+        "medianHoldSeconds": 151074.1,
+        "p25HoldSeconds": 75551.1,
+        "p75HoldSeconds": 1445765,
+        "under60sRatio": 0.3333,
+        "under5mRatio": 0.3333,
+        "under30mRatio": 0.3333,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.4138,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 4653817.82,
+        "dailyTurnoverToEquity": 0.12,
+        "realizedPnl": 59380.9125,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.9749,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 34.4,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 95.2,
+          "shortHolding": 55.6,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 0.6,
+          "repeatedQuantity": 69,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.389
+      },
+      "rank": 37
+    },
+    {
+      "id": "5227961006822206720",
+      "nickname": "榴莲星辰",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 9,
+        "bestRank": 10,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 23
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 20
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 15
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 11
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "180D",
+            "rank": 10
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 23
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 23
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 23
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 23
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 364.2191,
+        "pnl": 2095.7898,
+        "aum": 2581.84,
+        "mdd": 0,
+        "winRate": 66.6667,
+        "copierPnl": 0,
+        "sharpRatio": null,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 0.7,
+      "compositeScore": 57.4,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 66.7,
+        "tenure": 0.4,
+        "authenticity": 85
+      },
+      "metrics": {
+        "orderCount": 5,
+        "completeCycleCount": 2,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 0.667,
+        "symbolCount": 3,
+        "medianHoldSeconds": 28204.9,
+        "p25HoldSeconds": 27362.5,
+        "p75HoldSeconds": 29047.2,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 194665.18,
+        "dailyTurnoverToEquity": 113.065,
+        "realizedPnl": 2114.7806,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.5517,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 15,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.034
+      },
+      "rank": 38
+    },
+    {
+      "id": "4711667454321988096",
+      "nickname": "天晴要努力呀",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 4,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 4
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 8.9691,
+        "pnl": 7636.6085,
+        "aum": 92780,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 0,
+        "sharpRatio": -0.77067381,
+        "currentCopyCount": 10
+      },
+      "tenureDays": 356.9,
+      "compositeScore": 57.1,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 40.3,
+        "drawdown": 100,
+        "sharpe": 0,
+        "copierAlignment": 0,
+        "winRate": 100,
+        "tenure": 100,
+        "authenticity": 90
+      },
+      "metrics": {
+        "orderCount": 2,
+        "completeCycleCount": 0,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 2,
+        "coverageDays": 0.042,
+        "symbolCount": 1,
+        "medianHoldSeconds": null,
+        "p25HoldSeconds": null,
+        "p75HoldSeconds": null,
+        "under60sRatio": null,
+        "under5mRatio": null,
+        "under30mRatio": null,
+        "rapidReopenRatio": null,
+        "oppositeReversalRatio": null,
+        "repeatedQuantityRatio": 1,
+        "nearZeroRoundTripRatio": null,
+        "totalTurnover": 0,
+        "dailyTurnoverToEquity": 0,
+        "realizedPnl": 0,
+        "cycleWinRate": null,
+        "profitFactor": null,
+        "top1ProfitConcentration": null,
+        "top5ProfitConcentration": null,
+        "washRiskScore": 10,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 0,
+          "repeatedQuantity": 100,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0
+      },
+      "rank": 39
+    },
+    {
+      "id": "5176945573720425984",
+      "nickname": "不是能涨是包涨",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 21,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 21
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 21
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 21
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 21
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 231.0089,
+        "pnl": 2196.2087,
+        "aum": 3495.98,
+        "mdd": 33.4344,
+        "winRate": 78.0952,
+        "copierPnl": -3713.5619,
+        "sharpRatio": 6.86983075,
+        "currentCopyCount": 15
+      },
+      "tenureDays": 35.9,
+      "compositeScore": 56.8,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 95.4,
+        "drawdown": 33.1,
+        "sharpe": 100,
+        "copierAlignment": 0,
+        "winRate": 78.1,
+        "tenure": 20,
+        "authenticity": 62.6
+      },
+      "metrics": {
+        "orderCount": 1529,
+        "completeCycleCount": 618,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 6,
+        "coverageDays": 35.634,
+        "symbolCount": 131,
+        "medianHoldSeconds": 1074.8,
+        "p25HoldSeconds": 202,
+        "p75HoldSeconds": 6048.1,
+        "under60sRatio": 0.1052,
+        "under5mRatio": 0.301,
+        "under30mRatio": 0.5761,
+        "rapidReopenRatio": 0.0243,
+        "oppositeReversalRatio": 0.0162,
+        "repeatedQuantityRatio": 0.4048,
+        "nearZeroRoundTripRatio": 0.0065,
+        "totalTurnover": 2364619.72,
+        "dailyTurnoverToEquity": 53.304,
+        "realizedPnl": 3924.4149,
+        "cycleWinRate": 0.7751,
+        "profitFactor": 1.494,
+        "top1ProfitConcentration": 0.0256,
+        "top5ProfitConcentration": 0.0905,
+        "washRiskScore": 37.4,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 30.1,
+          "shortHolding": 50.2,
+          "rapidReopen": 6.9,
+          "oppositeReversal": 6.5,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 67.5,
+          "nearZeroRoundTrips": 1.3
+        },
+        "confidence": 1
+      },
+      "rank": 40
+    },
+    {
+      "id": "5225461775506731520",
+      "nickname": "BTC洛少爷",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 6,
+        "bestRank": 4,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 4
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 20
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 4
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 4
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 4
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 4
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 1236.3996,
+        "pnl": 6181.9982,
+        "aum": 6682.06,
+        "mdd": 0.0815,
+        "winRate": 73.6842,
+        "copierPnl": -0.3042,
+        "sharpRatio": null,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 2.5,
+      "compositeScore": 56.7,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 99.8,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 73.7,
+        "tenure": 1.4,
+        "authenticity": 71.2
+      },
+      "metrics": {
+        "orderCount": 35,
+        "completeCycleCount": 14,
+        "incompleteCycleCount": 5,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 2.348,
+        "symbolCount": 4,
+        "medianHoldSeconds": 3879.7,
+        "p25HoldSeconds": 928.1,
+        "p75HoldSeconds": 11356.4,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.5,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0.2308,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 888489.9,
+        "dailyTurnoverToEquity": 56.62,
+        "realizedPnl": 6644.6818,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.273,
+        "top5ProfitConcentration": 0.6383,
+        "washRiskScore": 28.8,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 92.3,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.209
+      },
+      "rank": 41
+    },
+    {
+      "id": "5028285881739855104",
+      "nickname": "杀马特-",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 5,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 5
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 52.8579,
+        "pnl": 8375.5218,
+        "aum": 24188.53,
+        "mdd": 0,
+        "winRate": 69.2308,
+        "copierPnl": 0,
+        "sharpRatio": -2.62973308,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 138.5,
+      "compositeScore": 56.5,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 69.8,
+        "drawdown": 100,
+        "sharpe": 0,
+        "copierAlignment": 0,
+        "winRate": 69.2,
+        "tenure": 76.9,
+        "authenticity": 79.5
+      },
+      "metrics": {
+        "orderCount": 433,
+        "completeCycleCount": 117,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 8,
+        "coverageDays": 58.536,
+        "symbolCount": 17,
+        "medianHoldSeconds": 13923.8,
+        "p25HoldSeconds": 2730.1,
+        "p75HoldSeconds": 45497,
+        "under60sRatio": 0.0085,
+        "under5mRatio": 0.0427,
+        "under30mRatio": 0.188,
+        "rapidReopenRatio": 0.0086,
+        "oppositeReversalRatio": 0.0172,
+        "repeatedQuantityRatio": 0.3654,
+        "nearZeroRoundTripRatio": 0.0085,
+        "totalTurnover": 21275405.35,
+        "dailyTurnoverToEquity": 15.026,
+        "realizedPnl": -5845.8409,
+        "cycleWinRate": 0.6923,
+        "profitFactor": 0.898,
+        "top1ProfitConcentration": 0.0624,
+        "top5ProfitConcentration": 0.2411,
+        "washRiskScore": 20.5,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 2.4,
+          "shortHolding": 7.1,
+          "rapidReopen": 2.5,
+          "oppositeReversal": 6.9,
+          "turnoverIntensity": 75.1,
+          "repeatedQuantity": 60.9,
+          "nearZeroRoundTrips": 1.7
+        },
+        "confidence": 1
+      },
+      "rank": 42
+    },
+    {
+      "id": "5197548072731317249",
+      "nickname": "Hohhot_呼和浩特",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 5,
+        "bestRank": 9,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 9
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 9
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 9
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 9
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 9
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 119.0932,
+        "pnl": 32494.3397,
+        "aum": 2375.4,
+        "mdd": 17.935,
+        "winRate": 50,
+        "copierPnl": 75.3264,
+        "sharpRatio": null,
+        "currentCopyCount": 8
+      },
+      "tenureDays": 21.7,
+      "compositeScore": 54.2,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 83.9,
+        "drawdown": 64.1,
+        "sharpe": 14.3,
+        "copierAlignment": 47.1,
+        "winRate": 50,
+        "tenure": 12.1,
+        "authenticity": 92.3
+      },
+      "metrics": {
+        "orderCount": 4,
+        "completeCycleCount": 1,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 4.612,
+        "symbolCount": 1,
+        "medianHoldSeconds": 398304.2,
+        "p25HoldSeconds": 398304.2,
+        "p75HoldSeconds": 398304.2,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": null,
+        "oppositeReversalRatio": null,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 95948.7,
+        "dailyTurnoverToEquity": 10.201,
+        "realizedPnl": 32070.0757,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 1,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 7.7,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 51,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.067
+      },
+      "rank": 43
+    },
+    {
+      "id": "5195631076387982849",
+      "nickname": "华强北浪险哥",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 3,
+        "bestRank": 1,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 2
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 1
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "180D",
+            "rank": 1
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 19.8732,
+        "pnl": 11923.9395,
+        "aum": 500,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 0,
+        "sharpRatio": null,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 23,
+      "compositeScore": 52.6,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 53.2,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 100,
+        "tenure": 12.8,
+        "authenticity": 85
+      },
+      "metrics": {
+        "orderCount": 13,
+        "completeCycleCount": 3,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 2,
+        "coverageDays": 5.092,
+        "symbolCount": 2,
+        "medianHoldSeconds": 116225.8,
+        "p25HoldSeconds": 86009.8,
+        "p75HoldSeconds": 132207.7,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 4232205.32,
+        "dailyTurnoverToEquity": 1662.23,
+        "realizedPnl": 13815.6151,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.5532,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 15,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.098
+      },
+      "rank": 44
+    },
+    {
+      "id": "5216780018846650624",
+      "nickname": "世一笑",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 2,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 2
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 9.7156,
+        "pnl": 9931.6786,
+        "aum": 112155.99,
+        "mdd": 0,
+        "winRate": 100,
+        "copierPnl": 0,
+        "sharpRatio": null,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 8.5,
+      "compositeScore": 50.3,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 41.6,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 100,
+        "tenure": 4.7,
+        "authenticity": 94
+      },
+      "metrics": {
+        "orderCount": 21,
+        "completeCycleCount": 4,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 5.64,
+        "symbolCount": 2,
+        "medianHoldSeconds": 23414,
+        "p25HoldSeconds": 3759.2,
+        "p75HoldSeconds": 48289.5,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0.25,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0,
+        "nearZeroRoundTripRatio": 0.25,
+        "totalTurnover": 831435.95,
+        "dailyTurnoverToEquity": 1.314,
+        "realizedPnl": 9789.3597,
+        "cycleWinRate": 0.75,
+        "profitFactor": 37.349,
+        "top1ProfitConcentration": 0.9379,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 6,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 6.6,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 50
+        },
+        "confidence": 0.118
+      },
+      "rank": 45
+    },
+    {
+      "id": "5144630011366700544",
+      "nickname": "懒洋洋大魔王",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 13,
+        "ranks": [
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "7D",
+            "rank": 13
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "30D",
+            "rank": 13
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "90D",
+            "rank": 13
+          },
+          {
+            "dataType": "SHARP_RATIO",
+            "timeRange": "180D",
+            "rank": 13
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 103.1819,
+        "pnl": 1869.7466,
+        "aum": 3370.47,
+        "mdd": 22.5534,
+        "winRate": 96.0227,
+        "copierPnl": -1361.3583,
+        "sharpRatio": 7.58015112,
+        "currentCopyCount": 6
+      },
+      "tenureDays": 58.2,
+      "compositeScore": 49,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 81.4,
+        "drawdown": 54.9,
+        "sharpe": 100,
+        "copierAlignment": 0,
+        "winRate": 96,
+        "tenure": 32.3,
+        "authenticity": 39.2
+      },
+      "metrics": {
+        "orderCount": 1700,
+        "completeCycleCount": 269,
+        "incompleteCycleCount": 5,
+        "unmatchedCloseOrders": 9,
+        "coverageDays": 58.226,
+        "symbolCount": 15,
+        "medianHoldSeconds": 73.9,
+        "p25HoldSeconds": 21.7,
+        "p75HoldSeconds": 352.5,
+        "under60sRatio": 0.4721,
+        "under5mRatio": 0.7286,
+        "under30mRatio": 0.8959,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0.0037,
+        "repeatedQuantityRatio": 0.763,
+        "nearZeroRoundTripRatio": 0.0297,
+        "totalTurnover": 10342641.66,
+        "dailyTurnoverToEquity": 70.761,
+        "realizedPnl": 2159.2764,
+        "cycleWinRate": 0.9554,
+        "profitFactor": 3.774,
+        "top1ProfitConcentration": 0.078,
+        "top5ProfitConcentration": 0.1956,
+        "washRiskScore": 60.8,
+        "washRiskLevel": "high",
+        "washRiskComponents": {
+          "ultraShort": 100,
+          "shortHolding": 100,
+          "rapidReopen": 0,
+          "oppositeReversal": 1.5,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 100,
+          "nearZeroRoundTrips": 5.9
+        },
+        "confidence": 1
+      },
+      "rank": 46
+    },
+    {
+      "id": "5066421744284270337",
+      "nickname": "goodhaha",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 16,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "180D",
+            "rank": 16
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 2137.8583,
+        "pnl": 10903.0773,
+        "aum": 17312.75,
+        "mdd": 26.8851,
+        "winRate": 86.8421,
+        "copierPnl": 4117.9906,
+        "sharpRatio": 4.38336853,
+        "currentCopyCount": 25
+      },
+      "tenureDays": 112.2,
+      "compositeScore": 49,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 46.2,
+        "sharpe": 100,
+        "copierAlignment": 90.4,
+        "winRate": 86.8,
+        "tenure": 62.3,
+        "authenticity": 43.4
+      },
+      "metrics": {
+        "orderCount": 156,
+        "completeCycleCount": 42,
+        "incompleteCycleCount": 2,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 55.458,
+        "symbolCount": 4,
+        "medianHoldSeconds": 0.3,
+        "p25HoldSeconds": 0.2,
+        "p75HoldSeconds": 5.3,
+        "under60sRatio": 0.7619,
+        "under5mRatio": 0.7619,
+        "under30mRatio": 0.7619,
+        "rapidReopenRatio": 0.3902,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.3415,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 792031.04,
+        "dailyTurnoverToEquity": 1.251,
+        "realizedPnl": 3480.7568,
+        "cycleWinRate": 0.9286,
+        "profitFactor": 2.392,
+        "top1ProfitConcentration": 0.2903,
+        "top5ProfitConcentration": 0.6203,
+        "washRiskScore": 56.6,
+        "washRiskLevel": "high",
+        "washRiskComponents": {
+          "ultraShort": 100,
+          "shortHolding": 100,
+          "rapidReopen": 100,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 6.3,
+          "repeatedQuantity": 56.9,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.896
+      },
+      "rank": 47
+    },
+    {
+      "id": "5227457564343973120",
+      "nickname": "布嬸擼貓",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 9,
+        "bestRank": 5,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 20
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 9
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 9
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 5
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "180D",
+            "rank": 5
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 20
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 20
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 20
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 20
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 447.4371,
+        "pnl": 4474.371,
+        "aum": 5673.9,
+        "mdd": 0,
+        "winRate": 90.9091,
+        "copierPnl": 23.4869,
+        "sharpRatio": null,
+        "currentCopyCount": 3
+      },
+      "tenureDays": 1.1,
+      "compositeScore": 49,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 34.7,
+        "winRate": 90.9,
+        "tenure": 0.6,
+        "authenticity": 41.7
+      },
+      "metrics": {
+        "orderCount": 27,
+        "completeCycleCount": 10,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 0.983,
+        "symbolCount": 2,
+        "medianHoldSeconds": 182.5,
+        "p25HoldSeconds": 29,
+        "p75HoldSeconds": 562.1,
+        "under60sRatio": 0.4,
+        "under5mRatio": 0.6,
+        "under30mRatio": 0.8,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.5,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 668895.07,
+        "dailyTurnoverToEquity": 125.127,
+        "realizedPnl": 3759.7537,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.1753,
+        "top5ProfitConcentration": 0.6879,
+        "washRiskScore": 58.3,
+        "washRiskLevel": "high",
+        "washRiskComponents": {
+          "ultraShort": 100,
+          "shortHolding": 100,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 83.3,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.141
+      },
+      "rank": 48
+    },
+    {
+      "id": "4657722487947555584",
+      "nickname": "Feed-Creator-4bc0690bb",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 4,
+        "bestRank": 9,
+        "ranks": [
+          {
+            "dataType": "PNL",
+            "timeRange": "7D",
+            "rank": 9
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "30D",
+            "rank": 26
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "90D",
+            "rank": 14
+          },
+          {
+            "dataType": "PNL",
+            "timeRange": "180D",
+            "rank": 14
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 23.3084,
+        "pnl": 81290.1729,
+        "aum": 434475.2,
+        "mdd": 25.5392,
+        "winRate": 50,
+        "copierPnl": -398.5232,
+        "sharpRatio": 0.09282078,
+        "currentCopyCount": 119
+      },
+      "tenureDays": 394.1,
+      "compositeScore": 48.2,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 55.9,
+        "drawdown": 48.9,
+        "sharpe": 16.9,
+        "copierAlignment": 0,
+        "winRate": 50,
+        "tenure": 100,
+        "authenticity": 96.9
+      },
+      "metrics": {
+        "orderCount": 96,
+        "completeCycleCount": 13,
+        "incompleteCycleCount": 4,
+        "unmatchedCloseOrders": 8,
+        "coverageDays": 55.518,
+        "symbolCount": 12,
+        "medianHoldSeconds": 63305.9,
+        "p25HoldSeconds": 42826.3,
+        "p75HoldSeconds": 285046.6,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.1111,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 38895844.48,
+        "dailyTurnoverToEquity": 1.63,
+        "realizedPnl": 138490.2183,
+        "cycleWinRate": 0.6923,
+        "profitFactor": 2.024,
+        "top1ProfitConcentration": 0.3785,
+        "top5ProfitConcentration": 0.8953,
+        "washRiskScore": 3.1,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 8.2,
+          "repeatedQuantity": 18.5,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.519
+      },
+      "rank": 49
+    },
+    {
+      "id": "5217752912495035905",
+      "nickname": "建斌论坛",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 8,
+        "bestRank": 5,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 6
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 5
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "90D",
+            "rank": 14
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "180D",
+            "rank": 14
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 6
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 6
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 6
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 6
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 2157.0136,
+        "pnl": 10785.068,
+        "aum": 13299.72,
+        "mdd": 23.1747,
+        "winRate": 60,
+        "copierPnl": -3308.5593,
+        "sharpRatio": null,
+        "currentCopyCount": 59
+      },
+      "tenureDays": 7.8,
+      "compositeScore": 48.1,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 53.7,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 60,
+        "tenure": 4.3,
+        "authenticity": 87.6
+      },
+      "metrics": {
+        "orderCount": 31,
+        "completeCycleCount": 10,
+        "incompleteCycleCount": 5,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 7.233,
+        "symbolCount": 6,
+        "medianHoldSeconds": 24671.9,
+        "p25HoldSeconds": 5175.9,
+        "p75HoldSeconds": 53773.2,
+        "under60sRatio": 0,
+        "under5mRatio": 0.1,
+        "under30mRatio": 0.2,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 872262.47,
+        "dailyTurnoverToEquity": 13.157,
+        "realizedPnl": 10996.875,
+        "cycleWinRate": 0.9,
+        "profitFactor": 68.636,
+        "top1ProfitConcentration": 0.6521,
+        "top5ProfitConcentration": 0.9963,
+        "washRiskScore": 12.4,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 16.7,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 65.8,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.214
+      },
+      "rank": 50
+    },
+    {
+      "id": "5195625743537520640",
+      "nickname": "天才交易员杰哥",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 4,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "7D",
+            "rank": 4
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "fallback",
+        "roi": 19.2635,
+        "pnl": 9000.8771,
+        "aum": 1733.01,
+        "mdd": 0,
+        "winRate": 66.6667,
+        "copierPnl": 0,
+        "sharpRatio": null,
+        "currentCopyCount": 1
+      },
+      "tenureDays": 23,
+      "compositeScore": 47.1,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 52.7,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 66.7,
+        "tenure": 12.8,
+        "authenticity": 65
+      },
+      "metrics": {
+        "orderCount": 145,
+        "completeCycleCount": 49,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 21.262,
+        "symbolCount": 10,
+        "medianHoldSeconds": 14984.1,
+        "p25HoldSeconds": 1468.6,
+        "p75HoldSeconds": 59050.7,
+        "under60sRatio": 0.0408,
+        "under5mRatio": 0.0816,
+        "under30mRatio": 0.3061,
+        "rapidReopenRatio": 0.2083,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.4,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 5247082.47,
+        "dailyTurnoverToEquity": 142.986,
+        "realizedPnl": 12472.4348,
+        "cycleWinRate": 0.7959,
+        "profitFactor": 5.056,
+        "top1ProfitConcentration": 0.1918,
+        "top5ProfitConcentration": 0.467,
+        "washRiskScore": 35,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 11.7,
+          "shortHolding": 13.6,
+          "rapidReopen": 59.5,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 66.7,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.885
+      },
+      "rank": 51
+    },
+    {
+      "id": "5189455591030851072",
+      "nickname": "招财猫13",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 3,
+        "bestRank": 4,
+        "ranks": [
+          {
+            "dataType": "MDD",
+            "timeRange": "30D",
+            "rank": 8
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "90D",
+            "rank": 4
+          },
+          {
+            "dataType": "MDD",
+            "timeRange": "180D",
+            "rank": 4
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 3.7163,
+        "pnl": 4831.1957,
+        "aum": 14903.15,
+        "mdd": 0,
+        "winRate": 94.382,
+        "copierPnl": 1.7543,
+        "sharpRatio": null,
+        "currentCopyCount": 1
+      },
+      "tenureDays": 27.3,
+      "compositeScore": 46.5,
+      "eligible": true,
+      "scoreComponents": {
+        "roi": 27.2,
+        "drawdown": 100,
+        "sharpe": 14.3,
+        "copierAlignment": 11,
+        "winRate": 94.4,
+        "tenure": 15.2,
+        "authenticity": 63.5
+      },
+      "metrics": {
+        "orderCount": 489,
+        "completeCycleCount": 84,
+        "incompleteCycleCount": 0,
+        "unmatchedCloseOrders": 2,
+        "coverageDays": 26.379,
+        "symbolCount": 23,
+        "medianHoldSeconds": 321.6,
+        "p25HoldSeconds": 124.1,
+        "p75HoldSeconds": 1119.6,
+        "under60sRatio": 0.1071,
+        "under5mRatio": 0.4881,
+        "under30mRatio": 0.8095,
+        "rapidReopenRatio": 0.1205,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": 0.3542,
+        "nearZeroRoundTripRatio": 0.0238,
+        "totalTurnover": 3436105.22,
+        "dailyTurnoverToEquity": 8.783,
+        "realizedPnl": 5844.8145,
+        "cycleWinRate": 0.9405,
+        "profitFactor": 43.469,
+        "top1ProfitConcentration": 0.1147,
+        "top5ProfitConcentration": 0.3405,
+        "washRiskScore": 36.5,
+        "washRiskLevel": "medium",
+        "washRiskComponents": {
+          "ultraShort": 30.6,
+          "shortHolding": 81.3,
+          "rapidReopen": 34.4,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 43.9,
+          "repeatedQuantity": 59,
+          "nearZeroRoundTrips": 4.8
+        },
+        "confidence": 0.958
+      },
+      "rank": 52
+    },
+    {
+      "id": "4710544899333920257",
+      "nickname": "Fullmetal-17",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 1,
+        "bestRank": 2,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 2
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 2548.9279,
+        "pnl": 4.4385,
+        "aum": 205.04,
+        "mdd": 1281.0626,
+        "winRate": 56.3291,
+        "copierPnl": -1.9143,
+        "sharpRatio": -1.43754197,
+        "currentCopyCount": 2
+      },
+      "tenureDays": 357.7,
+      "compositeScore": 43.3,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 0,
+        "sharpe": 0,
+        "copierAlignment": 0,
+        "winRate": 56.3,
+        "tenure": 100,
+        "authenticity": 76.9
+      },
+      "metrics": {
+        "orderCount": 646,
+        "completeCycleCount": 279,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 1,
+        "coverageDays": 59.643,
+        "symbolCount": 3,
+        "medianHoldSeconds": 8585.5,
+        "p25HoldSeconds": 3185.4,
+        "p75HoldSeconds": 21024,
+        "under60sRatio": 0.0036,
+        "under5mRatio": 0.0179,
+        "under30mRatio": 0.147,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0.0468,
+        "repeatedQuantityRatio": 0.25,
+        "nearZeroRoundTripRatio": 0.0215,
+        "totalTurnover": 10517.72,
+        "dailyTurnoverToEquity": 37.474,
+        "realizedPnl": -0.3995,
+        "cycleWinRate": 0.4803,
+        "profitFactor": 0.987,
+        "top1ProfitConcentration": 0.0408,
+        "top5ProfitConcentration": 0.1406,
+        "washRiskScore": 23.1,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 1,
+          "shortHolding": 3,
+          "rapidReopen": 0,
+          "oppositeReversal": 18.7,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 41.7,
+          "nearZeroRoundTrips": 4.3
+        },
+        "confidence": 1
+      },
+      "rank": 53
+    },
+    {
+      "id": "5205625196504794880",
+      "nickname": "User-6adbe",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 5,
+        "bestRank": 5,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 5
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 5
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 5
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 5
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 5
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 721.516,
+        "pnl": 3607.5798,
+        "aum": 4024.24,
+        "mdd": 46.1518,
+        "winRate": 75,
+        "copierPnl": 0,
+        "sharpRatio": null,
+        "currentCopyCount": 0
+      },
+      "tenureDays": 16.1,
+      "compositeScore": 41.9,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 7.7,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 75,
+        "tenure": 9,
+        "authenticity": 97.8
+      },
+      "metrics": {
+        "orderCount": 7,
+        "completeCycleCount": 3,
+        "incompleteCycleCount": 1,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 15.312,
+        "symbolCount": 1,
+        "medianHoldSeconds": 95686.6,
+        "p25HoldSeconds": 62032.9,
+        "p75HoldSeconds": 496200,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 182171.56,
+        "dailyTurnoverToEquity": 2.956,
+        "realizedPnl": 2910.5978,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.5576,
+        "top5ProfitConcentration": 1,
+        "washRiskScore": 2.2,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 14.8,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.218
+      },
+      "rank": 54
+    },
+    {
+      "id": "5219234690161308161",
+      "nickname": "金虎趋势论",
+      "positionShow": true,
+      "ranking": {
+        "rankHits": 8,
+        "bestRank": 2,
+        "ranks": [
+          {
+            "dataType": "ROI",
+            "timeRange": "7D",
+            "rank": 2
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "30D",
+            "rank": 15
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "90D",
+            "rank": 28
+          },
+          {
+            "dataType": "ROI",
+            "timeRange": "180D",
+            "rank": 30
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "7D",
+            "rank": 2
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "30D",
+            "rank": 2
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "90D",
+            "rank": 2
+          },
+          {
+            "dataType": "WIN_RATE",
+            "timeRange": "180D",
+            "rank": 2
+          }
+        ]
+      },
+      "performance": {
+        "horizon": "30D",
+        "roi": 1651.4625,
+        "pnl": 8257.3126,
+        "aum": 6296.66,
+        "mdd": 47.5436,
+        "winRate": 57.8947,
+        "copierPnl": -1.7842,
+        "sharpRatio": null,
+        "currentCopyCount": 5
+      },
+      "tenureDays": 6.8,
+      "compositeScore": 37.8,
+      "eligible": false,
+      "scoreComponents": {
+        "roi": 100,
+        "drawdown": 4.9,
+        "sharpe": 14.3,
+        "copierAlignment": 0,
+        "winRate": 57.9,
+        "tenure": 3.8,
+        "authenticity": 85
+      },
+      "metrics": {
+        "orderCount": 35,
+        "completeCycleCount": 11,
+        "incompleteCycleCount": 8,
+        "unmatchedCloseOrders": 0,
+        "coverageDays": 5.964,
+        "symbolCount": 7,
+        "medianHoldSeconds": 23096.5,
+        "p25HoldSeconds": 8425.2,
+        "p75HoldSeconds": 42230.3,
+        "under60sRatio": 0,
+        "under5mRatio": 0,
+        "under30mRatio": 0,
+        "rapidReopenRatio": 0,
+        "oppositeReversalRatio": 0,
+        "repeatedQuantityRatio": null,
+        "nearZeroRoundTripRatio": 0,
+        "totalTurnover": 1036363.87,
+        "dailyTurnoverToEquity": 28.69,
+        "realizedPnl": 8753.5203,
+        "cycleWinRate": 1,
+        "profitFactor": 999,
+        "top1ProfitConcentration": 0.2029,
+        "top5ProfitConcentration": 0.7277,
+        "washRiskScore": 15,
+        "washRiskLevel": "low",
+        "washRiskComponents": {
+          "ultraShort": 0,
+          "shortHolding": 0,
+          "rapidReopen": 0,
+          "oppositeReversal": 0,
+          "turnoverIntensity": 100,
+          "repeatedQuantity": 0,
+          "nearZeroRoundTrips": 0
+        },
+        "confidence": 0.213
+      },
+      "rank": 55
+    }
+  ],
+  "hiddenProfiles": [
+    {
+      "id": "5219911688676500225",
+      "nickname": "DAmorné",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5217015443360952577",
+      "nickname": "我见犹怜",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5185793116802487808",
+      "nickname": "八锅-只喜欢趋势滚仓",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5192687820973545984",
+      "nickname": "重生之我叫李老头-应景",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5204781978153820417",
+      "nickname": "与岁月和解",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5215234385758524160",
+      "nickname": "悦木之源",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5212766086527177217",
+      "nickname": "马踏东京赏樱花",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5108371059752839168",
+      "nickname": "鎏渊",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5154344801714752768",
+      "nickname": "A路飞",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5137430378342777089",
+      "nickname": "Pokémoment",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5138906842584885249",
+      "nickname": "小资金也有未来",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5172137479216744961",
+      "nickname": "Aiden Sky",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5170016259600335617",
+      "nickname": "爽翻天 满人跟私域",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5134546659653343232",
+      "nickname": "只对美女感冒",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5075281354358777856",
+      "nickname": "熬鹰资本",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5213497728679047681",
+      "nickname": "如何设置低于10万U不能跟我的单",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5159399805711344897",
+      "nickname": "玺九爺HBJX",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5118550893776326656",
+      "nickname": "道亦有道 1994",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5195394191928675585",
+      "nickname": "Rainbow88",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5205460901083096064",
+      "nickname": "Lonny_lucky",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5216381396065841665",
+      "nickname": "Anpavilion",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4795130655832538880",
+      "nickname": "亿万富翁养成记",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4751838302089254401",
+      "nickname": "Btc星辰",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5121666018948220416",
+      "nickname": "鉴币师-",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4651568235952162816",
+      "nickname": "PokerTim",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5156835347707766529",
+      "nickname": "小周同学o",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4456447855719904768",
+      "nickname": "羊汤资本-阿汤哥",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5183137610460473088",
+      "nickname": "玖煌",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5208390668720411392",
+      "nickname": "Horizon Wealth",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4480958555490754305",
+      "nickname": "菩萨保右",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5121749078299654657",
+      "nickname": "富一次就足够",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4905231005620408064",
+      "nickname": "哆啦A梦征服存储大海",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4566696155639181057",
+      "nickname": "Eenis的绝对盘感",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4988038578781515265",
+      "nickname": "2026大黑马",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4996962042069022720",
+      "nickname": "Whale_Trading",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5143921081414022657",
+      "nickname": "Kuant Skuare",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5147382485415351040",
+      "nickname": "k哥智能量化",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5193788577179792640",
+      "nickname": "一年赚10倍",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5145336827959022336",
+      "nickname": "PokerTim 小號",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5191132361433576704",
+      "nickname": "断桥残雪",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4108519847453441025",
+      "nickname": "Aychanges",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5220176141321892353",
+      "nickname": "请叫我大牛哥",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5226045787277845504",
+      "nickname": "User-2702475a",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4988953636837287681",
+      "nickname": "Kristofer Hogon SAzs",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5131925334830383361",
+      "nickname": "星辰社区-海",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4532994172262753536",
+      "nickname": "Sky株式会社",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5042485525562723585",
+      "nickname": "缠论当下师",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4030560779244867073",
+      "nickname": "穩定暴擊 Crit",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5192985426396162048",
+      "nickname": "uTybtc",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5140120897920903168",
+      "nickname": "RocketTrader",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5078808125094578945",
+      "nickname": "Fomo-扫单之王",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4971261479455450112",
+      "nickname": "MakroSafe--龟速前行 稳健致远",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5134978745274344705",
+      "nickname": " 梧桐资本",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5158445231241063937",
+      "nickname": "春 Hedge by XMJ",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5109439272237132800",
+      "nickname": "积累原始资本",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4553378712623087105",
+      "nickname": "Lee Jae-ho",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5208806680932372992",
+      "nickname": "热茶旧书",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5191630169613655552",
+      "nickname": "BTC同花顺",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4542146104662911233",
+      "nickname": "trader Yy",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4186437056735338496",
+      "nickname": "RideTheWave",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5178256767927405569",
+      "nickname": "你必须极具想象力 才能找到一个亏钱的理由",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5090588047188778241",
+      "nickname": "不停梭-",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5085948606825292289",
+      "nickname": "知危",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5205724407811973376",
+      "nickname": "HankieO",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4101790650458965760",
+      "nickname": "TrendFollowingQuant_ChannelCMT",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5145806541701953281",
+      "nickname": "菜师",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5121809002771580416",
+      "nickname": "海上方舟",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4885616028810285312",
+      "nickname": "NotForEveryone",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4135160787653924865",
+      "nickname": "Willene Swierczynski fFrC",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4995352820626030848",
+      "nickname": "Flowerence29",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5188712576537134849",
+      "nickname": "逢春化绿",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5118957184695262465",
+      "nickname": "克己复利",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5174438320178003712",
+      "nickname": "雄哥玩币",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5204506162106299393",
+      "nickname": "厦风",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "3949937759288284416",
+      "nickname": "戊土校尉",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5132194683735350017",
+      "nickname": "莫扎特9527",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5071069046627195904",
+      "nickname": "ArtieLee",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5181969274702117888",
+      "nickname": "东逸",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "4612765056578576641",
+      "nickname": "billionith",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5142798333664141825",
+      "nickname": "Dr_Dj",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    },
+    {
+      "id": "5036399978959051521",
+      "nickname": "User-Yukirito",
+      "reason": "订单/持仓未公开，无法核验持仓周期与回转风险"
+    }
+  ]
+}

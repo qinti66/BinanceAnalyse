@@ -1,0 +1,117 @@
+{
+  "metrics": {
+    "marketCap": {
+      "value": "$2.61T",
+      "change": 1.43,
+      "changeDirection": "up"
+    },
+    "volume": {
+      "value": "$87.9B",
+      "change": 12.21,
+      "changeDirection": "down"
+    },
+    "fearGreedIndex": {
+      "value": 64,
+      "label": "Greed"
+    }
+  },
+  "analysis": {
+    "content": [
+      "Recent trends show a transition from Extreme Greed to consistent Greed. Sentiment remains elevated, reflecting sustained market optimism."
+    ],
+    "news": [
+      {
+        "id": 121327,
+        "publishTimeTs": 1789552796000,
+        "category": "regulation",
+        "summary": "由于参议院未能推进CLARITY法案，比特币在美国的需求正受到压力。比特币Coinbase高级指数跌至-0.079，为自8月16日以来的最低点，美国投资者，尤其是短期持有者，向交易所大量汇入BTC，可能亏损卖出。这导致美国Coinbase与全球币安交易所之间的卖出行为出现分歧。分析师Willy Woo认为，这种分歧表明尽管美国卖方压力，比特币仍呈现出“看涨”信号。CLARITY法案的失败限制了加密货币立法的选择，直到2027年。"
+      },
+      {
+        "id": 121328,
+        "publishTimeTs": 1789559421000,
+        "category": "tech upgrade",
+        "summary": "Circle 推出了 Arc 主网，这是一个以 USDC 为原生 gas 代币的一层区块链，专注于稳定币支付和金融市场。Arc 提供以太坊虚拟机兼容性和亚秒级结算。它支持 20 多种法币稳定币，并通过 Circle 的跨链交易协议实现与 20 多个区块链的互操作性。此次发布被认为是 USDC 成立以来最重要的一次。Arc 面向可编程货币和全球市场，计划于 2027 年前从权威证明（Proof of Authority）过渡到权益证明（Proof of Stake）。Circle 已完成 100 亿 ARC 代币的起源铸造，但尚未承诺公开发布。"
+      },
+      {
+        "id": 121330,
+        "publishTimeTs": 1789603087000,
+        "category": "celebrity impact",
+        "summary": "Vitalik在X平台上分享，他约90%的净资产都集中在加密货币中。他认为，随着能力的成熟，网络安全将更有利于防御者。Vitalik讨论了AI如何将“程序安全”验证为数学定理，强调安全定义应包括与密钥、服务器、设备、操作系统、数据库、网络和缓存层相关的风险。他表示，以太坊将在未来几年专注于这一方向，强调软件安全的重要性，尤其是对可扩展和注重隐私的区块链。"
+      },
+      {
+        "id": 121331,
+        "publishTimeTs": 1789560399000,
+        "category": "partnerships",
+        "summary": "根据官方公告，币安已完成 USDC 在 Arc 网络上的整合，并已开放存款服务。一旦网络存款充足，提款服务将开放，且无进一步公告。"
+      },
+      {
+        "id": 121329,
+        "publishTimeTs": 1789550581000,
+        "category": "whale activity",
+        "summary": "交易者CL（@cl207）在Hyperliquid上开仓361万ETH多头和173万HYPE多头头寸。CL还持有318万NVIDIA15倍多头和203万GOOGL 20倍多头头寸。该账户总资金为321万，所有仓位均为多头。"
+      }
+    ]
+  },
+  "hotTokens": [
+    {
+      "symbol": "BNB",
+      "name": "BNB",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20220218/94863af2-c980-42cf-a139-7b9f462a36c2.png",
+      "tradeUrl": "https://www.binance.com/convert/BNB/USDT"
+    },
+    {
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20201110/87496d50-2408-43e1-ad4c-78b47b448a6a.png",
+      "tradeUrl": "https://www.binance.com/convert/BTC/USDT"
+    },
+    {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20201110/3a8c9fe6-2a76-4ace-aa07-415d994de6f0.png",
+      "tradeUrl": "https://www.binance.com/convert/ETH/USDT"
+    },
+    {
+      "symbol": "SOL",
+      "name": "Solana",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20230404/b2f0c70f-4fb2-4472-9fe7-480ad1592421.png",
+      "tradeUrl": "https://www.binance.com/convert/SOL/USDT"
+    },
+    {
+      "symbol": "AVA",
+      "name": "AVA",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20250205/403e5325-f098-4789-838f-4307c2587707.png",
+      "tradeUrl": "https://www.binance.com/convert/AVA/USDT"
+    },
+    {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20201110/4d538dc7-6543-4bd0-ab9a-cfc37363cab8.png",
+      "tradeUrl": "https://www.binance.com/convert/ZEC/USDT"
+    },
+    {
+      "symbol": "LSK",
+      "name": "Lisk",
+      "logoUrl": "https://bin.bnbstatic.com/images/20191211/251bc8d8-be8c-404f-800c-e7b61f0020bb.png",
+      "tradeUrl": "https://www.binance.com/convert/LSK/USDT"
+    },
+    {
+      "symbol": "ARB",
+      "name": "Arbitrum",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20230321/d33c0f1f-f989-4ec5-b4ce-9bbe82829d0a.png",
+      "tradeUrl": "https://www.binance.com/convert/ARB/USDT"
+    },
+    {
+      "symbol": "ONE",
+      "name": "Harmony",
+      "logoUrl": "https://bin.bnbstatic.com/images/20191212/133e0469-3a96-4e3a-9c42-b4c5a4f8def8.png",
+      "tradeUrl": "https://www.binance.com/convert/ONE/USDT"
+    },
+    {
+      "symbol": "XRP",
+      "name": "XRP",
+      "logoUrl": "https://bin.bnbstatic.com/image/admin_mgs_image_upload/20201110/4766a9cc-8545-4c2b-bfa4-cad2be91c135.png",
+      "tradeUrl": "https://www.binance.com/convert/XRP/USDT"
+    }
+  ]
+}
