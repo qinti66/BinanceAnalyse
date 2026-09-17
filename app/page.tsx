@@ -74,7 +74,7 @@ export default function Home(){
     <header className="sticky top-0 z-30 border-b border-white/8 bg-[#07101d]/92 backdrop-blur-xl">
       <div className="mx-auto flex min-h-16 max-w-[1540px] items-center justify-between gap-4 px-4 py-3 sm:px-7">
         <div className="flex items-center gap-3"><div className="logo"><Target size={19}/></div><div><b>Alpha Radar</b><p>广场热度 × 合约聪明钱</p></div></div>
-        <div className="flex flex-wrap items-center gap-3"><a href="/square" className="text-sm text-amber-200 underline underline-offset-4">广场情绪 · 仓位证据</a><div className="snapshot-pill"><i/>一次性完整快照 · {snapshot}</div></div>
+        <div className="flex flex-wrap items-center gap-3"><a href="/indicators" className="text-sm text-amber-200 underline underline-offset-4">全市场合约指标</a><a href="/square" className="text-sm text-amber-200 underline underline-offset-4">广场情绪 · 仓位证据</a><div className="snapshot-pill"><i/>一次性完整快照 · {snapshot}</div></div>
       </div>
     </header>
 
