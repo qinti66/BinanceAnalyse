@@ -21,12 +21,14 @@ export interface SquarePost {
   postedAt: string; text: string; direction: Direction; isCall: boolean;
   likes: number; comments: number; duplicateOf?: string;
   evidence: PositionEvidence | null;
+  // 去水化新增：账户注册天数，未知时为 null（不按0/不按“老账户”处理），仅用于降权，不用于核验身份。
+  authorAccountAgeDays?: number | null;
 }
 export interface SquareSnapshot {
   id: string; mode: "demo" | "live"; capturedAt: string; windowHours: number;
   posts: SquarePost[]; sourceNote: string;
 }
-export const RULE_VERSION = "square-evidence-v1";
+export const RULE_VERSION = "square-evidence-v2";
 export const RULES = { freshnessHours: 6, maxWeight: 1.75, minHistoryDays: 30, minHistoryCycles: 20 } as const;
 export const EVIDENCE_LABELS = { verified: "可核验证据", screenshot: "截图待核验", self_report: "仅作者自述" };
 export type EvidenceState = "aligned" | "conflict" | "closed" | "late" | "stale" | "unverified" | "unknown";
@@ -42,6 +44,8 @@ const stamp=(s:string|null)=>s?Date.parse(s):NaN;
 const valid=(n:number|null):n is number=>n!==null&&Number.isFinite(n);
 const positive=(n:number|null):n is number=>valid(n)&&n>0;
 const round=(n:number)=>Math.round(n*100)/100;
+// 实验性／demo-only：持仓证据加权目前只有 lib/square/demo.ts 的虚构样本在跑，真实来源未接入身份-仓位映射。
+// 不参与广场页面默认展示的热度/榜单排序，也不进入交叉验证的方向判定（cross-validation 只用 .raw.net 原始情绪，不用本函数的权重）。
 export function assessPost(post:SquarePost,asOf:string):Assessment {
   const e=post.evidence,now=stamp(asOf),posted=stamp(post.postedAt);
   const r:Assessment={post,state:"unknown",weight:1,reasons:[],bonuses:[],authorSharePct:null,holdHours:null,eligible:false,evidenceId:e?.id??null};
@@ -80,6 +84,9 @@ export function assessPost(post:SquarePost,asOf:string):Assessment {
   r.weight=round(Math.min(RULES.maxWeight,1+r.bonuses.reduce((s,b)=>s+b.value,0)));
   return r;
 }
+// 去水化：注册不足7天的账户，其帖子对热度的贡献按此系数打折；账户年龄未知时不打折（不确定不按可疑处理）。
+const NEW_ACCOUNT_WEIGHT=.3;
+const heatWeight=(p:SquarePost)=>p.authorAccountAgeDays!==undefined&&p.authorAccountAgeDays!==null&&p.authorAccountAgeDays<7?NEW_ACCOUNT_WEIGHT:1;
 export function analyzeSquare(snapshot:SquareSnapshot) {
   const now=stamp(snapshot.capturedAt),start=now-snapshot.windowHours*3600000;
   const seen=new Set<string>(),texts=new Set<string>();
@@ -89,6 +96,15 @@ export function analyzeSquare(snapshot:SquareSnapshot) {
     seen.add(p.id);texts.add(key);return true;
   });
   const symbols=[...new Set(clean.map(p=>p.symbol))];
+  // 热度斜率的“近期/更早”切分：仅6小时窗口的近似替代（真正的24-48h前置窗口需要跨快照留存，本版暂未接入，见文档说明）。
+  const recentCutoff=now-6*3600000;
+  const heatFormula=(list:SquarePost[])=>{
+    const authorSet=new Set(list.map(p=>p.authorId));
+    const weightedPosts=list.reduce((s,p)=>s+heatWeight(p),0);
+    const weightedInteractions=list.reduce((s,p)=>s+heatWeight(p)*(Math.max(0,p.likes)+Math.max(0,p.comments)),0);
+    // 去水化新式：提高独立作者权重、降低帖子数权重；注册<7天账户的帖子/互动按 NEW_ACCOUNT_WEIGHT 折算。
+    return Math.log1p(authorSet.size)*35+Math.log1p(weightedPosts)*10+Math.log1p(weightedInteractions)*5;
+  };
   return symbols.map(symbol=>{
     const posts=clean.filter(p=>p.symbol===symbol),authors=new Map<string,SquarePost>();
     // One latest opinion per author / coin; repeated posts cannot multiply their vote.
@@ -100,15 +116,25 @@ export function analyzeSquare(snapshot:SquareSnapshot) {
       if(posts.some(other=>other.authorId===p.authorId&&other.direction!==p.direction))r.reasons.push("该作者窗口内出现方向变化；仅最新观点参与投票。");
       return r;
     });
+    // 方向分布仅供跨模块交叉验证（lib/cross-validation/model.ts）内部使用；默认广场页面不再展示多空方向分类。
     const distribution=(weighted:boolean)=>{
       const counts=[0,0,0];for(const r of rows)counts[r.post.direction+1]+=weighted?r.weight:1;
       const total=counts.reduce((a,b)=>a+b,0);
       return {bear:round(counts[0]/total*100),neutral:round(counts[1]/total*100),bull:round(counts[2]/total*100),net:round((counts[2]-counts[0])/total*100)};
     };
     const interactions=posts.reduce((s,p)=>s+Math.max(0,p.likes)+Math.max(0,p.comments),0);
-    // Relative discussion heat only; prices / returns / positions are intentionally absent.
-    const heat=round(Math.log1p(posts.length)*20+Math.log1p(authors.size)*25+Math.log1p(interactions)*5);
-    return {symbol,postCount:posts.length,authorCount:authors.size,interactions,heat,rows,raw:distribution(false),weighted:distribution(true),
+    const heat=round(heatFormula(posts));
+    const recentPosts=posts.filter(p=>stamp(p.postedAt)>=recentCutoff),olderPosts=posts.filter(p=>stamp(p.postedAt)<recentCutoff);
+    const olderHours=Math.max(1,snapshot.windowHours-6);
+    const recentRate=heatFormula(recentPosts)/6,olderRate=heatFormula(olderPosts)/olderHours;
+    // heatSlope>1.5 视为“正在变热”；近似口径：本版仅有24h窗口，用“近6h速率／窗口剩余时段速率”代替真正的“近6h／24-48h前”。
+    const heatSlope=olderRate>0?round(recentRate/olderRate):(recentRate>0?5:null);
+    const rising=heatSlope!==null&&heatSlope>=1.5;
+    return {symbol,postCount:posts.length,authorCount:authors.size,interactions,heat,heatSlope,rising,
+      // 新晋热门的严格定义（过去7天从未进入过热议列表本轮首次进入）需要跨天历史存储（db/schema.ts coin_signals），本版未接入；
+      // 这里用“正在变热 + 达到热度阈值”作为单快照内的近似替代，是启发式代理指标，不等价于严格新晋判定。
+      isNewlyHotApprox:rising&&heat>=25,
+      rows,raw:distribution(false),weighted:distribution(true),
       supported:rows.filter(r=>r.eligible).length,conflicts:rows.filter(r=>r.state==="conflict").length,
       evidenceIds:[...evidenceUsed],ruleVersion:RULE_VERSION};
   }).sort((a,b)=>b.heat-a.heat);

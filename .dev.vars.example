@@ -1,0 +1,7 @@
+# 复制这个文件为 .dev.vars（不要提交 .dev.vars 本身，已经在 .gitignore 里排除），
+# 填入真实的 Anthropic API key，然后重启本地开发服务器（npm run dev）。
+# Wrangler/vinext 本地开发会自动把这个文件里的变量注入 Cloudflare Workers 的 env 绑定。
+ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# 可选：不填则默认使用 claude-sonnet-5（见 lib/ai/providers.ts 的 DEFAULT_MODEL）。
+# ANTHROPIC_MODEL=claude-sonnet-5

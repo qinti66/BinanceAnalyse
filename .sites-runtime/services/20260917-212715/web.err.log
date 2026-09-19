@@ -93,3 +93,523 @@ Detected multiple renderers concurrently rendering the same context provider. Th
 Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
 Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
 Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+22:18:12 [vite] (client) [console.error] ReferenceError: DirectionDetail is not defined
+    at IndicatorsPage (http://127.0.0.1:5173/app/indicators/page.tsx?t=1789654690866:842:86)
+    at Object.react_stack_bottom_frame (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:12868:12)
+    at renderWithHooks (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4213:19)
+    at updateFunctionComponent (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:5569:16)
+    at beginWork (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6140:20)
+    at runWithFiberInDEV (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:851:66)
+    at performUnitOfWork (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:8429:92)
+    at workLoopSync (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:8325:37)
+    at renderRootSync (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:8309:6)
+    at performWorkOnRoot (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:7994:27)
+22:18:12 [vite] (client) [console.error] The above error occurred in a React component:
+
+    at IndicatorsPage (http://127.0.0.1:5173/app/indicators/page.tsx?t=1789654690866:75:26)
+    at AwaitAppRenderDependencies [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://127.0.0.1:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://127.0.0.1:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at RedirectErrorBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterScrollTargetInner (http://127.0.0.1:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:83:34)
+    at AppRouterScrollTarget (http://127.0.0.1:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:135:34)
+    at NotFoundBoundaryInner (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:185:3)
+    at NotFoundBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:221:29)
+    at Children (http://127.0.0.1:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:305:17)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at AppComponentDependencyBarrier [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://127.0.0.1:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://127.0.0.1:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at ErrorBoundaryInner (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at ErrorBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:159:26)
+    at ErrorBoundaryInner (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BfcacheSlotBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://127.0.0.1:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at NavigationCommitSignal (http://127.0.0.1:5173/node_modules/vinext/dist/server/app-browser-navigation-controller.js?v=5f57e802:232:36)
+    at RedirectErrorBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterRedirectBridge (http://127.0.0.1:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:464:36)
+    at DevRecoveryBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:313:3)
+    at AppRouterScrollCommitProvider (http://127.0.0.1:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:129:42)
+    at ErrorBoundaryInner (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://127.0.0.1:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BrowserRoot (http://127.0.0.1:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:490:24)
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(0) or use aspect(undefined) to control the
+       height and width.
+23:23:21 [vite] (client) [console.error] TypeError: Cannot read properties of undefined (reading 'earlyScoreCoverage')
+    at http://localhost:5173/app/indicators/page.tsx?t=1789744532757:703:27
+    at Array.map (<anonymous>)
+    at IndicatorsPage (http://localhost:5173/app/indicators/page.tsx?t=1789744532757:685:69)
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:12868:12)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4213:19)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:5569:16)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6140:20)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:851:66)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:8429:92)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:8325:37)
+23:23:21 [vite] (client) [console.error] The above error occurred in a React component:
+
+    at IndicatorsPage (http://localhost:5173/app/indicators/page.tsx?t=1789744532757:85:26)
+    at AwaitAppRenderDependencies [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterScrollTargetInner (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:83:34)
+    at AppRouterScrollTarget (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:135:34)
+    at NotFoundBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:185:3)
+    at NotFoundBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:221:29)
+    at Children (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:305:17)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at AppComponentDependencyBarrier [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at ErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:159:26)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at NavigationCommitSignal (http://localhost:5173/node_modules/vinext/dist/server/app-browser-navigation-controller.js?v=5f57e802:232:36)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterRedirectBridge (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:464:36)
+    at DevRecoveryBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:313:3)
+    at AppRouterScrollCommitProvider (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:129:42)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BrowserRoot (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:490:24)
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+10:24:45 [vite] (client) [console.error] The result of getSnapshot should be cached to avoid an infinite loop
+10:24:45 [vite] (client) [console.error] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+    at getRootForUpdatedFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:2633:166)
+    at enqueueConcurrentRenderForLane (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:2623:11)
+    at forceStoreRerender (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4581:15)
+    at updateStoreInstance (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4563:36)
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:12904:13)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:851:66)
+    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6617:153)
+    at commitHookPassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6652:55)
+    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:7618:22)
+    at recursivelyTraversePassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:7606:5)
+10:24:45 [vite] (client) [console.error] The above error occurred in a React component:
+
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789784500793:111:26)
+    at AwaitAppRenderDependencies [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterScrollTargetInner (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:83:34)
+    at AppRouterScrollTarget (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:135:34)
+    at NotFoundBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:185:3)
+    at NotFoundBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:221:29)
+    at Children (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:305:17)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at AppComponentDependencyBarrier [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at ErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:159:26)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at NavigationCommitSignal (http://localhost:5173/node_modules/vinext/dist/server/app-browser-navigation-controller.js?v=5f57e802:232:36)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterRedirectBridge (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:464:36)
+    at DevRecoveryBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:313:3)
+    at AppRouterScrollCommitProvider (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:129:42)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BrowserRoot (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:490:24)
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:27 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:28 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:28 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:28 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+10:27:28 [vite] (client) [console.error] Encountered two children with the same key, `https://app.hyperliquid.xyz/leaderboard`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+10:47:03 [vite] (client) [console.error] TypeError: Cannot read properties of undefined (reading 'filter')
+    at http://localhost:5173/app/copy-trading/page.tsx?t=1789786021416:214:47
+    at updateMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4948:16)
+    at Object.useMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:13276:13)
+    at exports.useMemo (http://localhost:5173/node_modules/.vite/deps/react.js?v=5f57e802:736:31)
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786021416:214:21)
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:12868:12)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4213:19)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:5569:16)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6140:20)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:851:66)
+10:47:03 [vite] (client) [console.error] The above error occurred in a React component:
+
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786021416:126:26)
+    at AwaitAppRenderDependencies [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterScrollTargetInner (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:83:34)
+    at AppRouterScrollTarget (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:135:34)
+    at NotFoundBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:185:3)
+    at NotFoundBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:221:29)
+    at Children (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:305:17)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at AppComponentDependencyBarrier [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at ErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:159:26)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at NavigationCommitSignal (http://localhost:5173/node_modules/vinext/dist/server/app-browser-navigation-controller.js?v=5f57e802:232:36)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterRedirectBridge (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:464:36)
+    at DevRecoveryBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:313:3)
+    at AppRouterScrollCommitProvider (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:129:42)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BrowserRoot (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:490:24)
+10:47:08 [vite] (client) [console.error] TypeError: Cannot read properties of undefined (reading 'filter')
+    at http://localhost:5173/app/copy-trading/page.tsx?t=1789786026842:214:47
+    at updateMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4948:16)
+    at Object.useMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:13276:13)
+    at exports.useMemo (http://localhost:5173/node_modules/.vite/deps/react.js?v=5f57e802:736:31)
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786026842:214:21)
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:12868:12)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4213:19)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:5569:16)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6140:20)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:851:66)
+10:47:08 [vite] (client) [console.error] The above error occurred in a React component:
+
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786026842:126:26)
+    at AwaitAppRenderDependencies [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterScrollTargetInner (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:83:34)
+    at AppRouterScrollTarget (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:135:34)
+    at NotFoundBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:185:3)
+    at NotFoundBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:221:29)
+    at Children (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:305:17)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at AppComponentDependencyBarrier [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at ErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:159:26)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at NavigationCommitSignal (http://localhost:5173/node_modules/vinext/dist/server/app-browser-navigation-controller.js?v=5f57e802:232:36)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterRedirectBridge (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:464:36)
+    at DevRecoveryBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:313:3)
+    at AppRouterScrollCommitProvider (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:129:42)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BrowserRoot (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:490:24)
+10:47:15 [vite] (client) [console.error] TypeError: Cannot read properties of undefined (reading 'filter')
+    at http://localhost:5173/app/copy-trading/page.tsx?t=1789786033336:214:47
+    at updateMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4948:16)
+    at Object.useMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:13276:13)
+    at exports.useMemo (http://localhost:5173/node_modules/.vite/deps/react.js?v=5f57e802:736:31)
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786033336:214:21)
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:12868:12)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4213:19)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:5569:16)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6140:20)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:851:66)
+10:47:15 [vite] (client) [console.error] The above error occurred in a React component:
+
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786033336:126:26)
+    at AwaitAppRenderDependencies [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterScrollTargetInner (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:83:34)
+    at AppRouterScrollTarget (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:135:34)
+    at NotFoundBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:185:3)
+    at NotFoundBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:221:29)
+    at Children (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:305:17)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at AppComponentDependencyBarrier [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at ErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:159:26)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at NavigationCommitSignal (http://localhost:5173/node_modules/vinext/dist/server/app-browser-navigation-controller.js?v=5f57e802:232:36)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterRedirectBridge (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:464:36)
+    at DevRecoveryBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:313:3)
+    at AppRouterScrollCommitProvider (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:129:42)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BrowserRoot (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:490:24)
+10:47:26 [vite] (client) [console.error] TypeError: Cannot read properties of undefined (reading 'filter')
+    at http://localhost:5173/app/copy-trading/page.tsx?t=1789786045068:214:47
+    at updateMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4948:16)
+    at Object.useMemo (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:13276:13)
+    at exports.useMemo (http://localhost:5173/node_modules/.vite/deps/react.js?v=5f57e802:736:31)
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786045068:214:21)
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:12868:12)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:4213:19)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:5569:16)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:6140:20)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=5f57e802:851:66)
+10:47:26 [vite] (client) [console.error] The above error occurred in a React component:
+
+    at CopyTrading (http://localhost:5173/app/copy-trading/page.tsx?t=1789786045068:126:26)
+    at AwaitAppRenderDependencies [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterScrollTargetInner (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:83:34)
+    at AppRouterScrollTarget (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:135:34)
+    at NotFoundBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:185:3)
+    at NotFoundBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:221:29)
+    at Children (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:305:17)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at AppComponentDependencyBarrier [Server] (<anonymous>)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at LayoutSegmentProvider (http://localhost:5173/node_modules/vinext/dist/shims/layout-segment-context.js?v=5f57e802:41:34)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at ErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:159:26)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BfcacheSlotBoundary (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:191:32)
+    at Slot (http://localhost:5173/node_modules/vinext/dist/shims/slot.js?v=5f57e802:274:17)
+    at NavigationCommitSignal (http://localhost:5173/node_modules/vinext/dist/server/app-browser-navigation-controller.js?v=5f57e802:232:36)
+    at RedirectErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:63:3)
+    at RedirectBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:97:29)
+    at AppRouterRedirectBridge (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:464:36)
+    at DevRecoveryBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:313:3)
+    at AppRouterScrollCommitProvider (http://localhost:5173/node_modules/vinext/dist/shims/app-router-scroll.js?v=5f57e802:129:42)
+    at ErrorBoundaryInner (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:107:3)
+    at GlobalErrorBoundary (http://localhost:5173/node_modules/vinext/dist/shims/error-boundary.js?v=5f57e802:167:32)
+    at BrowserRoot (http://localhost:5173/node_modules/vinext/dist/server/app-browser-entry.js?v=5f57e802:490:24)
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(0) or use aspect(undefined) to control the
+       height and width.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(0) or use aspect(undefined) to control the
+       height and width.
+11:00:43 [vite] (client) [console.error] Encountered two children with the same key, `0xdfc24b077bc1425ad1dea75bcb6f8158e10df303`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+11:00:53 [vite] (client) [console.error] Encountered two children with the same key, `0xdfc24b077bc1425ad1dea75bcb6f8158e10df303`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(0) or use aspect(undefined) to control the
+       height and width.
+11:11:02 [vite] (client) [console.warn] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(0) or use aspect(undefined) to control the
+       height and width.
+11:11:34 [vite] (client) [console.error] Encountered two children with the same key, `0xdfc24b077bc1425ad1dea75bcb6f8158e10df303`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+11:13:36 [vite] (client) [console.error] Encountered two children with the same key, `0xdfc24b077bc1425ad1dea75bcb6f8158e10df303`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+11:14:34 [vite] (client) [console.error] Encountered two children with the same key, `0xdfc24b077bc1425ad1dea75bcb6f8158e10df303`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+11:14:53 [vite] (client) [console.error] Encountered two children with the same key, `0xdfc24b077bc1425ad1dea75bcb6f8158e10df303`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.
+Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.

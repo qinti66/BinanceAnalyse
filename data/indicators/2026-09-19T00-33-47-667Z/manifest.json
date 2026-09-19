@@ -1,0 +1,15 @@
+{
+  "id": "2026-09-19T00-33-47-667Z",
+  "startedAt": "2026-09-19T00:33:47.667Z",
+  "completedAt": "2026-09-19T00:44:14.997Z",
+  "cutoff": 1789776000000,
+  "contracts": 603,
+  "errors": [],
+  "requests": 3633,
+  "coverage": {
+    "um": 573,
+    "cm": 30,
+    "allListed": 935,
+    "allTrading": 803
+  }
+}

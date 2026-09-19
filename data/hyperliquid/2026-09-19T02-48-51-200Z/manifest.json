@@ -1,0 +1,13 @@
+{
+  "startedAt": "2026-09-19T02:48:51.200Z",
+  "completedAt": "2026-09-19T02:50:06.667Z",
+  "coverage": {
+    "discoveredTraders": 46275,
+    "discoveredVaults": 9474,
+    "analyzed": 206,
+    "quality": 47,
+    "ordinary": 159,
+    "positionErrors": 0,
+    "newEvents": 52
+  }
+}

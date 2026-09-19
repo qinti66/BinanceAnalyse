@@ -16,3 +16,7 @@ node_modules/
 .env*
 !.env.example
 
+# Wrangler local secrets (e.g. ANTHROPIC_API_KEY for the AI indicator analysis route)
+.dev.vars*
+!.dev.vars.example
+

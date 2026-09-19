@@ -1,0 +1,133 @@
+{
+  "startedAt": "2026-09-19T08:26:24.308Z",
+  "capturedAt": "2026-09-19T08:26:50.536Z",
+  "coverage": {
+    "rawRecords": 393,
+    "uniquePosts": 392,
+    "coinOpinions": 345,
+    "coins": 50,
+    "authors": 78,
+    "sharedCards": 8,
+    "complete": true,
+    "feeds": [
+      {
+        "type": 1,
+        "pages": 9,
+        "reason": "公开列表已结束"
+      },
+      {
+        "type": 2,
+        "pages": 12,
+        "reason": "已达到24h窗口边界"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=1&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:25.576Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=2&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:26.867Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=3&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:28.143Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=4&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:29.292Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=5&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:30.728Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=6&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:32.089Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=7&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:33.333Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=8&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:34.624Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=9&pageSize=20&type=1",
+      "status": 200,
+      "at": "2026-09-19T08:26:35.622Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=1&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:35.903Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=2&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:37.740Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=3&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:38.818Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=4&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:40.124Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=5&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:41.347Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=6&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:42.658Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=7&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:43.930Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=8&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:45.326Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=9&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:46.441Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=10&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:47.821Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=11&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:49.273Z"
+    },
+    {
+      "url": "https://www.binance.com/bapi/composite/v3/friendly/pgc/content/article/list?pageIndex=12&pageSize=20&type=2",
+      "status": 200,
+      "at": "2026-09-19T08:26:50.521Z"
+    }
+  ],
+  "errors": []
+}

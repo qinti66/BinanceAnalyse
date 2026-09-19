@@ -22,17 +22,26 @@ function Picker({label,value,onChange,items}:{label:string;value:string;onChange
 function Distribution({title,dist}:{title:string;dist:{bull:number;bear:number;neutral:number;net:number}}){
  return <article className="sq-distribution"><div className="sq-row"><h3>{title}</h3><span className={tone(dist.net)}>净情绪 {dist.net>0?"+":""}{dist.net.toFixed(1)}</span></div><div className="sq-bar" role="img" aria-label={title+"：看多 "+dist.bull+"%，中性 "+dist.neutral+"%，看空 "+dist.bear+"%"}><span className="sq-bull-bar" style={{width:dist.bull+"%"}}/><span className="sq-neutral-bar" style={{width:dist.neutral+"%"}}/><span className="sq-bear-bar" style={{width:dist.bear+"%"}}/></div><div className="sq-legend"><span>看多 {dist.bull.toFixed(1)}%</span><span>中性 {dist.neutral.toFixed(1)}%</span><span>看空 {dist.bear.toFixed(1)}%</span></div></article>;
 }
+async function fetchLiveSnapshot():Promise<SquareSnapshot>{
+ const r=await fetch("/square/latest.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw Error("尚无真实广场快照，请点击更新广场数据");
+ const d=await r.json() as SquareSnapshot;if(!d||d.mode!=="live"||!Array.isArray(d.posts))throw Error("广场快照结构无效");
+ return d;
+}
 export default function SquarePage(){
  const [mode,setMode]=useState("live"),[symbol,setSymbol]=useState("BTC"),[filter,setFilter]=useState("all");
  const [live,setLive]=useState<SquareSnapshot|null>(null);
  const [query,setQuery]=useState(""),[selected,setSelected]=useState<string|null>(null),[revision,setRevision]=useState(1);
  const [busy,setBusy]=useState(false),[status,setStatus]=useState("尚未触发任何网络采集。");
  const refreshing=useRef(false);
- const readLive=useCallback(async()=>{try{const r=await fetch("/square/latest.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw Error("尚无真实广场快照，请点击更新广场数据");const d=await r.json() as SquareSnapshot;if(!d||d.mode!=="live"||!Array.isArray(d.posts))throw Error("广场快照结构无效");setLive(d);setStatus("真实采样已加载；交易分享卡与已核验仓位分开展示。");}catch(e){setStatus(String((e as Error).message));}},[]);
+ // 读取与校验放在组件外；状态只在异步结果返回后更新，避免 effect 内同步 setState。
+ const readLive=useCallback(()=>fetchLiveSnapshot().then(d=>{setLive(d);setStatus("真实采样已加载；交易分享卡与已核验仓位分开展示。");},e=>setStatus(String((e as Error).message))),[]);
  const collection=useCollections(()=>void readLive());
  useEffect(()=>{void readLive();},[readLive]);
  const snapshot=mode==="demo"?DEMO_SNAPSHOT:live??EMPTY_SNAPSHOT;
  const coins=useMemo(()=>analyzeSquare(snapshot),[snapshot]),coin=coins.find(c=>c.symbol===symbol)??coins[0];
+ // 去方向化两榜：当前最热按热度绝对值；正在变热只列出 heatSlope>=1.5 或近似新晋的币种，按斜率排序。
+ const hottest=useMemo(()=>coins.slice().sort((a,b)=>b.heat-a.heat).slice(0,12),[coins]);
+ const rising=useMemo(()=>coins.filter(c=>c.rising).sort((a,b)=>(b.heatSlope??0)-(a.heatSlope??0)).slice(0,12),[coins]);
  const rows=coin?.rows.filter(r=>(filter==="all"||(filter==="supported"?r.eligible:r.state===filter))&&
    (r.post.authorName+" "+r.post.text).toLowerCase().includes(query.trim().toLowerCase()))??[];
  const current=coin?.rows.find(r=>r.post.id===selected);
@@ -53,8 +62,12 @@ export default function SquarePage(){
  <div className="sq-notice"><AlertTriangle size={17}/><span>{snapshot.sourceNote}</span></div>
  <div className="sq-status sq-row"><span role="status" aria-live="polite">{mode==="live"&&collection.jobs.square?.state!=="idle"&&collection.jobs.square?.message?collection.jobs.square.message:status}</span><span>{mode==="demo"?"样本时间 "+time(snapshot.capturedAt)+"（北京时间） · 分析 v"+revision:live?"真实采样时间 "+time(live.capturedAt)+"（北京时间）":"无可用真实快照"}</span></div>
  {!coin?<section className="sq-empty"><ShieldCheck size={32}/><h2>先有证据，再有结论。</h2><p>需要帖子正文、作者身份、发布时间，以及能对应到同一作者的仓位记录。</p><p>现有热门币买卖比例不会被当作文本情绪。没有公开仓位，不等于没有持仓。</p><button className="sq-button" onClick={()=>setMode("demo")}>查看演示交互 <ArrowRight size={16}/></button></section>:<>
- <div className="sq-coins" aria-label="选择币种">{coins.map(c=><button key={c.symbol} className={"sq-coin "+(coin.symbol===c.symbol?"active":"")} aria-pressed={coin.symbol===c.symbol} onClick={()=>setCoin(c.symbol)}><strong>{c.symbol}</strong><span>{c.authorCount} 位作者</span><small>{c.supported} 位有仓位加分</small></button>)}</div>
- <div className="sq-overview"><section className="sq-card sq-heat"><span className="sq-kicker">{coin.symbol} / 24H 样本讨论热度</span><strong>{coin.heat.toFixed(1)}<small>相对指数</small></strong><p>{coin.postCount} 条去重帖子 · {coin.authorCount} 位作者</p><small>仅由讨论、作者和互动计算；不是全站热度或看多分数。</small></section><section className="sq-card sq-sentiment"><Distribution title="原始情绪" dist={coin.raw}/><Distribution title="仓位证据加权情绪" dist={coin.weighted}/><p className="sq-note">每位作者每币种取窗口内最新观点。有效仓位支持 {eligible}/{coin.authorCount}；权重最高 {RULES.maxWeight}×。中性包含规则未能明确方向；比例不是胜率。</p></section></div>
+ <div className="sq-row sq-heading" style={{marginTop:0}}><div><span className="sq-eyebrow">去方向化 · 只看热度不看多空</span><p style={{margin:0}}>默认不展示关键词多空分类；先看“正在变热”，再看“当前最热”。</p></div></div>
+ <div className="sq-overview">
+  <section className="sq-card sq-heat" aria-label="正在变热榜"><span className="sq-kicker">正在变热 · heatSlope ≥ 1.5</span>{rising.length?<div className="sq-coins" aria-label="正在变热">{rising.map(c=><button key={c.symbol} className={"sq-coin "+(coin.symbol===c.symbol?"active":"")} aria-pressed={coin.symbol===c.symbol} onClick={()=>setCoin(c.symbol)}><strong>{c.symbol}</strong><span>斜率 {c.heatSlope?.toFixed(2)}×</span><small>{c.isNewlyHotApprox?"疑似新晋热门":"热度 "+c.heat.toFixed(1)}</small></button>)}</div>:<p className="sq-note">当前没有币种的近6h讨论速率明显高于此前，榜单为空不代表没有热度。</p>}<small>近似口径：近6h热度速率 / 剩余窗口热度速率；严格的“过去7天首次进入”判定需要跨天历史存储，本版未接入。</small></section>
+  <section className="sq-card sq-sentiment" aria-label="当前最热榜"><span className="sq-kicker">当前最热 · 按热度绝对值</span><div className="sq-coins" aria-label="当前最热">{hottest.map(c=><button key={c.symbol} className={"sq-coin "+(coin.symbol===c.symbol?"active":"")} aria-pressed={coin.symbol===c.symbol} onClick={()=>setCoin(c.symbol)}><strong>{c.symbol}</strong><span>热度 {c.heat.toFixed(1)}</span><small>{c.authorCount} 位作者 · {c.postCount} 条帖子</small></button>)}</div><p className="sq-note">热度=独立作者数（权重最高）+ 帖子数 + 互动数的对数相对指数；注册&lt;7天账户按{"0.3"}折算，不是0-100分，不代表看多/看空。</p></section>
+ </div>
+ <div className="sq-overview"><section className="sq-card sq-heat"><span className="sq-kicker">{coin.symbol} / 详情</span><strong>{coin.heat.toFixed(1)}<small>热度相对指数</small></strong><p>{coin.postCount} 条去重帖子 · {coin.authorCount} 位作者 · 斜率 {coin.heatSlope===null?"缺失":coin.heatSlope.toFixed(2)+"×"}</p><small>仅由讨论、作者和互动计算；不是全站热度或看多分数。</small></section><section className="sq-card sq-sentiment"><details><summary>展开方向分类（内部规则，默认不作为结论展示）</summary><Distribution title="原始情绪" dist={coin.raw}/><Distribution title="仓位证据加权情绪" dist={coin.weighted}/><p className="sq-note">每位作者每币种取窗口内最新观点。有效仓位支持 {eligible}/{coin.authorCount}；权重最高 {RULES.maxWeight}×。中性包含规则未能明确方向；比例不是胜率；关键词规则准确率有限，仅供内部交叉验证使用。</p></details></section></div>
  <div className="sq-row sq-insight"><span><ShieldCheck size={16}/> {eligible} 位有效支持</span><span><AlertTriangle size={16}/> {coin.conflicts} 位方向矛盾</span><span><Users size={16}/> 无仓位也保留原始观点</span></div>
  <section className="sq-card sq-tablecard"><div className="sq-tablehead"><div><h2>喊单与仓位</h2><p>观点是观点，仓位是证据。逐条看它们是否对得上。</p></div><div className="sq-tools"><label className="sq-field"><span>作者／观点</span><input aria-label="搜索作者或观点" value={query} onChange={e=>setQuery(e.target.value)} placeholder="搜索作者或观点"/></label><Picker label="证据状态" value={filter} onChange={setFilter} items={filters}/></div></div>
  <div className="sq-scroll"><table><thead><tr><th>作者 / 发帖</th><th>观点</th><th>当前仓位</th><th>资金投入 / 规模</th><th>浮盈亏 / 已实现</th><th>证据与状态</th><th>权重</th></tr></thead><tbody>{rows.map(r=><OpinionRow key={r.post.id} row={r} selected={selected===r.post.id} onSelect={()=>setSelected(r.post.id)}/>)}</tbody></table></div>

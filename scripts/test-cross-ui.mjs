@@ -13,7 +13,7 @@ await page.route(/http:\/\/127\.0\.0\.1:879[123]\/.*/,async route=>{
 });
 try{
  await page.goto("http://127.0.0.1:5173/cross-validation");await page.waitForLoadState("networkidle");
- const names=["广场情绪","合约指标","带单聪明钱"];
+ const names=["广场情绪","合约指标","Hyperliquid 聪明钱"];
  assert.equal(await page.getByRole("checkbox").count(),3);
  for(const excluded of names){
   await page.getByRole("checkbox",{name:excluded,exact:true}).click();
@@ -30,7 +30,7 @@ try{
  await page.waitForFunction(()=>document.body.innerText.includes("测试模拟完成"));
  await page.waitForTimeout(2300);
  assert.deepEqual(posts.map(p=>p.port).sort(),["8792","8793"]);
- assert.deepEqual(posts.find(p=>p.port==="8792").body,{scope:"all"});
+ assert.deepEqual(posts.find(p=>p.port==="8792").body,{});
  posts.length=0;
  await page.getByRole("button",{name:"全部更新一次",exact:true}).click();await page.waitForTimeout(2400);
  assert.deepEqual(posts.map(p=>p.port).sort(),["8791","8792","8793"]);
@@ -38,7 +38,7 @@ try{
  await page.getByRole("textbox",{name:"交叉币种搜索"}).fill("NO_SUCH_TOKEN");
  assert.equal(await page.locator(".cv-results tbody tr").count(),0);
  await page.getByRole("textbox",{name:"交叉币种搜索"}).fill("");
- await page.getByRole("combobox",{name:"带单样本池"}).click();await page.getByRole("option",{name:"两个池 · 探索",exact:true}).click();
+ await page.getByRole("combobox",{name:"聪明钱样本池"}).click();await page.getByRole("option",{name:"两个池 · 探索",exact:true}).click();
  for(const width of [1440,390,320]){
   await page.setViewportSize({width,height:1000});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));

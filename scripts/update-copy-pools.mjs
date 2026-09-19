@@ -18,7 +18,9 @@ let next=0;const receipts=[],requestErrors=[];
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 async function get(path,body,attempt=0){
  if(stopped)throw Error("更新已停止");
- const wait=Math.max(Date.now(),next);next=wait+350;await pause(Math.max(0,wait-Date.now()));
+ // 连续两轮独立采集都在约210次请求、2分钟左右触发平台限流（API 90801003），且5分钟冷却后复现于几乎同一请求数，
+ // 说明这更像该接口自身的短周期总量配额，而非我们的瞬时请求速率过高；调宽间隔留出余量，不做任何规避限流检测的处理。
+ const wait=Math.max(Date.now(),next);next=wait+700;await pause(Math.max(0,wait-Date.now()));
  if(stopped)throw Error("更新已停止");
  const url=base+path,at=new Date().toISOString();
  try{

@@ -1,6 +1,15 @@
 import type {SquarePost,SquareSnapshot,Direction} from "./model";
-type Raw=Record<string,any>;
+// 币安广场原始帖子：只声明用到的字段，值一律按 unknown 处理并在使用前转换，接口字段缺失或类型变化时不会被误读。
+interface RawPair {code?:unknown;chainId?:unknown;stockCode?:unknown;supportStock?:unknown;supportEtf?:unknown}
+interface RawShareCard {baseAsset?:unknown;positionCreateTime?:unknown;positionSide?:unknown;showAmount?:unknown;positionSize?:unknown;
+ initialMargin?:unknown;isShowPNL?:unknown;pnl?:unknown;returnRate?:unknown}
+interface Raw {id?:unknown;squareAuthorId?:unknown;authorName?:unknown;date?:unknown;title?:unknown;content?:unknown;
+ likeCount?:unknown;commentCount?:unknown;tradingPairsV2?:unknown;tradingPairs?:unknown;userInputTradingPairs?:unknown;
+ shareTrading?:{futuresTrading?:RawShareCard|null}|null}
+const pairs=(x:unknown):RawPair[]=>Array.isArray(x)?x:[];
 const value=(x:unknown):number|null=>x===null||x===undefined||x===""||!Number.isFinite(Number(x))?null:Number(x);
+// 关键词方向分类仅供内部证据匹配（assessPost 需要 post.direction 判断持仓方向是否与观点一致）与跨模块交叉验证使用；
+// 默认广场页面不再对外展示该多空分类结果（见 docs/module-redesign-v2.md 第二节：去方向化）。
 export function classify(text:string):{direction:Direction;note:string}{
  // Explicit intent only. Questions, mixed/conditional/negated statements are not reliable directional calls.
  if(/[?？]|\b(if|unless|not|don't|never)\b|如果|假如|不看|不要|别做/i.test(text))return {direction:0,note:"疑问、条件或否定句；规则未能明确方向"};
@@ -17,7 +26,7 @@ export function normalizeSquare(raw:Raw[],capturedAt:string,knownTokens:Set<stri
   seen.add(id);
   const text=plain([r.title,r.content].filter(Boolean).join("\n"));if(!text)continue;
   // Only exchange-labelled tokens present in the official contract universe; no name guessing.
-  const codes=[...(r.tradingPairsV2??[]),...(r.tradingPairs??[]),...(r.userInputTradingPairs??[])].filter(p=>p&&(!p.chainId)&&(!p.stockCode)&&!p.supportStock&&!p.supportEtf).map(p=>String(p.code??""));
+  const codes=[...pairs(r.tradingPairsV2),...pairs(r.tradingPairs),...pairs(r.userInputTradingPairs)].filter(p=>p&&(!p.chainId)&&(!p.stockCode)&&!p.supportStock&&!p.supportEtf).map(p=>String(p.code??""));
   const symbols=[...new Set<string>(codes.filter(c=>knownTokens.has(c)))];
   for(const symbol of symbols){
    const local=symbols.length===1?text:text.split(/[\n。.!！]/).filter(s=>new RegExp("(^|[^A-Za-z0-9])\\$?"+symbol+"([^A-Za-z0-9]|$)","i").test(s)).join(" ");

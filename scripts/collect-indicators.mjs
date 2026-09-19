@@ -65,15 +65,23 @@ async function worker(){
  while(cursor<contracts.length){
   const i=cursor++,c=contracts[i],base=c.family==="UM"?UM:CM,prefix=c.family==="UM"?"/fapi/v1":"/dapi/v1";
   const query=c.family==="UM"?"symbol="+c.symbol:"pair="+c.pair+"&contractType="+c.contractType;
-  const [history,klines,openInterest]=await Promise.all([
+  const [history,klines,openInterest,topAccountRatio,topPositionRatio,globalAccountRatio]=await Promise.all([
     optional(base+"/futures/data/openInterestHist?"+query+"&period=1h&limit=25&endTime="+cutoff),
-    optional(base+prefix+"/klines?symbol="+c.symbol+"&interval=1h&limit=200&endTime="+(cutoff-1)),
-    optional(base+prefix+"/openInterest?symbol="+c.symbol)
+    // 200 -> 360 根1h K线：早期信号体系（volSqueezePct）需要约14天（336点）自身ATR%历史分布做百分位排名。
+    optional(base+prefix+"/klines?symbol="+c.symbol+"&interval=1h&limit=360&endTime="+(cutoff-1)),
+    optional(base+prefix+"/openInterest?symbol="+c.symbol),
+    // 早期信号体系新增：顶级账户（前20%保证金）与全市场账户多空比，同属 /futures/data/ 免鉴权接口族，与 openInterestHist 用同一限速节奏。
+    optional(base+"/futures/data/topLongShortAccountRatio?"+query+"&period=1h&limit=48&endTime="+cutoff),
+    optional(base+"/futures/data/topLongShortPositionRatio?"+query+"&period=1h&limit=48&endTime="+cutoff),
+    optional(base+"/futures/data/globalLongShortAccountRatio?"+query+"&period=1h&limit=48&endTime="+cutoff)
   ]);
   const g=global[c.family];
   const value={contract:c,history,klines,openInterest,ticker:g.ticker.get(c.symbol)??null,premium:g.premium.get(c.symbol)??null,
     funding:g.funding.get(c.symbol)??null,fundingEndpointAvailable:c.family==="UM"?Array.isArray(umFunding):Array.isArray(cmFunding),
-    book:g.book.get(c.symbol)??null,quoteUsd:fx[c.quoteAsset]??null,receivedAt:new Date().toISOString()};
+    book:g.book.get(c.symbol)??null,quoteUsd:fx[c.quoteAsset]??null,receivedAt:new Date().toISOString(),
+    topAccountRatio:Array.isArray(topAccountRatio)?topAccountRatio:null,
+    topPositionRatio:Array.isArray(topPositionRatio)?topPositionRatio:null,
+    globalAccountRatio:Array.isArray(globalAccountRatio)?globalAccountRatio:null};
   results[i]=value;
   await writeFile(join(output,c.family+"-"+c.symbol+".json"),JSON.stringify(value));
   completed++;if(completed%25===0||completed===contracts.length)console.log(JSON.stringify({phase:"contracts",completed,total:contracts.length,errors:errors.length,requests:requestCount}));

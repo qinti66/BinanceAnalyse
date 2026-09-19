@@ -1,3 +1,4 @@
+import {computeEarlySignal,type EarlySignalInputs,type RatioPoint} from "./earlySignal.ts";
 export const INDICATOR_RULE="indicators-v1";
 export const HOUR=3600000;
 export interface RawContract {
@@ -5,6 +6,8 @@ export interface RawContract {
  history:Record<string,unknown>[]|null;klines:unknown[][]|null;
  openInterest:Record<string,unknown>|null;ticker:Record<string,unknown>|null;premium:Record<string,unknown>|null;
  funding:Record<string,unknown>|null;fundingEndpointAvailable:boolean;book:Record<string,unknown>|null;quoteUsd:number|null;receivedAt:string;
+ // 早期信号体系新增：顶级账户与全市场账户多空比历史（/futures/data/ 系列，免鉴权）；缺失时早期信号相关字段保持缺失，不按0填充。
+ topAccountRatio?:Record<string,unknown>[]|null;topPositionRatio?:Record<string,unknown>[]|null;globalAccountRatio?:Record<string,unknown>[]|null;
 }
 export interface RawSnapshot {
  id:string;startedAt:string;completedAt:string;cutoff:number;contracts:RawContract[];
@@ -70,6 +73,19 @@ function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["s
  const estimatedCap=c.family==="UM"&&supply!==null&&spot?.time===cutoff&&spot.priceUsd>0?supply*multiplier*spot.priceUsd:null;
  const oi={h1:change(q,qty(exact(cutoff-HOUR))),h4:change(q,qty(exact(cutoff-4*HOUR))),h24:change(q,qty(exact(cutoff-24*HOUR)))};
  const previousValues={h1:val(exact(cutoff-HOUR)),h4:val(exact(cutoff-4*HOUR)),h24:val(exact(cutoff-24*HOUR))};
+ // 早期信号原始序列：仅在主合约上使用（见 buildIndicators），不聚合多合约，保持可解释。
+ const flowAt=(i:number)=>candleFlow(k[i],c.family,fx,positive(c.contractSize));
+ const atrPctSeries=contiguous&&trs.length>=22?trs.map((_,i)=>i<13?null:trs.slice(i-13,i+1).reduce((a,b)=>a+b,0)/14/close[i]*100).filter((v):v is number=>v!==null):[];
+ const avgTradeSizeSeries=contiguous?k.map((x,i)=>{const f=flowAt(i),trades=number(x[8]);return f&&trades&&trades>0?f.total/trades:null;}).filter((v):v is number=>v!==null):[];
+ // 与 close 逐小时对齐用于 OBV：缺失记为 NaN（不按0填充），窗口内有缺失时 OBV 背离整体缺失。
+ const quoteVolumeSeries=contiguous?k.map((_,i)=>flowAt(i)?.total??NaN):[];
+ const oiQtyHourly=[5,4,3,2,1,0].map(i=>qty(exact(cutoff-i*HOUR)));
+ const netRatioHourly=contiguous?k.slice(-24).map((_,idx,arr)=>{const i=k.length-arr.length+idx,f=flowAt(i);return f&&f.total>0?f.net/f.total*100:null;}):[];
+ const ratioPoints=(list:Record<string,unknown>[]|null|undefined):RatioPoint[]=>(list??[]).map(r=>({time:number(r.timestamp)??NaN,value:number(r.longShortRatio)??NaN}))
+   .filter(p=>Number.isFinite(p.time)&&Number.isFinite(p.value)&&p.time<=cutoff).sort((a,b)=>a.time-b.time);
+ const earlyInputs:EarlySignalInputs={atrPctSeries,avgTradeSizeSeries,oiQtyHourly,netRatioHourly,
+   topRatioSeries:ratioPoints(raw.topAccountRatio??raw.topPositionRatio),globalRatioSeries:ratioPoints(raw.globalAccountRatio),
+   closeSeries:contiguous?close:[],quoteVolumeSeries,fundingDaily:fundingRate!==null&&fundingHours!==null?fundingRate*100*24/fundingHours:null};
  return {symbol:c.symbol,family:c.family,token,multiplier,type:c.contractType,quote:c.quoteAsset,contractSize:c.contractSize??null,
    cutoff,oiQty:q,oiValue:value,oi,previousValues,currentValue,currentTime,price:last!==null&&fx!==null?last*fx/multiplier:null,
    priceChange:{h1:price(1),h4:price(4),h24:price(24)},flows,volumeRatio,ema20:e20,ema60:e60,
@@ -78,10 +94,12 @@ function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["s
    basisPct:mark!==null&&index!==null?change(mark,index):null,spreadBps:spread,estimatedCap,
    candleCount:k.length,contiguous,onboardDate:c.onboardDate,hasOI:point!==undefined,hasCurrent:currentQ!==null,
    chart:k.slice(-48).map(x=>({time:Number(x[6]),price:fx!==null?Number(x[4])*fx/multiplier:null})),
-   oiChart:history.map(h=>({time:Number(h.timestamp),quantity:qty(h),value:val(h)}))};
+   oiChart:history.map(h=>({time:Number(h.timestamp),quantity:qty(h),value:val(h)})),earlyInputs};
 }
 type ContractMetric=ReturnType<typeof contractMetrics>;
 type WindowKey="h1"|"h4"|"h24";
+// 早期信号原始序列只用于币种级计算，不随合约明细发给前端，避免体积膨胀。
+const withoutEarlyInputs=(c:ContractMetric)=>{const {earlyInputs,...rest}=c;void earlyInputs;return rest;};
 export function buildIndicators(raw:RawSnapshot){
  const metrics=raw.contracts.map(c=>contractMetrics(c,raw.cutoff,raw.spotPrices)),groups=new Map<string,ContractMetric[]>();
  for(const m of metrics){if(!groups.has(m.token))groups.set(m.token,[]);groups.get(m.token)!.push(m);}
@@ -140,16 +158,22 @@ export function buildIndicators(raw:RawSnapshot){
    if(netRatio!==null&&netRatio<=-8)tags.push("主动净流出");
    if(rep.volumeRatio!==null&&rep.volumeRatio>=1.5)tags.push("成交放量");
    if((oiCap!==null&&oiCap>=20)||(rep.fundingDaily!==null&&Math.abs(rep.fundingDaily)>=.1))tags.push("拥挤风险");
-   const attention=quality?Math.min(100,Math.min(35,Math.abs(oi4!)*4)+Math.min(25,Math.abs(netRatio??0)*2)+Math.min(20,Math.max(0,(rep.volumeRatio??1)-1)*15)+Math.min(20,Math.abs(p4!)*3)):null;
+   // 走势强度分（原“关注分”）：事后确认型，衡量已经发生的变化幅度，不是早期信号，详情区展示。
+   const strengthScore=quality?Math.min(100,Math.min(35,Math.abs(oi4!)*4)+Math.min(25,Math.abs(netRatio??0)*2)+Math.min(20,Math.max(0,(rep.volumeRatio??1)-1)*15)+Math.min(20,Math.abs(p4!)*3)):null;
    const candidate=quality&&liquid&&tags.length>=2;
+   // 早期信号：使用主合约（成交最活跃）的原始序列，不聚合多合约；数据覆盖不足时相关字段与分数保持缺失，不按0填充。
+   const early=computeEarlySignal(rep.earlyInputs,{oi4,p4,netRatio4h:netRatio});
+   if(early.earlyCandidate)tags.push("疑似启动");
    return {token,representative:rep.symbol,contractCount:contracts.length,oiCoverage:available.length,currentCoverage:currentAvailable.length,
      price:round(rep.price,10),priceChange:rep.priceChange,oiValue:available.length?round(oiValue,0):null,currentValue:currentAvailable.length?round(currentValue,0):null,
      oi,flows,ioNetRatio4h:round(netRatio),marketCap:round(marketCap,0),capSource,oiCapPct:round(oiCap),volumeRatio:round(rep.volumeRatio),
      fundingDaily:round(rep.fundingDaily,5),fundingRate:rep.fundingRate,fundingHours:rep.fundingHours,basisPct:round(rep.basisPct),
      rsi:round(rep.rsi,1),atrPct:round(rep.atrPct,2),trend:rep.trend,spreadBps:round(rep.spreadBps,2),
-     quality,liquid,candidate,attention:round(attention,1),tags,warnings,contracts,chart:rep.chart,
+     quality,liquid,candidate,attention:round(strengthScore,1),strengthScore:round(strengthScore,1),
+     earlyScore:early.earlyScore,earlyCandidate:early.earlyCandidate,earlySignal:early,tags,warnings,
+     contracts:contracts.map(withoutEarlyInputs),chart:rep.chart,
      reason:!quality?"数据不完整，暂不入选":!liquid?"成交、持仓或价差未达流动性门槛":tags.length<2?"异常信号不足":tags.join(" + ")};
- }).sort((a,b)=>Number(b.candidate)-Number(a.candidate)||(b.attention??-1)-(a.attention??-1));
+ }).sort((a,b)=>(b.earlyScore??-1)-(a.earlyScore??-1)||Number(b.candidate)-Number(a.candidate)||(b.attention??-1)-(a.attention??-1));
  return {schemaVersion:1,ruleVersion:INDICATOR_RULE,id:raw.id,startedAt:raw.startedAt,completedAt:raw.completedAt,cutoff:raw.cutoff,
    coverage:{...raw.coverage,contracts:metrics.length,tokens:coins.length,oiContracts:metrics.filter(c=>c.hasOI).length,
      candleContracts:metrics.filter(c=>c.contiguous&&c.candleCount>=60).length,marketCapTokens:coins.filter(c=>c.marketCap!==null).length,
@@ -159,7 +183,8 @@ export function buildIndicators(raw:RawSnapshot){
      "聚合 OI 增减按各合约期初持仓市值固定加权，减少价格上涨造成的假增仓；不代表净多资金。",
      "OI、IO 与价格对齐到同一整点；最新持仓记录另列。趋势、量比、价差和费率来自成交最活跃主合约。",
      raw.fxNote,"资金费率按实际结算周期折算24h，仅为可比尺度，不是未来费用预测。",
-     "关注分是异常程度，不是收益预测；空头压力和拥挤风险也可能入选。"]};
+     "走势强度分（原“关注分”）是事后确认型的异常程度，不是收益预测；空头压力和拥挤风险也可能入选。",
+     "早期分（earlyScore）用主合约原始序列计算，子项覆盖不足2/4时为缺失；不因缺失按0计分，也不能跨币种在覆盖度不同时直接比较。早期信号规则未回测，是研究性启发式排序，不构成买卖建议。"]};
 }
 export type IndicatorSnapshot=ReturnType<typeof buildIndicators>;
 export type IndicatorCoin=IndicatorSnapshot["coins"][number];

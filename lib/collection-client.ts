@@ -27,7 +27,8 @@ export function useCollections(onComplete?:()=>void){
    if(active.current.has(m)||starting.current.has(m))continue;
    starting.current.add(m);set(m,{state:"running",message:"正在启动一次性采集…"});
    try{
-    const r=await fetch("http://127.0.0.1:"+SERVICES[m]+"/update",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(m==="copy"?{scope:"all"}:{}),signal:AbortSignal.timeout(5000)});
+    // "copy" 现在是 Hyperliquid 全量刷新（scripts/hyperliquid-service.mjs），不再需要区分优质/普通池分别更新的 scope 参数。
+    const r=await fetch("http://127.0.0.1:"+SERVICES[m]+"/update",{method:"POST",headers:{"Content-Type":"application/json"},body:"{}",signal:AbortSignal.timeout(5000)});
     const j=await r.json() as Job&{error?:string};if(r.status!==202&&r.status!==409)throw Error(j.error??"启动失败");
     active.current.add(m);set(m,j);
    }catch(e){set(m,{state:"offline",message:"启动结果未确认："+String((e as Error).message)+"；请检查服务状态，不要重复启动。"});}
