@@ -20,7 +20,7 @@ export interface EarlySignalInputs {
   oiQtyHourly: (number | null)[];
   /** 按小时先后排列的1h净流比（%），最多取最近24个点用于统计连续同向计数。 */
   netRatioHourly: (number | null)[];
-  /** 顶级账户（前20%保证金）多空比历史点，来自 /futures/data/topLongShortAccountRatio 或 topLongShortPositionRatio。 */
+  /** 顶级账户（前20%保证金）多空比历史点，来自 /futures/data/topLongShortAccountRatio（按人头）。缺失即缺失，不回退到按仓位的 topLongShortPositionRatio（口径不同，不可与全市场账户比对）。 */
   topRatioSeries: RatioPoint[];
   /** 全市场账户多空比历史点，来自 /futures/data/globalLongShortAccountRatio。 */
   globalRatioSeries: RatioPoint[];

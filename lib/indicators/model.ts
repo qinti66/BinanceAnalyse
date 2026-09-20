@@ -84,7 +84,7 @@ function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["s
  const ratioPoints=(list:Record<string,unknown>[]|null|undefined):RatioPoint[]=>(list??[]).map(r=>({time:number(r.timestamp)??NaN,value:number(r.longShortRatio)??NaN}))
    .filter(p=>Number.isFinite(p.time)&&Number.isFinite(p.value)&&p.time<=cutoff).sort((a,b)=>a.time-b.time);
  const earlyInputs:EarlySignalInputs={atrPctSeries,avgTradeSizeSeries,oiQtyHourly,netRatioHourly,
-   topRatioSeries:ratioPoints(raw.topAccountRatio??raw.topPositionRatio),globalRatioSeries:ratioPoints(raw.globalAccountRatio),
+   topRatioSeries:ratioPoints(raw.topAccountRatio),globalRatioSeries:ratioPoints(raw.globalAccountRatio),
    closeSeries:contiguous?close:[],quoteVolumeSeries,fundingDaily:fundingRate!==null&&fundingHours!==null?fundingRate*100*24/fundingHours:null};
  return {symbol:c.symbol,family:c.family,token,multiplier,type:c.contractType,quote:c.quoteAsset,contractSize:c.contractSize??null,
    cutoff,oiQty:q,oiValue:value,oi,previousValues,currentValue,currentTime,price:last!==null&&fx!==null?last*fx/multiplier:null,
