@@ -1,4 +1,7 @@
 import {computeEarlySignal,type EarlySignalInputs,type RatioPoint} from "./earlySignal.ts";
+import {toBars,candleFlow,toNumber} from "../structure/bars.ts";
+import type {AnalysisInputs,RatioSample} from "../structure/types.ts";
+export {candleFlow};
 export const INDICATOR_RULE="indicators-v1";
 export const HOUR=3600000;
 export interface RawContract {
@@ -15,7 +18,7 @@ export interface RawSnapshot {
  errors:{url:string;error:string}[];coverage:{um:number;cm:number;allListed:number;allTrading:number};fxNote:string;
  spotPrices?:Record<string,{priceUsd:number;time:number;symbol:string}>;
 }
-export const number=(v:unknown):number|null=>v===null||v===undefined||v===""?null:Number.isFinite(Number(v))?Number(v):null;
+export const number=toNumber;
 const positive=(v:unknown)=>{const n=number(v);return n!==null&&n>0?n:null;};
 const round=(v:number|null,n=4)=>v===null?null:Math.round(v*10**n)/10**n;
 const change=(a:number|null,b:number|null)=>a!==null&&b!==null&&b>0?(a/b-1)*100:null;
@@ -27,36 +30,29 @@ export function rsi(values:number[],period=14){
  for(let i=period+1;i<values.length;i++){const d=values[i]-values[i-1];gain=(gain*(period-1)+Math.max(0,d))/period;loss=(loss*(period-1)+Math.max(0,-d))/period;}
  return loss===0?(gain===0?50:100):100-100/(1+gain/loss);
 }
-export function candleFlow(k:unknown[],family:"UM"|"CM",quoteUsd:number|null,contractSize:number|null){
- const total=family==="UM"?number(k[7]):number(k[5]),buy=family==="UM"?number(k[10]):number(k[9]);
- const fx=family==="UM"?quoteUsd:contractSize;
- if(total===null||buy===null||fx===null||fx<=0||total<0||buy<0||buy>total*1.000001)return null;
- return {inflow:buy*fx,outflow:Math.max(0,total-buy)*fx,net:(2*buy-total)*fx,total:total*fx};
-}
-function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["spotPrices"]){
+export function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["spotPrices"]){
  const c=raw.contract,{token,multiplier}=tokenIdentity(c.baseAsset),fx=positive(raw.quoteUsd);
  const history=(raw.history??[]).filter(h=>number(h.timestamp)!==null&&Number(h.timestamp)<=cutoff).sort((a,b)=>Number(a.timestamp)-Number(b.timestamp));
  const exact=(t:number)=>history.find(h=>Number(h.timestamp)===t);
  const qty=(h:Record<string,unknown>|undefined)=>h?number(h.sumOpenInterest):null;
  const val=(h:Record<string,unknown>|undefined)=>!h?null:c.family==="CM"?(qty(h)!==null&&positive(c.contractSize)?Number(qty(h))*Number(c.contractSize):null):(number(h.sumOpenInterestValue)!==null&&fx!==null?Number(h.sumOpenInterestValue)*fx:null);
  const point=exact(cutoff),q=qty(point),value=val(point);
- const k=(raw.klines??[]).filter(k=>Number(k[6])<cutoff&&Number(k[6])>=Number(k[0])&&positive(k[4])!==null).sort((a,b)=>Number(a[0])-Number(b[0]));
- const contiguous=k.length>0&&Number(k.at(-1)?.[6])===cutoff-1&&k.every((x,i)=>i===0||Number(x[0])-Number(k[i-1][0])===HOUR);
- const close=k.map(x=>Number(x[4])),last=close.at(-1)??null;
+ const {bars,contiguous}=toBars(raw.klines??[],c.family,fx,positive(c.contractSize),cutoff,HOUR),k=bars;
+ const close=bars.map(b=>b.c),last=close.at(-1)??null;
  const price=(hours:number)=>contiguous?change(last,close.at(-hours-1)??null):null;
  const flow=(hours:number)=>{
    if(!contiguous||k.length<hours)return null;
-   const flows=k.slice(-hours).map(x=>candleFlow(x,c.family,fx,positive(c.contractSize)));
+   const flows=bars.slice(-hours).map(b=>b.flow);
    if(flows.some(x=>x===null))return null;
    return flows.reduce<{inflow:number;outflow:number;net:number;total:number}>((a,b)=>({inflow:a.inflow+b!.inflow,outflow:a.outflow+b!.outflow,net:a.net+b!.net,total:a.total+b!.total}),{inflow:0,outflow:0,net:0,total:0});
  };
  const flows={h1:flow(1),h4:flow(4),h24:flow(24)};
  const last4=flows.h4?.total??null;
- const prev24=contiguous&&k.length>=28?k.slice(-28,-4).map(x=>candleFlow(x,c.family,fx,positive(c.contractSize))):[];
+ const prev24=contiguous&&k.length>=28?bars.slice(-28,-4).map(b=>b.flow):[];
  const baseline=prev24.length===24&&prev24.every(Boolean)?prev24.reduce((s,x)=>s+x!.total,0)/6:null;
  const volumeRatio=last4!==null&&baseline!==null&&baseline>0?last4/baseline:null;
  const e20=contiguous?ema(close,20):null,e60=contiguous?ema(close,60):null;
- const trs=k.map((x,i)=>Math.max(Number(x[2])-Number(x[3]),i?Math.abs(Number(x[2])-close[i-1]):0,i?Math.abs(Number(x[3])-close[i-1]):0));
+ const trs=bars.map((b,i)=>Math.max(b.h-b.l,i?Math.abs(b.h-close[i-1]):0,i?Math.abs(b.l-close[i-1]):0));
  const atr=contiguous&&trs.length>=14&&last?trs.slice(-14).reduce((a,b)=>a+b,0)/14/last*100:null;
  const fundingRate=c.contractType==="PERPETUAL"?number(raw.premium?.lastFundingRate):null;
  // Only assume standard 8h if the adjustment endpoint succeeded.
@@ -74,18 +70,23 @@ function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["s
  const oi={h1:change(q,qty(exact(cutoff-HOUR))),h4:change(q,qty(exact(cutoff-4*HOUR))),h24:change(q,qty(exact(cutoff-24*HOUR)))};
  const previousValues={h1:val(exact(cutoff-HOUR)),h4:val(exact(cutoff-4*HOUR)),h24:val(exact(cutoff-24*HOUR))};
  // 早期信号原始序列：仅在主合约上使用（见 buildIndicators），不聚合多合约，保持可解释。
- const flowAt=(i:number)=>candleFlow(k[i],c.family,fx,positive(c.contractSize));
+ const flowAt=(i:number)=>bars[i].flow;
  const atrPctSeries=contiguous&&trs.length>=22?trs.map((_,i)=>i<13?null:trs.slice(i-13,i+1).reduce((a,b)=>a+b,0)/14/close[i]*100).filter((v):v is number=>v!==null):[];
- const avgTradeSizeSeries=contiguous?k.map((x,i)=>{const f=flowAt(i),trades=number(x[8]);return f&&trades&&trades>0?f.total/trades:null;}).filter((v):v is number=>v!==null):[];
+ const avgTradeSizeSeries=contiguous?bars.map((b,i)=>{const f=flowAt(i),trades=b.trades;return f&&trades&&trades>0?f.total/trades:null;}).filter((v):v is number=>v!==null):[];
  // 与 close 逐小时对齐用于 OBV：缺失记为 NaN（不按0填充），窗口内有缺失时 OBV 背离整体缺失。
  const quoteVolumeSeries=contiguous?k.map((_,i)=>flowAt(i)?.total??NaN):[];
  const oiQtyHourly=[5,4,3,2,1,0].map(i=>qty(exact(cutoff-i*HOUR)));
  const netRatioHourly=contiguous?k.slice(-24).map((_,idx,arr)=>{const i=k.length-arr.length+idx,f=flowAt(i);return f&&f.total>0?f.net/f.total*100:null;}):[];
- const ratioPoints=(list:Record<string,unknown>[]|null|undefined):RatioPoint[]=>(list??[]).map(r=>({time:number(r.timestamp)??NaN,value:number(r.longShortRatio)??NaN}))
-   .filter(p=>Number.isFinite(p.time)&&Number.isFinite(p.value)&&p.time<=cutoff).sort((a,b)=>a.time-b.time);
+ // 保留 longAccount/shortAccount；账户数（account）与仓位（position）两族分别解析，缺失字段保持 null。
+ const ratioSamples=(list:Record<string,unknown>[]|null|undefined):RatioSample[]=>(list??[]).map(r=>({time:number(r.timestamp)??NaN,ratio:number(r.longShortRatio)??NaN,long:number(r.longAccount),short:number(r.shortAccount)}))
+   .filter(p=>Number.isFinite(p.time)&&Number.isFinite(p.ratio)&&p.time<=cutoff).sort((a,b)=>a.time-b.time);
+ const ratioPoints=(list:Record<string,unknown>[]|null|undefined):RatioPoint[]=>ratioSamples(list).map(p=>({time:p.time,value:p.ratio}));
  const earlyInputs:EarlySignalInputs={atrPctSeries,avgTradeSizeSeries,oiQtyHourly,netRatioHourly,
    topRatioSeries:ratioPoints(raw.topAccountRatio),globalRatioSeries:ratioPoints(raw.globalAccountRatio),
    closeSeries:contiguous?close:[],quoteVolumeSeries,fundingDaily:fundingRate!==null&&fundingHours!==null?fundingRate*100*24/fundingHours:null};
+ // 结构分析输入：完整 K 线与两族多空比、24h 高低价。只在分析阶段存在，同 earlyInputs 一样不进快照（A2）。
+ const analysisInputs:AnalysisInputs={bars,contiguous,topAccount:ratioSamples(raw.topAccountRatio),topPosition:ratioSamples(raw.topPositionRatio),globalAccount:ratioSamples(raw.globalAccountRatio),
+   ticker24h:raw.ticker?{high:positive(raw.ticker.highPrice),low:positive(raw.ticker.lowPrice),quoteVolume:number(raw.ticker.quoteVolume),trades:number(raw.ticker.count)}:null};
  return {symbol:c.symbol,family:c.family,token,multiplier,type:c.contractType,quote:c.quoteAsset,contractSize:c.contractSize??null,
    cutoff,oiQty:q,oiValue:value,oi,previousValues,currentValue,currentTime,price:last!==null&&fx!==null?last*fx/multiplier:null,
    priceChange:{h1:price(1),h4:price(4),h24:price(24)},flows,volumeRatio,ema20:e20,ema60:e60,
@@ -93,12 +94,12 @@ function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["s
    rsi:contiguous?rsi(close):null,atrPct:atr,fundingRate:fundingRate!==null?fundingRate*100:null,fundingHours,fundingDaily,
    basisPct:mark!==null&&index!==null?change(mark,index):null,spreadBps:spread,estimatedCap,
    candleCount:k.length,contiguous,onboardDate:c.onboardDate,hasOI:point!==undefined,hasCurrent:currentQ!==null,
-   earlyInputs};
+   earlyInputs,analysisInputs};
 }
 type ContractMetric=ReturnType<typeof contractMetrics>;
 type WindowKey="h1"|"h4"|"h24";
-// 早期信号原始序列只用于币种级计算，不随合约明细发给前端，避免体积膨胀。
-const withoutEarlyInputs=(c:ContractMetric)=>{const {earlyInputs,...rest}=c;void earlyInputs;return rest;};
+// 早期信号与结构分析的原始序列只用于币种级计算，不随合约明细发给前端，避免体积膨胀。
+const withoutInputs=(c:ContractMetric)=>{const {earlyInputs,analysisInputs,...rest}=c;void earlyInputs;void analysisInputs;return rest;};
 export function buildIndicators(raw:RawSnapshot){
  const metrics=raw.contracts.map(c=>contractMetrics(c,raw.cutoff,raw.spotPrices)),groups=new Map<string,ContractMetric[]>();
  for(const m of metrics){if(!groups.has(m.token))groups.set(m.token,[]);groups.get(m.token)!.push(m);}
@@ -170,7 +171,7 @@ export function buildIndicators(raw:RawSnapshot){
      rsi:round(rep.rsi,1),atrPct:round(rep.atrPct,2),trend:rep.trend,spreadBps:round(rep.spreadBps,2),
      quality,liquid,candidate,attention:round(strengthScore,1),strengthScore:round(strengthScore,1),
      earlyScore:early.earlyScore,earlyCandidate:early.earlyCandidate,earlySignal:early,tags,warnings,
-     contracts:contracts.map(withoutEarlyInputs),
+     contracts:contracts.map(withoutInputs),
      reason:!quality?"数据不完整，暂不入选":!liquid?"成交、持仓或价差未达流动性门槛":tags.length<2?"异常信号不足":tags.join(" + ")};
  }).sort((a,b)=>(b.earlyScore??-1)-(a.earlyScore??-1)||Number(b.candidate)-Number(a.candidate)||(b.attention??-1)-(a.attention??-1));
  return {schemaVersion:1,ruleVersion:INDICATOR_RULE,id:raw.id,startedAt:raw.startedAt,completedAt:raw.completedAt,cutoff:raw.cutoff,

@@ -20,3 +20,8 @@ node_modules/
 .dev.vars*
 !.dev.vars.example
 
+# Backfilled calibration history (large, regenerable; see scripts/backfill-*.mjs)
+data/calibration/
+
+# 含服务器凭据的明文文件，绝不可提交（建议移出仓库目录）
+YY.txt
