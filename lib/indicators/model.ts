@@ -93,8 +93,7 @@ function contractMetrics(raw:RawContract,cutoff:number,spotPrices:RawSnapshot["s
    rsi:contiguous?rsi(close):null,atrPct:atr,fundingRate:fundingRate!==null?fundingRate*100:null,fundingHours,fundingDaily,
    basisPct:mark!==null&&index!==null?change(mark,index):null,spreadBps:spread,estimatedCap,
    candleCount:k.length,contiguous,onboardDate:c.onboardDate,hasOI:point!==undefined,hasCurrent:currentQ!==null,
-   chart:k.slice(-48).map(x=>({time:Number(x[6]),price:fx!==null?Number(x[4])*fx/multiplier:null})),
-   oiChart:history.map(h=>({time:Number(h.timestamp),quantity:qty(h),value:val(h)})),earlyInputs};
+   earlyInputs};
 }
 type ContractMetric=ReturnType<typeof contractMetrics>;
 type WindowKey="h1"|"h4"|"h24";
@@ -171,7 +170,7 @@ export function buildIndicators(raw:RawSnapshot){
      rsi:round(rep.rsi,1),atrPct:round(rep.atrPct,2),trend:rep.trend,spreadBps:round(rep.spreadBps,2),
      quality,liquid,candidate,attention:round(strengthScore,1),strengthScore:round(strengthScore,1),
      earlyScore:early.earlyScore,earlyCandidate:early.earlyCandidate,earlySignal:early,tags,warnings,
-     contracts:contracts.map(withoutEarlyInputs),chart:rep.chart,
+     contracts:contracts.map(withoutEarlyInputs),
      reason:!quality?"数据不完整，暂不入选":!liquid?"成交、持仓或价差未达流动性门槛":tags.length<2?"异常信号不足":tags.join(" + ")};
  }).sort((a,b)=>(b.earlyScore??-1)-(a.earlyScore??-1)||Number(b.candidate)-Number(a.candidate)||(b.attention??-1)-(a.attention??-1));
  return {schemaVersion:1,ruleVersion:INDICATOR_RULE,id:raw.id,startedAt:raw.startedAt,completedAt:raw.completedAt,cutoff:raw.cutoff,
