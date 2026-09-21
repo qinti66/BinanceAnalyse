@@ -157,7 +157,12 @@ console.log("delisted-trim and aggregate-4h tests ok");
     const g = await processSymbol(planFor(gone, "TESTUSDT"), { outDir: dir, withFunding: true, getMonth });
     assert.match(g.line, /1h kept 300, dropped 444 \(cut by signature/);
     assert.match(g.line, /4h kept 75, dropped 111 \(cut by signature/);
-    assert.match(g.line, /NOT cut \(no delivery date\)/, "funding cannot be cut without a delivery date, and the report says so");
+    assert.match(g.line, /funding \d+ rows, 0\/1 months missing, \d+ cut at the end of its 1h data \(no delivery date\)/, "no delivery date: funding is cut where the trimmed 1h data ends, and the report says so");
+    const gfund = JSON.parse(await readFile(join(dir, "funding", "TESTUSDT.json"), "utf8"));
+    assert.ok(gfund.rows.every((x) => x.time < Y + 300 * H), "funding rows all precede the end of the real life");
+    // no delivery date and no 1h data to take the end from: it cannot be cut, and says so
+    const empty = await processSymbol(planFor(gone, "TESTUSDT"), { outDir: dir, withFunding: true, getMonth: async (url, name) => (name.includes("fundingRate") ? { status: "ok", csv: fundingCsv, bytes: 1 } : { status: "missing" }) });
+    assert.match(empty.line, /NOT cut \(no delivery date and no 1h data/);
     assert.throws(() => planFor(plan, "NOPEUSDT"), /not in the plan/);
     // --only-4h: nothing but the 4h months is requested, and the existing 1h file is left alone
     const before1h = await readFile(join(dir, "klines", "1h", "TESTUSDT.json"), "utf8");

@@ -1,0 +1,32 @@
+# Batch 3 of 4 of the delisted contracts (docs/delisted-plan-v1.json), 29 contracts, 369 months.
+# Requests: 369 months x (1h + 4h + fundingRate) x 2 (file + checksum) = 2214 static-file requests to data.binance.vision.
+# "gone" contracts (no deliveryDate): BTCSTUSDT
+1000XUSDT
+AIUSDT
+ALPACAUSDT
+ATAUSDT
+BADGERUSDT
+BAKEUSDT
+BIDUSDT
+BNXUSDT
+BONDUSDT
+BTCSTUSDT
+CHESSUSDT
+DFUSDT
+DUSDT
+LOOMUSDT
+MBOXUSDT
+MEMEFIUSDT
+MKRUSDT
+MLNUSDT
+NULSUSDT
+OMUSDT
+OXTUSDT
+PUFFERUSDT
+RLSUSDT
+STORJUSDT
+SWELLUSDT
+TANSSIUSDT
+UNFIUSDT
+VINEUSDT
+ZRCUSDT

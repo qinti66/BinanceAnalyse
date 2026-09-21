@@ -75,7 +75,7 @@ export async function processSymbol(p, { outDir, withFunding, only4h = false, ge
     return t;
   };
   // 24 frozen bars = 24 hours of 1h; the same real time (a day) in 4h bars is 6
-  if (!only4h) await fetchInterval("1h", HOUR, 24);
+  const t1h = only4h ? null : await fetchInterval("1h", HOUR, 24);
   await fetchInterval("4h", 4 * HOUR, 6);
   let fundingNote = "";
   if (withFunding && !only4h) {
@@ -92,9 +92,13 @@ export async function processSymbol(p, { outDir, withFunding, only4h = false, ge
       bytes += r.bytes;
       frows.push(...parseFundingCsv(r.csv));
     }
-    const ft = trimFunding(frows.sort((a, b) => a.time - b.time).map((x) => ({ time: x.time, rate: x.rate })), p.deliveryMs ?? NaN);
+    // Funding is cut at the delivery time. A contract with no delivery date (gone from exchangeInfo) is cut where its own trimmed 1h data ends: settlements after the
+    // last real trade belong to a contract that no longer trades.
+    const endOfLife = t1h && t1h.rows.length ? Number(t1h.rows.at(-1)[0]) + HOUR : NaN;
+    const fundingCutMs = p.deliveryMs ?? endOfLife;
+    const ft = trimFunding(frows.sort((a, b) => a.time - b.time).map((x) => ({ time: x.time, rate: x.rate })), fundingCutMs);
     await writeFile(join(outDir, "funding", symbol + ".json"), JSON.stringify({ symbol, source: "data.binance.vision futures/um fundingRate monthly, trimmed", missingMonths: fmissing, cutByDelivery: ft.cut, dropped: ft.dropped, rows: ft.rows }));
-    fundingNote = ` | funding ${ft.rows.length} rows, ${fmissing.length}/${ms.length} months missing${p.deliveryMs === null ? ", NOT cut (no delivery date)" : `, ${ft.dropped} cut`}`;
+    fundingNote = ` | funding ${ft.rows.length} rows, ${fmissing.length}/${ms.length} months missing${Number.isFinite(fundingCutMs) ? `, ${ft.dropped} cut${p.deliveryMs === null ? " at the end of its 1h data (no delivery date)" : ""}` : ", NOT cut (no delivery date and no 1h data to take the end from)"}`;
   }
   return { requests, bytes, line: `${symbol} [${p.kind}] ${ms.length} month(s) | ${parts.join(" | ")}${fundingNote}` };
 }

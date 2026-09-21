@@ -1,0 +1,32 @@
+# Batch 2 of 4 of the delisted contracts (docs/delisted-plan-v1.json), 29 contracts, 371 months.
+# Requests: 371 months x (1h + 4h + fundingRate) x 2 (file + checksum) = 2226 static-file requests to data.binance.vision.
+# "gone" contracts (no deliveryDate): AERGOUSDT
+ACXUSDT
+AERGOUSDT
+AI16ZUSDT
+B3USDT
+BLZUSDT
+CUDISUSDT
+FISUSDT
+FXSUSDT
+HIGHUSDT
+ICXUSDT
+IRUSDT
+KDAUSDT
+KEYUSDT
+LEVERUSDT
+LRCUSDT
+MILKUSDT
+NKNUSDT
+OLUSDT
+PONKEUSDT
+QUICKUSDT
+RDNTUSDT
+REEFUSDT
+SKATEUSDT
+SLERFUSDT
+SYSUSDT
+TOKENUSDT
+XCNUSDT
+XEMUSDT
+YALAUSDT
