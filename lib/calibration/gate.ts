@@ -39,12 +39,20 @@ export interface GateThresholds {
    */
   regimeCutpoints: RegimeCutpoints | null;
   /**
-   * Effective test samples required in EACH of the four bins (g1 low/high, g2 low/high). JUDGEMENT VALUE, not a measured one.
+   * Distinct test DAYS required in EACH of the four bins (g1 low/high, g2 low/high). JUDGEMENT VALUE, not a measured one: about a month, enough to
+   * say "tested under both conditions"; this is a diversity check, not a power calculation. It counts days because every coin on a day shares one
+   * regime value (counting coin-days would count one observation hundreds of times). 100 would be above what 295 test days can give a tercile (~98).
    * Two marginal requirements, not a g1 x g2 grid: the grid's nine cells cannot be filled with this much data, and g1 and g2 are
    * correlated. Both axes because they catch different failures: g1 the directional regime effect (a3 saturating on one side),
-   * g2 the volatility regime (ATR-based features).
+   * g2 the volatility regime (ATR-based features). The report states the actual days in every bin whether or not the gate passes.
    */
-  minRegimeBinSamples: number;
+  minRegimeBinDays: number;
+  /**
+   * How many delisted contracts the training universe must contain. UNSET (null) until the delisted contracts have been added, so the default gate
+   * cannot pass. The 23% of contracts left out are not missing at random: they are the ones that went to zero, and this system is asked "is this coin
+   * about to launch", so the counter-example it most needs is "looked like a launch, then was delisted". Null is a failure, not a warning.
+   */
+  minDelistedContracts: number | null;
   /** JUDGEMENT VALUE, not a measured one. */
   minFolds: number;
   /** Effective TRAINING sample size after uniqueness weighting. Derived: 20 x free parameters. */
@@ -65,7 +73,8 @@ export const CALIBRATION_GATE: Readonly<GateThresholds> = {
   eceMax: null,
   minClassSamples: null,
   regimeCutpoints: null,
-  minRegimeBinSamples: 100,
+  minRegimeBinDays: 30,
+  minDelistedContracts: null,
   minFolds: 3,
   minEffectiveN: deriveMinEffectiveN(FEATURE_IDS.length),
   minEffectiveTestN: MIN_EFFECTIVE_TEST_N,
@@ -84,13 +93,15 @@ export interface HeadReport {
     effectiveN: number | null;
     /** Effective size of the pooled test folds. */
     effectiveTestN: number | null;
-    /** Effective test samples per regime bin, from regimeCoverage() with the SAME cutpoints as the gate. Null = not computed. */
+    /** Distinct test DAYS per regime bin, from regimeCoverage() with the SAME cutpoints as the gate. Null = not computed. */
     regimeCoverage: RegimeCoverage | null;
     testSpanDays: number | null;
   };
   /** 95th percentile BSS of information-free features (randomFeatureBaseline). */
   randomBaselineP95: number | null;
   leakStatus: LeakStatus | null;
+  /** What the model was trained on: whether contracts that were later delisted are in it, and how many. Null = not stated. */
+  universe: { includesDelisted: boolean; delistedContracts: number } | null;
 }
 
 export interface GateResult {
@@ -111,7 +122,7 @@ export function evaluateGate(report: HeadReport | null | undefined, t: Readonly<
     const p = report.pooled;
     const p95 = report.randomBaselineP95;
     // A missing threshold makes every comparison against it false (x < undefined), which would silently skip the check and pass.
-    for (const key of ["minFolds", "minEffectiveN", "minEffectiveTestN", "minTestSpanDays"] as const) {
+    for (const key of ["minFolds", "minEffectiveN", "minEffectiveTestN", "minTestSpanDays", "minRegimeBinDays"] as const) {
       if (!ok(t[key])) reasons.push("threshold " + key + " not configured");
     }
 
@@ -149,7 +160,7 @@ export function evaluateGate(report: HeadReport | null | undefined, t: Readonly<
     const rc = t.regimeCutpoints;
     const cutsOk = !!rc && validAxis(rc.g1) && validAxis(rc.g2);
     if (!cutsOk) reasons.push("regime coverage unverified: regime cutpoints not configured");
-    if (!ok(t.minRegimeBinSamples) || !(t.minRegimeBinSamples >= 1)) reasons.push("threshold minRegimeBinSamples not configured");
+    if (!ok(t.minRegimeBinDays) || !(t.minRegimeBinDays >= 1)) reasons.push("threshold minRegimeBinDays not configured");
     const cov = p.regimeCoverage;
     if (!cov || typeof cov !== "object") reasons.push("regime coverage unverified: the report has no regime coverage");
     else {
@@ -163,10 +174,18 @@ export function evaluateGate(report: HeadReport | null | undefined, t: Readonly<
         for (const bin of ["low", "high"] as const) {
           const v = cov[axis]?.[bin];
           if (!ok(v)) reasons.push("regime coverage unverified: " + axis + " " + bin + " bin missing");
-          else if (ok(t.minRegimeBinSamples) && t.minRegimeBinSamples >= 1 && v < t.minRegimeBinSamples) reasons.push("regime coverage: " + axis + " " + bin + " tercile has " + v + " effective test samples, below " + t.minRegimeBinSamples);
+          else if (ok(t.minRegimeBinDays) && t.minRegimeBinDays >= 1 && v < t.minRegimeBinDays) reasons.push("regime coverage: " + axis + " " + bin + " tercile has " + v + " distinct test days, below " + t.minRegimeBinDays);
         }
       }
     }
+
+    // Survivorship. Fail closed: an unset threshold, a missing statement, a universe without delisted contracts, or too few of them all fail.
+    const SURVIVORS = "训练集仅含存活合约，未补入已下架合约 (survivors only)";
+    if (!ok(t.minDelistedContracts) || !(t.minDelistedContracts >= 1)) reasons.push(SURVIVORS + ": threshold minDelistedContracts not configured");
+    const u = report.universe;
+    if (!u || typeof u !== "object") reasons.push(SURVIVORS + ": the report does not state the training universe");
+    else if (u.includesDelisted !== true || !ok(u.delistedContracts)) reasons.push(SURVIVORS);
+    else if (ok(t.minDelistedContracts) && t.minDelistedContracts >= 1 && u.delistedContracts < t.minDelistedContracts) reasons.push(SURVIVORS + ": only " + u.delistedContracts + " delisted contracts, need " + t.minDelistedContracts);
 
     if (report.leakStatus !== "clean") reasons.push("shuffled-label control is " + String(report.leakStatus ?? "missing") + ", not clean");
   } catch (e) {
