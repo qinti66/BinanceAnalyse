@@ -140,11 +140,20 @@ async function summariseFunding(dir, out) {
   out.push(problems.length ? "  problems: " + problems.join("; ") : "  problems: none");
 }
 
+/** Points of one positions file: how many, their time span in hours, and how many consecutive points are not exactly one hour apart. */
+export function positionFacts(store) {
+  const times = (Array.isArray(store.points) ? store.points : []).map((x) => Number(x.timestamp)).filter(Number.isFinite).sort((a, b) => a - b);
+  let holes = 0;
+  for (let i = 1; i < times.length; i++) if (times[i] - times[i - 1] !== 3600000) holes++;
+  return { points: times.length, first: times[0] ?? NaN, last: times[times.length - 1] ?? NaN, holes, spanHours: times.length ? (times[times.length - 1] - times[0]) / 3600000 : 0 };
+}
+
 async function summarisePositions(dir, out) {
   const files = await jsonFiles(dir);
   if (!files) return out.push("positions: no directory");
-  let points = 0, gaps = 0, unreadable = 0;
+  let points = 0, gaps = 0, unreadable = 0, holeFiles = 0, maxPoints = 0;
   let first = Infinity, last = -Infinity;
+  const wide = [];
   for (const f of files) {
     let s;
     try {
@@ -154,6 +163,12 @@ async function summarisePositions(dir, out) {
       continue;
     }
     const p = Array.isArray(s.points) ? s.points : [];
+    const facts = positionFacts(s);
+    maxPoints = Math.max(maxPoints, facts.points);
+    if (facts.holes) {
+      holeFiles++;
+      if (wide.length < 5) wide.push(`${f.replace(/.json$/, "")} (${facts.points} points over ${Math.round(facts.spanHours)}h, ${facts.holes} holes)`);
+    }
     points += p.length;
     gaps += Array.isArray(s.gaps) ? s.gaps.length : 0;
     for (const x of p) {
@@ -164,7 +179,8 @@ async function summarisePositions(dir, out) {
       }
     }
   }
-  out.push(`positions: ${files.length} files | ${points} points | ${iso(first)} .. ${iso(last)} | recorded gaps ${gaps}${unreadable ? " | " + unreadable + " unreadable" : ""}`);
+  out.push(`positions: ${files.length} files | ${points} points | ${iso(first)} .. ${iso(last)} | recorded gaps ${gaps} | most points in one file ${maxPoints}${unreadable ? " | " + unreadable + " unreadable" : ""}`);
+  if (holeFiles) out.push(`  hourly holes inside the exchange data: ${holeFiles} files (e.g. ${wide.join("; ")})`);
 }
 
 export async function summarise(dataDir) {

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, mkdir, writeFile, rm, readdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { klineFacts, fundingFacts, summarise } from "./summarize-data.mjs";
+import { klineFacts, fundingFacts, positionFacts, summarise } from "./summarize-data.mjs";
 
 const H = 3600000;
 const bar = (t, o = 10, h = 11, l = 9, c = 10, v = 5) => [t, String(o), String(h), String(l), String(c), String(v), t + H - 1, "1", 1, "1", "1", "0"];
@@ -25,6 +25,11 @@ assert.equal(klineFacts({ end: 5 * H, rows: [bar(0, 10, 10, 10, 10, 0)] }, H).ba
 assert.deepEqual(fundingFacts({ rows: [{ time: 1, rate: 0.0001 }, { time: 2, rate: -0.0002 }] }), { rows: 2, first: 1, last: 2, bad: 0, unordered: 0 });
 assert.equal(fundingFacts({ rows: [{ time: 1, rate: NaN }] }).bad, 1);
 assert.equal(fundingFacts({ rows: [{ time: 2, rate: 0 }, { time: 1, rate: 0 }] }).unordered, 1);
+
+// positionFacts: a contiguous hourly run has no holes; a hole widens the span beyond the point count
+assert.deepEqual(positionFacts({ points: [{ timestamp: 0 }, { timestamp: H }, { timestamp: 2 * H }] }), { points: 3, first: 0, last: 2 * H, holes: 0, spanHours: 2 });
+assert.deepEqual(positionFacts({ points: [{ timestamp: 3 * H }, { timestamp: 0 }, { timestamp: H }] }), { points: 3, first: 0, last: 3 * H, holes: 1, spanHours: 3 }, "unsorted input, one missing hour");
+assert.equal(positionFacts({}).points, 0);
 
 // the whole summary over a fixture directory, and it must not write anything
 const dir = await mkdtemp(join(tmpdir(), "sum-test-"));
@@ -52,7 +57,11 @@ try {
   assert.match(text, /klines 4h: 0 files/);
   assert.match(text, /funding: 2 files \| 1 with rows \| 2 rows/);
   assert.match(text, /1 empty/);
-  assert.match(text, /positions: 1 files \| 2 points .* recorded gaps 1/);
+  assert.match(text, /positions: 1 files \| 2 points .* recorded gaps 1 \| most points in one file 2/);
+  assert.doesNotMatch(text, /hourly holes/, "contiguous points: no holes line");
+  await writeFile(join(dir, "indicators", "positions", "UM-B.json"), JSON.stringify({ points: [{ timestamp: 0 }, { timestamp: H }, { timestamp: 5 * H }], gaps: [] }));
+  const holesText = (await summarise(dir)).join("\n");
+  assert.match(holesText, /hourly holes inside the exchange data: 1 files \(e\.g\. UM-B \(3 points over 5h, 1 holes\)\)/);
   assert.equal((await readdir(cal, { recursive: true })).sort().join("|"), before, "nothing was written");
   // a clean directory reports no problems
   const clean = await mkdtemp(join(tmpdir(), "sum-clean-"));
