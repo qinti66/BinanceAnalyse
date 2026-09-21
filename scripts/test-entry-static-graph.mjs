@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 const scriptsDir = dirname(fileURLToPath(import.meta.url));
 const ENTRIES = [
   "check-binance-net.mjs",
+  "start.mjs",
   "collect-indicators.mjs",
   "backfill-funding.mjs",
   "backfill-klines.mjs",

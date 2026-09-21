@@ -5,3 +5,8 @@ ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # 可选：不填则默认使用 claude-sonnet-5（见 lib/ai/providers.ts 的 DEFAULT_MODEL）。
 # ANTHROPIC_MODEL=claude-sonnet-5
+
+# 站点登录（服务器对外监听时必须配置；不配置 AUTH_USERNAME 则登录关闭，仅限本机开发）。
+# AUTH_USERNAME=admin
+# AUTH_PASSWORD=换成强密码
+# SESSION_SECRET=至少16个字符，建议32个以上随机字符
