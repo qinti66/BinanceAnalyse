@@ -1,6 +1,6 @@
 import { FEATURE_IDS } from "../indicators/features/registry.ts";
 import type { LeakStatus } from "./controls.ts";
-import type { RegimeCoverage, RegimeCutpoints } from "./regime.ts";
+import { FROZEN_REGIME_CUTPOINTS, regimeNotes, type RegimeCoverage, type RegimeCutpoints } from "./regime.ts";
 
 /**
  * The calibration gate. It lives in code, not in a document, because a soft gate is how a trustworthy-looking number gets
@@ -33,26 +33,32 @@ export interface GateThresholds {
   /** Minimum samples in EVERY class of the test folds. UNSET until decided. */
   minClassSamples: number | null;
   /**
-   * The tercile cutpoints of g1 (breadth) and g2 (BTC volatility percentile) over ALL available history, computed once and frozen
+   * The tercile cutpoints of trend (BTC trailing 30-day return) and vol (BTC volatility percentile, g2) over ALL available history, computed once and frozen
    * (see regime.ts). UNSET until multi-regime history exists, so the default gate cannot pass: a model verified in one market regime
    * must not show confident probabilities. Null means "regime coverage unverified", which is a failure, not a warning.
    */
   regimeCutpoints: RegimeCutpoints | null;
   /**
-   * Distinct test DAYS required in EACH of the four bins (g1 low/high, g2 low/high). JUDGEMENT VALUE, not a measured one: about a month, enough to
+   * Distinct test DAYS required in EACH of the four bins (trend low/high, vol low/high). JUDGEMENT VALUE, not a measured one: about a month, enough to
    * say "tested under both conditions"; this is a diversity check, not a power calculation. It counts days because every coin on a day shares one
    * regime value (counting coin-days would count one observation hundreds of times). 100 would be above what 295 test days can give a tercile (~98).
-   * Two marginal requirements, not a g1 x g2 grid: the grid's nine cells cannot be filled with this much data, and g1 and g2 are
-   * correlated. Both axes because they catch different failures: g1 the directional regime effect (a3 saturating on one side),
-   * g2 the volatility regime (ATR-based features). The report states the actual days in every bin whether or not the gate passes.
+   * Two marginal requirements, not a trend x vol grid: the grid's nine cells cannot be filled with this much data. Both axes because they catch different
+   * failures: trend the directional regime effect (a3 saturating on one side), vol the volatility regime (ATR-based features). The report states the actual days in every bin whether or not the gate passes.
    */
   minRegimeBinDays: number;
   /**
-   * How many delisted contracts the training universe must contain. UNSET (null) until the delisted contracts have been added, so the default gate
-   * cannot pass. The 23% of contracts left out are not missing at random: they are the ones that went to zero, and this system is asked "is this coin
-   * about to launch", so the counter-example it most needs is "looked like a launch, then was delisted". Null is a failure, not a warning.
+   * The share of the IDENTIFIED delisted contracts that the training universe must contain (0..1]. JUDGEMENT VALUE, not a measured one: 0.90 (architect
+   * ruling). The shipped default cannot pass while the delisted contracts are not in the training data (the report's universe then says so), and null is a failure.
+   * A coverage, not a count: a count of 100 would be a weak bar if 200 turn out to be
+   * delisted. On top of the share, every contract that was not obtained needs a recorded reason. The ~23% of contracts left out are not missing at random:
+   * they are the ones that went to zero, and this system is asked "is this coin about to launch", so the counter-example it most needs is "looked like a
+   * launch, then was delisted". Null is a failure, not a warning.
+   *
+   * EPISTEMIC BOUNDARY (also emitted as a note by every evaluateGate call): the identified set is only what can be enumerated (the SETTLING contracts in
+   * exchangeInfo, plus those found another way). Contracts that vanished from exchangeInfo entirely may be more numerous and cannot be enumerated. So this
+   * is a coverage of the identified set, NOT of all delisted contracts.
    */
-  minDelistedContracts: number | null;
+  minDelistedCoverage: number | null;
   /** JUDGEMENT VALUE, not a measured one. */
   minFolds: number;
   /** Effective TRAINING sample size after uniqueness weighting. Derived: 20 x free parameters. */
@@ -63,7 +69,7 @@ export interface GateThresholds {
    * JUDGEMENT VALUE, not a measured one. It is a calendar PROXY for "the test folds cover more than one market regime": it does NOT
    * discriminate regimes, so a 60-day span inside a single regime passes it. There is deliberately no minRegimes check yet, because
    * nothing defines a regime in code. Observed in W1: a3 saturates at -5 (5.03%) but rarely at +5 (0.79%), so the tail that gets clipped
-   * depends on the regime; folds that sit in one regime cannot show that. A real check needs a feature-side regime label (e.g. from g1/g2)
+   * depends on the regime; folds that sit in one regime cannot show that. A real check needs a feature-side regime label (trend and vol)
    * fixed before training, and is an open item, not a claim this field makes.
    */
   minTestSpanDays: number;
@@ -72,9 +78,9 @@ export interface GateThresholds {
 export const CALIBRATION_GATE: Readonly<GateThresholds> = {
   eceMax: null,
   minClassSamples: null,
-  regimeCutpoints: null,
+  regimeCutpoints: FROZEN_REGIME_CUTPOINTS,
   minRegimeBinDays: 30,
-  minDelistedContracts: null,
+  minDelistedCoverage: 0.9,
   minFolds: 3,
   minEffectiveN: deriveMinEffectiveN(FEATURE_IDS.length),
   minEffectiveTestN: MIN_EFFECTIVE_TEST_N,
@@ -100,15 +106,25 @@ export interface HeadReport {
   /** 95th percentile BSS of information-free features (randomFeatureBaseline). */
   randomBaselineP95: number | null;
   leakStatus: LeakStatus | null;
-  /** What the model was trained on: whether contracts that were later delisted are in it, and how many. Null = not stated. */
-  universe: { includesDelisted: boolean; delistedContracts: number } | null;
+  /**
+   * What the model was trained on, as far as delisted contracts go: how many were identified, how many were obtained, and why each of the others was not.
+   * Null = not stated.
+   */
+  universe: { identifiedDelisted: number; obtainedDelisted: number; unobtained: { symbol: string; reason: string }[] } | null;
 }
 
 export interface GateResult {
   pass: boolean;
   /** Every failed check, not only the first. Empty when pass. */
   reasons: string[];
+  /** Facts every report built on this gate must carry, pass or fail (the limits of what a pass means). */
+  notes: string[];
 }
+
+export const GATE_NOTES: readonly string[] = [
+  "退市合约的覆盖率针对的是「已识别的集合」（exchangeInfo 里 SETTLING 的合约，加上另行找到的），不是「全部下架合约」：完全从 exchangeInfo 消失的合约可能更多，无从枚举。",
+  ...regimeNotes(),
+];
 
 const ok = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 
@@ -117,7 +133,7 @@ export function evaluateGate(report: HeadReport | null | undefined, t: Readonly<
   const reasons: string[] = [];
   try {
     if (!report || typeof report !== "object" || !report.pooled || !Array.isArray(report.folds)) {
-      return { pass: false, reasons: ["no evaluation report"] };
+      return { pass: false, reasons: ["no evaluation report"], notes: [...GATE_NOTES] };
     }
     const p = report.pooled;
     const p95 = report.randomBaselineP95;
@@ -158,19 +174,19 @@ export function evaluateGate(report: HeadReport | null | undefined, t: Readonly<
     // Regime coverage. Unset cutpoints, a missing coverage, a coverage computed with other cutpoints, or any thin bin is a failure.
     const validAxis = (c: { lower: number; upper: number } | undefined) => !!c && ok(c.lower) && ok(c.upper) && c.lower < c.upper;
     const rc = t.regimeCutpoints;
-    const cutsOk = !!rc && validAxis(rc.g1) && validAxis(rc.g2);
+    const cutsOk = !!rc && validAxis(rc.trend) && validAxis(rc.vol);
     if (!cutsOk) reasons.push("regime coverage unverified: regime cutpoints not configured");
     if (!ok(t.minRegimeBinDays) || !(t.minRegimeBinDays >= 1)) reasons.push("threshold minRegimeBinDays not configured");
     const cov = p.regimeCoverage;
     if (!cov || typeof cov !== "object") reasons.push("regime coverage unverified: the report has no regime coverage");
     else {
-      const same = cutsOk && !!cov.cutpoints && ["g1", "g2"].every((a) => {
-        const x = cov.cutpoints[a as "g1" | "g2"];
-        const y = rc![a as "g1" | "g2"];
+      const same = cutsOk && !!cov.cutpoints && ["trend", "vol"].every((a) => {
+        const x = cov.cutpoints[a as "trend" | "vol"];
+        const y = rc![a as "trend" | "vol"];
         return !!x && x.lower === y.lower && x.upper === y.upper;
       });
       if (cutsOk && !same) reasons.push("regime coverage unverified: it was computed with different cutpoints than the gate's");
-      for (const axis of ["g1", "g2"] as const) {
+      for (const axis of ["trend", "vol"] as const) {
         for (const bin of ["low", "high"] as const) {
           const v = cov[axis]?.[bin];
           if (!ok(v)) reasons.push("regime coverage unverified: " + axis + " " + bin + " bin missing");
@@ -179,17 +195,27 @@ export function evaluateGate(report: HeadReport | null | undefined, t: Readonly<
       }
     }
 
-    // Survivorship. Fail closed: an unset threshold, a missing statement, a universe without delisted contracts, or too few of them all fail.
+    // Survivorship. Fail closed: an unset threshold, a missing statement, nothing identified or obtained, too low a coverage, or a contract that was not
+    // obtained without a recorded reason all fail.
     const SURVIVORS = "训练集仅含存活合约，未补入已下架合约 (survivors only)";
-    if (!ok(t.minDelistedContracts) || !(t.minDelistedContracts >= 1)) reasons.push(SURVIVORS + ": threshold minDelistedContracts not configured");
+    const covOk = ok(t.minDelistedCoverage) && t.minDelistedCoverage > 0 && t.minDelistedCoverage <= 1;
+    if (!covOk) reasons.push(SURVIVORS + ": threshold minDelistedCoverage not configured");
     const u = report.universe;
     if (!u || typeof u !== "object") reasons.push(SURVIVORS + ": the report does not state the training universe");
-    else if (u.includesDelisted !== true || !ok(u.delistedContracts)) reasons.push(SURVIVORS);
-    else if (ok(t.minDelistedContracts) && t.minDelistedContracts >= 1 && u.delistedContracts < t.minDelistedContracts) reasons.push(SURVIVORS + ": only " + u.delistedContracts + " delisted contracts, need " + t.minDelistedContracts);
+    else if (!ok(u.identifiedDelisted) || !ok(u.obtainedDelisted) || !Number.isInteger(u.identifiedDelisted) || !Number.isInteger(u.obtainedDelisted) || u.identifiedDelisted < 1 || u.obtainedDelisted < 0 || u.obtainedDelisted > u.identifiedDelisted) {
+      reasons.push(SURVIVORS + ": the identified/obtained counts are missing, not integers, or inconsistent");
+    } else {
+      const cov = u.obtainedDelisted / u.identifiedDelisted;
+      if (u.obtainedDelisted === 0) reasons.push(SURVIVORS);
+      else if (covOk && cov < t.minDelistedCoverage!) reasons.push(SURVIVORS + ": " + u.obtainedDelisted + " of " + u.identifiedDelisted + " identified delisted contracts (" + cov.toFixed(3) + "), need " + t.minDelistedCoverage);
+      const gone = Array.isArray(u.unobtained) ? u.unobtained : null;
+      if (!gone || gone.length !== u.identifiedDelisted - u.obtainedDelisted) reasons.push("delisted contracts not obtained are not all listed (" + (gone ? gone.length : "none") + " listed, " + (u.identifiedDelisted - u.obtainedDelisted) + " expected)");
+      else if (gone.some((g) => !g || typeof g.symbol !== "string" || !g.symbol || typeof g.reason !== "string" || !g.reason.trim())) reasons.push("a delisted contract that was not obtained has no recorded reason");
+    }
 
     if (report.leakStatus !== "clean") reasons.push("shuffled-label control is " + String(report.leakStatus ?? "missing") + ", not clean");
   } catch (e) {
-    return { pass: false, reasons: ["evaluation error: " + String(e)] };
+    return { pass: false, reasons: ["evaluation error: " + String(e)], notes: [...GATE_NOTES] };
   }
-  return { pass: reasons.length === 0, reasons };
+  return { pass: reasons.length === 0, reasons, notes: [...GATE_NOTES] };
 }

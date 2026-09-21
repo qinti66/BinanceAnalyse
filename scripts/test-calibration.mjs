@@ -6,7 +6,7 @@ import { walkForwardFolds,foldViolations,uniquenessWeights,effectiveN,MIN_TEST_S
 import { brier,bss,ece,baseRates,classCounts,quantile,validForecasts } from "../lib/calibration/metrics.ts";
 import { fitSoftmax,predictProba } from "../lib/calibration/softmax.ts";
 import { mulberry32,shuffled,randomFeatureBaseline,leakCheck } from "../lib/calibration/controls.ts";
-import { regimeTerciles,regimeCoverage } from "../lib/calibration/regime.ts";
+import { regimeTerciles,regimeCoverage,FROZEN_REGIME_CUTPOINTS,REGIME_PROVENANCE,regimeNotes } from "../lib/calibration/regime.ts";
 import { evaluateGate,CALIBRATION_GATE,deriveMinEffectiveN,freeParameters,MIN_EFFECTIVE_TEST_N,ECE_MIN_BIN_SAMPLES,ECE_MIN_BINS } from "../lib/calibration/gate.ts";
 
 const H=3600000;
@@ -215,10 +215,10 @@ test("shuffled labels destroy the score, and a leaking pipeline would not be des
 });
 
 // ---- the gate ----
-const CUTS={g1:{lower:.3,upper:.7},g2:{lower:20,upper:80}};
-const COV=(o={})=>({cutpoints:CUTS,g1:{low:60,high:60},g2:{low:60,high:60},...o});
-const T={eceMax:.05,minClassSamples:50,regimeCutpoints:CUTS,minRegimeBinDays:30,minDelistedContracts:100,minFolds:3,minEffectiveN:2000,minEffectiveTestN:250,minTestSpanDays:60};
-const good=(o={})=>({folds:[{bss:.05,n:900},{bss:.04,n:900},{bss:.06,n:900}],pooled:{bss:.05,residualBss:.02,ece:.03,classCounts:[300,400,300],effectiveN:2500,effectiveTestN:400,regimeCoverage:COV(),testSpanDays:75,...(o.pooled||{})},randomBaselineP95:.02,leakStatus:"clean",universe:{includesDelisted:true,delistedContracts:121},...o,...(o.pooled?{pooled:{bss:.05,residualBss:.02,ece:.03,classCounts:[300,400,300],effectiveN:2500,effectiveTestN:400,regimeCoverage:COV(),testSpanDays:75,...o.pooled}}:{})});
+const CUTS={trend:{lower:.3,upper:.7},vol:{lower:20,upper:80}};
+const COV=(o={})=>({cutpoints:CUTS,trend:{low:60,high:60},vol:{low:60,high:60},...o});
+const T={eceMax:.05,minClassSamples:50,regimeCutpoints:CUTS,minRegimeBinDays:30,minDelistedCoverage:.9,minFolds:3,minEffectiveN:2000,minEffectiveTestN:250,minTestSpanDays:60};
+const good=(o={})=>({folds:[{bss:.05,n:900},{bss:.04,n:900},{bss:.06,n:900}],pooled:{bss:.05,residualBss:.02,ece:.03,classCounts:[300,400,300],effectiveN:2500,effectiveTestN:400,regimeCoverage:COV(),testSpanDays:75,...(o.pooled||{})},randomBaselineP95:.02,leakStatus:"clean",universe:{identifiedDelisted:121,obtainedDelisted:121,unobtained:[]},...o,...(o.pooled?{pooled:{bss:.05,residualBss:.02,ece:.03,classCounts:[300,400,300],effectiveN:2500,effectiveTestN:400,regimeCoverage:COV(),testSpanDays:75,...o.pooled}}:{})});
 const fails=(r,t=T)=>evaluateGate(r,t);
 
 test("gate: a complete, configured, passing report passes",()=>{
@@ -281,7 +281,7 @@ test("sufficiency thresholds: minEffectiveN is derived from the feature set, and
 });
 
 test("gate: a threshold object with a missing or non-finite field fails instead of silently skipping that check",()=>{
- for(const key of ["minFolds","minEffectiveN","minEffectiveTestN","minTestSpanDays","eceMax","minClassSamples","minRegimeBinDays","minDelistedContracts","regimeCutpoints"]){
+ for(const key of ["minFolds","minEffectiveN","minEffectiveTestN","minTestSpanDays","eceMax","minClassSamples","minRegimeBinDays","minDelistedCoverage","regimeCutpoints"]){
   const missing={...T};delete missing[key];
   assert.equal(fails(good(),missing).pass,false,key+" absent");
   assert.equal(fails(good(),{...T,[key]:NaN}).pass,false,key+" NaN");
@@ -298,31 +298,31 @@ test("regime terciles are computed once from history, and coverage counts distin
  assert.equal(regimeTerciles(hist.slice(0,10)),null,"too little history to define terciles");
  assert.equal(regimeTerciles(Array(100).fill(.5)),null,"a constant series has no distinct terciles");
  assert.ok(regimeTerciles([...hist,NaN,Infinity]),"non-finite values are ignored");
- const g1=[.1,.3,.5,.7,.9,NaN,.3],g2=[10,20,50,80,90,50,NaN],days=[1,2,3,4,5,6,7];
- const c=regimeCoverage({g1,g2,days,cutpoints:CUTS});
- assert.deepEqual([c.g1.low,c.g1.high,c.g2.low,c.g2.high],[3,2,2,2],"<= lower and >= upper are inclusive; NaN is in no bin");
+ const trend=[.1,.3,.5,.7,.9,NaN,.3],vol=[10,20,50,80,90,50,NaN],days=[1,2,3,4,5,6,7];
+ const c=regimeCoverage({trend,vol,days,cutpoints:CUTS});
+ assert.deepEqual([c.trend.low,c.trend.high,c.vol.low,c.vol.high],[3,2,2,2],"<= lower and >= upper are inclusive; NaN is in no bin");
  assert.deepEqual(c.cutpoints,CUTS,"the coverage carries the cutpoints it was computed with");
  // 500 coins on the same day are ONE observation of that day's regime, not 500
- const many=(x,y,d,n)=>({g1:Array(n).fill(x),g2:Array(n).fill(y),days:Array(n).fill(d)});
+ const many=(x,y,d,n)=>({trend:Array(n).fill(x),vol:Array(n).fill(y),days:Array(n).fill(d)});
  const a=many(.1,10,1,500),b=many(.9,90,2,500);
- const two=regimeCoverage({g1:[...a.g1,...b.g1],g2:[...a.g2,...b.g2],days:[...a.days,...b.days],cutpoints:CUTS});
- assert.deepEqual([two.g1.low,two.g1.high,two.g2.low,two.g2.high],[1,1,1,1],"1000 samples on 2 days are 2 days");
- assert.equal(regimeCoverage({g1:[.1,.2],g2:[10,10],days:[1,1],cutpoints:CUTS}),null,"the same day with two different g1 values: the inputs are not what they claim");
- assert.equal(regimeCoverage({g1:[.1,.1],g2:[10,10],days:[1,1.5],cutpoints:CUTS}),null,"a day must be an integer");
- assert.equal(regimeCoverage({g1:[1],g2:[1,2],days:[1],cutpoints:CUTS}),null,"mismatched lengths");
- assert.equal(regimeCoverage({g1:[1],g2:[1],days:[1,2],cutpoints:CUTS}),null);
+ const two=regimeCoverage({trend:[...a.trend,...b.trend],vol:[...a.vol,...b.vol],days:[...a.days,...b.days],cutpoints:CUTS});
+ assert.deepEqual([two.trend.low,two.trend.high,two.vol.low,two.vol.high],[1,1,1,1],"1000 samples on 2 days are 2 days");
+ assert.equal(regimeCoverage({trend:[.1,.2],vol:[10,10],days:[1,1],cutpoints:CUTS}),null,"the same day with two different trend values: the inputs are not what they claim");
+ assert.equal(regimeCoverage({trend:[.1,.1],vol:[10,10],days:[1,1.5],cutpoints:CUTS}),null,"a day must be an integer");
+ assert.equal(regimeCoverage({trend:[1],vol:[1,2],days:[1],cutpoints:CUTS}),null,"mismatched lengths");
+ assert.equal(regimeCoverage({trend:[1],vol:[1],days:[1,2],cutpoints:CUTS}),null);
 });
 
 test("gate: regime coverage is fail-closed (unset cutpoints, no coverage, one thin bin, one axis only, different cutpoints)",()=>{
- assert.equal(CALIBRATION_GATE.regimeCutpoints,null,"the shipped gate has no cutpoints until multi-regime history exists");
+ assert.deepEqual(CALIBRATION_GATE.regimeCutpoints,FROZEN_REGIME_CUTPOINTS,"the shipped gate carries the frozen cutpoints");
  assert.equal(CALIBRATION_GATE.minRegimeBinDays,30,"a judgement value, counted in days");
- assert.equal(CALIBRATION_GATE.minDelistedContracts,null,"the shipped gate has no delisted-contract requirement satisfied until the contracts are added");
- const d=evaluateGate(good());assert.equal(d.pass,false);assert.match(d.reasons.join(";"),/regime coverage unverified: regime cutpoints not configured/);
+ assert.equal(CALIBRATION_GATE.minDelistedCoverage,0.9,"a judgement value: 90% of the identified delisted contracts");
+ const d=evaluateGate(good());assert.equal(d.pass,false);assert.match(d.reasons.join(";"),/regime coverage unverified: it was computed with different cutpoints than the gate's/,"the shipped default judges coverage with the FROZEN cutpoints, so a coverage computed with any others is refused");
  assert.equal(fails(good()).pass,true,"the same report passes once cutpoints are configured and every bin is covered");
  assert.equal(fails(good(),{...T,regimeCutpoints:null}).pass,false);
  assert.equal(fails(good({pooled:{regimeCoverage:null}})).pass,false);assert.match(fails(good({pooled:{regimeCoverage:null}})).reasons.join(";"),/report has no regime coverage/);
  assert.equal(fails(good({pooled:{regimeCoverage:undefined}})).pass,false);
- for(const axis of ["g1","g2"])for(const bin of ["low","high"]){
+ for(const axis of ["trend","vol"])for(const bin of ["low","high"]){
   const cov=COV({[axis]:{...COV()[axis],[bin]:0}});
   const r=fails(good({pooled:{regimeCoverage:cov}}));assert.equal(r.pass,false,axis+" "+bin+" empty");assert.match(r.reasons.join(";"),new RegExp(axis+" "+bin+" tercile has 0"));
   assert.equal(fails(good({pooled:{regimeCoverage:COV({[axis]:{...COV()[axis],[bin]:29}})}})).pass,false,axis+" "+bin+" 29 days, one under 30");
@@ -330,40 +330,158 @@ test("gate: regime coverage is fail-closed (unset cutpoints, no coverage, one th
   assert.equal(fails(good({pooled:{regimeCoverage:COV({[axis]:{...COV()[axis],[bin]:NaN}})}})).pass,false,axis+" "+bin+" NaN");
   assert.equal(fails(good({pooled:{regimeCoverage:COV({[axis]:{...COV()[axis],[bin]:null}})}})).pass,false,axis+" "+bin+" null");
  }
- assert.equal(fails(good({pooled:{regimeCoverage:COV({g1:{low:500,high:0}})}})).pass,false,"only one tercile of g1 is covered: a low-only test set is not multi-regime");
- assert.equal(fails(good({pooled:{regimeCoverage:COV({g2:undefined})}})).pass,false,"one axis absent");
- assert.equal(fails(good({pooled:{regimeCoverage:COV({g1:{low:1e6,high:1e6},g2:{low:1e6,high:29}})}})).pass,false,"plenty of g1 cannot make up for a thin g2 bin: each of the four bins is required on its own");
+ assert.equal(fails(good({pooled:{regimeCoverage:COV({trend:{low:500,high:0}})}})).pass,false,"only one tercile of trend is covered: a low-only test set is not multi-regime");
+ assert.equal(fails(good({pooled:{regimeCoverage:COV({vol:undefined})}})).pass,false,"one axis absent");
+ assert.equal(fails(good({pooled:{regimeCoverage:COV({trend:{low:1e6,high:1e6},vol:{low:1e6,high:29}})}})).pass,false,"plenty of trend cannot make up for a thin vol bin: each of the four bins is required on its own");
 });
 
 test("gate: regime coverage must have been computed with the gate's own cutpoints, and the threshold itself must be configured",()=>{
- const other={g1:{lower:.2,upper:.8},g2:CUTS.g2};
+ const other={trend:{lower:.2,upper:.8},vol:CUTS.vol};
  const r=fails(good({pooled:{regimeCoverage:COV({cutpoints:other})}}));assert.equal(r.pass,false);assert.match(r.reasons.join(";"),/different cutpoints/);
  assert.equal(fails(good({pooled:{regimeCoverage:COV({cutpoints:undefined})}})).pass,false);
- for(const bad of [{lower:.7,upper:.3},{lower:.5,upper:.5},{lower:NaN,upper:1},{lower:0}])assert.equal(fails(good(),{...T,regimeCutpoints:{...CUTS,g1:bad}}).pass,false,JSON.stringify(bad));
- assert.equal(fails(good(),{...T,regimeCutpoints:{g1:CUTS.g1}}).pass,false,"cutpoints for one axis only");
+ for(const bad of [{lower:.7,upper:.3},{lower:.5,upper:.5},{lower:NaN,upper:1},{lower:0}])assert.equal(fails(good(),{...T,regimeCutpoints:{...CUTS,trend:bad}}).pass,false,JSON.stringify(bad));
+ assert.equal(fails(good(),{...T,regimeCutpoints:{trend:CUTS.trend}}).pass,false,"cutpoints for one axis only");
  for(const v of [NaN,null,undefined,0,"30"])assert.equal(fails(good(),{...T,minRegimeBinDays:v}).pass,false,"minRegimeBinDays "+String(v));
  assert.match(fails(good(),{...T,minRegimeBinDays:null}).reasons.join(";"),/minRegimeBinDays not configured/);
 });
 
-test("gate: survivors-only training is a failure, mechanically (unset threshold, no statement, no delisted contracts, too few)",()=>{
- assert.equal(CALIBRATION_GATE.minDelistedContracts,null);
+test("gate: survivors-only training is a failure, mechanically (unset threshold, no statement, coverage, unrecorded reasons)",()=>{
+ assert.equal(CALIBRATION_GATE.minDelistedCoverage,0.9);
+ // the shipped default refuses a survivors-only universe, whatever else is in the report
+ const survivors={identifiedDelisted:121,obtainedDelisted:0,unobtained:Array.from({length:121},(_,k)=>({symbol:"D"+k,reason:"not yet downloaded"}))};
+ const shipped=evaluateGate(good({universe:survivors}));assert.equal(shipped.pass,false);assert.match(shipped.reasons.join(";"),/训练集仅含存活合约，未补入已下架合约/);
  const reasonsOf=(r,t=T)=>evaluateGate(r,t).reasons.join(";");
- assert.equal(fails(good()).pass,true,"a complete report with delisted contracts included passes");
- // the shipped default: threshold unset => fail, with the explicit reason
- assert.match(reasonsOf(good(),{...T,minDelistedContracts:null}),/训练集仅含存活合约，未补入已下架合约.*minDelistedContracts not configured/);
- for(const v of [NaN,undefined,0,-1,"100"])assert.equal(fails(good(),{...T,minDelistedContracts:v}).pass,false,"minDelistedContracts "+String(v));
- // the report must state the universe
+ const U=(identified,obtained,unobtained)=>({identifiedDelisted:identified,obtainedDelisted:obtained,unobtained:unobtained??Array.from({length:identified-obtained},(_,k)=>({symbol:"X"+k,reason:"not in the archive"}))});
+ assert.equal(fails(good()).pass,true,"a complete report with full coverage passes");
+ assert.match(reasonsOf(good(),{...T,minDelistedCoverage:null}),/训练集仅含存活合约，未补入已下架合约.*minDelistedCoverage not configured/);
+ for(const v of [NaN,undefined,0,-1,1.1,"0.9"])assert.equal(fails(good(),{...T,minDelistedCoverage:v}).pass,false,"minDelistedCoverage "+String(v));
+ assert.equal(fails(good(),{...T,minDelistedCoverage:1}).pass,true,"a coverage of exactly 1 is a valid threshold");
  for(const universe of [null,undefined,"x",42])assert.equal(fails(good({universe})).pass,false,"universe "+String(universe));
  assert.match(reasonsOf(good({universe:null})),/does not state the training universe/);
- // survivors only
- const s=fails(good({universe:{includesDelisted:false,delistedContracts:0}}));assert.equal(s.pass,false);assert.match(s.reasons.join(";"),/训练集仅含存活合约，未补入已下架合约/);
- assert.equal(fails(good({universe:{includesDelisted:true,delistedContracts:NaN}})).pass,false,"NaN count");
- assert.equal(fails(good({universe:{includesDelisted:true}})).pass,false,"no count");
- assert.equal(fails(good({universe:{includesDelisted:"yes",delistedContracts:121}})).pass,false,"a truthy string is not true");
- // too few
- assert.equal(fails(good({universe:{includesDelisted:true,delistedContracts:99}})).pass,false,"99 of a required 100");
- assert.match(reasonsOf(good({universe:{includesDelisted:true,delistedContracts:99}})),/only 99 delisted contracts, need 100/);
- assert.equal(fails(good({universe:{includesDelisted:true,delistedContracts:100}})).pass,true,"exactly 100 passes");
- // it is independent of everything else: a perfect report with survivors only still fails
- assert.equal(fails(good({universe:{includesDelisted:false,delistedContracts:0}}),{...T}).pass,false);
+ // survivors only: nothing identified, or nothing obtained
+ assert.equal(fails(good({universe:U(0,0)})).pass,false,"nothing identified is survivors only");
+ const s=fails(good({universe:U(121,0)}));assert.equal(s.pass,false);assert.match(s.reasons.join(";"),/训练集仅含存活合约，未补入已下架合约/);
+ // coverage
+ assert.equal(fails(good({universe:U(100,89)})).pass,false,"89 of 100 is under 0.9");
+ assert.match(reasonsOf(good({universe:U(100,89)})),/89 of 100 identified delisted contracts \(0\.890\), need 0\.9/);
+ assert.equal(fails(good({universe:U(100,90)})).pass,true,"exactly 90 of 100 passes");
+ assert.equal(fails(good({universe:U(200,180)})).pass,true,"a bigger identified set needs proportionally more, not a fixed count");
+ assert.equal(fails(good({universe:U(200,170)})).pass,false,"170 would satisfy a fixed count of 100 but is 85% of 200");
+ // consistency of the counts
+ for(const bad of [{identifiedDelisted:121,obtainedDelisted:122,unobtained:[]},{identifiedDelisted:121.5,obtainedDelisted:100,unobtained:[]},{identifiedDelisted:NaN,obtainedDelisted:1,unobtained:[]},{identifiedDelisted:121,obtainedDelisted:-1,unobtained:[]},{identifiedDelisted:121},{obtainedDelisted:121}])assert.equal(fails(good({universe:bad})).pass,false,JSON.stringify(bad));
+ // every contract not obtained needs a recorded reason
+ assert.equal(fails(good({universe:U(100,95,[{symbol:"A",reason:"x"},{symbol:"B",reason:"x"},{symbol:"C",reason:"x"},{symbol:"D",reason:"x"},{symbol:"E",reason:"x"}])})).pass,true);
+ assert.match(reasonsOf(good({universe:U(100,95,[{symbol:"A",reason:"x"}])})),/not all listed \(1 listed, 5 expected\)/,"the list must match the count");
+ assert.equal(fails(good({universe:U(100,95,Array.from({length:5},(_,k)=>({symbol:"S"+k,reason:k?"archive has no file":""})))})).pass,false,"one blank reason fails");
+ assert.match(reasonsOf(good({universe:U(100,95,Array.from({length:5},(_,k)=>({symbol:"S"+k,reason:k?"archive has no file":"  "})))})),/has no recorded reason/);
+ assert.equal(fails(good({universe:U(100,95,Array.from({length:5},()=>({symbol:"",reason:"r"})))})).pass,false,"a blank symbol name");
+ assert.equal(fails(good({universe:{identifiedDelisted:100,obtainedDelisted:95}})).pass,false,"the list of contracts not obtained is required");
+ // the epistemic boundary is part of every result, pass or fail
+ for(const res of [evaluateGate(good(),T),evaluateGate(good({universe:U(121,0)}),T),evaluateGate(null,T),evaluateGate(good())]){
+  assert.ok(res.notes.some((n)=>/已识别的集合/.test(n)&&/不是「全部下架合约」/.test(n)),"the note about the identified set is always there");
+ }
+});
+
+test("persistence ruler: run lengths, and the ruler itself is checked against a known-bad and a known-good series",async()=>{
+ const {regimeRuns,persistsAsRegime,MIN_MEDIAN_RUN_DAYS,binOf,btcTrailingReturnPct}=await import("../lib/calibration/regime.ts");
+ const C={lower:.3,upper:.7};
+ assert.equal(MIN_MEDIAN_RUN_DAYS,14);
+ assert.equal(binOf(.3,C),"low");assert.equal(binOf(.7,C),"high");assert.equal(binOf(.5,C),"mid");assert.equal(binOf(NaN,C),null);
+ const r=regimeRuns([.1,.1,.1,.5,.5,.9,.1,.1],C);
+ assert.deepEqual(r.runs,[3,2,1,2]);assert.equal(r.median,2);assert.equal(r.mean,2);
+ assert.deepEqual([r.byBin.low.days,r.byBin.mid.days,r.byBin.high.days],[5,2,1]);
+ assert.equal(r.byBin.low.median,2.5,"low runs are 3 and 2");
+ assert.deepEqual(regimeRuns([.1,.1,NaN,.1,.1],C).runs,[2,2],"a missing day ends a run and joins nothing");
+ assert.deepEqual(regimeRuns([],C).runs,[]);assert.equal(regimeRuns([],C).median,null);
+ assert.equal(persistsAsRegime(regimeRuns([],C)),false,"no runs is not persistence");
+ // KNOWN BAD: a series that flips bins every day or two (the breadth feature g1 behaves like this). It must fail the ruler.
+ let seed=12345;const rnd=()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296;};
+ const noisy=Array.from({length:360},()=>rnd());
+ const bad=regimeRuns(noisy,{lower:1/3,upper:2/3});
+ assert.ok(bad.median>=1&&bad.median<=3,"a memoryless series has a median run of 1 to 3 days, got "+bad.median);
+ assert.equal(persistsAsRegime(bad),false,"the known-bad series does not pass the ruler");
+ // KNOWN GOOD: month-long blocks of low, mid and high. It must pass the ruler.
+ const blocks=Array.from({length:360},(_,i)=>[.1,.5,.9][Math.floor(i/30)%3]);
+ const good=regimeRuns(blocks,C);
+ assert.equal(good.median,30);assert.equal(persistsAsRegime(good),true);
+ // day-weighted median: a random DAY is likelier to sit in a long stretch. Runs 1,1,1 and 10: per-stretch median 1, per-day median 10.
+ const skew=regimeRuns([.1,.9,.1,...Array(10).fill(.5)],C);
+ assert.deepEqual(skew.runs,[1,1,1,10]);assert.equal(skew.median,1);assert.equal(skew.dayWeightedMedian,10);
+ assert.equal(persistsAsRegime(skew),false,"by stretch it does not persist");
+ assert.equal(persistsAsRegime(regimeRuns([...Array(14).fill(.5),.1,.9,.1],C),"dayWeighted"),true,"by day it does: 14 of 17 days sit in a 14-day stretch");
+ assert.equal(persistsAsRegime(regimeRuns([],C),"dayWeighted"),false);
+ // the known-bad series fails BOTH statistics, and sits far below the bar under the new one (the goalpost check)
+ const { KNOWN_BAD_MAX_MEDIAN_DAYS }=await import("../lib/calibration/regime.ts");
+ assert.equal(KNOWN_BAD_MAX_MEDIAN_DAYS,7);
+ assert.ok(bad.dayWeightedMedian<=KNOWN_BAD_MAX_MEDIAN_DAYS,"day-weighted median of the memoryless series is "+bad.dayWeightedMedian);
+ assert.equal(persistsAsRegime(bad,"dayWeighted"),false);
+ assert.equal(good.dayWeightedMedian,30);
+ // just under and at the bar
+ assert.equal(persistsAsRegime(regimeRuns([...Array(13).fill(.1),...Array(13).fill(.9),...Array(13).fill(.1)],C)),false,"13 days");
+ assert.equal(persistsAsRegime(regimeRuns([...Array(14).fill(.1),...Array(14).fill(.9),...Array(14).fill(.1)],C)),true,"14 days");
+ // BTC trailing return: exact bars only
+ const H=3600000,D=24*H;
+ const bars=Array.from({length:800},(_,i)=>({ct:i*H,c:100+i}));
+ const ct=799*H;
+ assert.ok(Math.abs(btcTrailingReturnPct(bars,ct,30)-((100+799)/(100+799-720)-1)*100)<1e-9);
+ assert.equal(btcTrailingReturnPct(bars,ct,40),null,"not enough history: null, not a shorter window");
+ assert.equal(btcTrailingReturnPct(bars,ct+1,30),null,"no bar at that closeTime: null");
+ const holey=bars.filter((b)=>b.ct!==(799-720)*H);
+ assert.equal(btcTrailingReturnPct(holey,ct,30),null,"a missing start bar: null, no nearest-bar substitute");
+ void D;
+});
+
+test("frozen regime cutpoints: fixed constants, valid axes, provenance stated, and the fragile points are in every gate result",()=>{
+ assert.deepEqual(FROZEN_REGIME_CUTPOINTS,{trend:{lower:-2.6411486578998353,upper:5.965780629414542},vol:{lower:43.242009132420094,upper:63.6986301369863}},"a change to these is a new freeze and needs the ledger");
+ for(const a of ["trend","vol"])assert.ok(FROZEN_REGIME_CUTPOINTS[a].lower<FROZEN_REGIME_CUTPOINTS[a].upper);
+ assert.equal(REGIME_PROVENANCE.bar,14);
+ assert.equal(REGIME_PROVENANCE.vol.stretches,21);assert.equal(REGIME_PROVENANCE.vol.perStretchMedian,14);
+ const text=regimeNotes().join("\n");
+ assert.match(text,/按天加权/);
+ assert.match(text,/vol 轴.*按段中位数恰为 14\.0（擦线）.*21 段.*增减一段即可改变/s,"the fragile vol axis is stated as fragile");
+ assert.match(text,/trend 轴.*仅在按天加权的统计下合格/s,"the trend axis passes only under the day-weighted statistic, and says so");
+ assert.match(text,/相对整个两年窗口/);
+ for(const res of [evaluateGate(good(),T),evaluateGate(null,T),evaluateGate(good())]){
+  assert.ok(res.notes.some((n)=>/vol 轴.*擦线/s.test(n)),"every gate result carries the vol fragility");
+  assert.ok(res.notes.some((n)=>/已识别的集合/.test(n)));
+ }
+ // the frozen cutpoints are what the shipped gate uses, and a coverage must have been computed with exactly them
+ const cov=regimeCoverage({trend:[0,10,-10],vol:[10,90,50],days:[1,2,3],cutpoints:FROZEN_REGIME_CUTPOINTS});
+ assert.deepEqual([cov.trend.low,cov.trend.high,cov.vol.low,cov.vol.high],[1,1,1,1]);
+ assert.equal(regimeCoverage({trend:[0],vol:[0],days:[1],cutpoints:{trend:{lower:-1,upper:1},vol:{lower:1,upper:2}}}).cutpoints.vol.upper,2);
+});
+
+test("blockShiftLabels keeps the time structure and breaks only the feature-label alignment",async()=>{
+ const {blockShiftLabels}=await import("../lib/calibration/controls.ts");
+ // two coins, labels arranged in long blocks (a strongly autocorrelated label series, like overlapping windows)
+ const samples=[],labels=[];
+ for(const g of ["A","B"])for(let i=0;i<120;i++){samples.push({group:g,time:i*86400000});labels.push(Math.floor(i/10)%3);}
+ // shuffle the array order so the function must sort by time itself
+ const perm=samples.map((_,i)=>i).sort((a,b)=>((a*7919)%251)-((b*7919)%251));
+ const S=perm.map(i=>samples[i]),Lb=perm.map(i=>labels[i]);
+ const r=blockShiftLabels(S,Lb,5);
+ assert.equal(r.shifted,240);assert.equal(r.unshifted,0);
+ const ms=(xs)=>[0,1,2].map(c=>xs.filter(x=>x===c).length).join(",");
+ for(const g of ["A","B"]){
+  const idx=S.map((s,i)=>i).filter(i=>S[i].group===g).sort((a,b)=>S[a].time-S[b].time);
+  const before=idx.map(i=>Lb[i]),after=idx.map(i=>r.labels[i]);
+  assert.equal(ms(before),ms(after),"the label multiset of a coin is unchanged");
+  const seams=(xs)=>xs.slice(1).filter((x,i)=>x!==xs[i]).length;
+  assert.ok(Math.abs(seams(before)-seams(after))<=1,"label runs are kept: at most one new seam per coin ("+seams(before)+" vs "+seams(after)+")");
+  assert.ok(after.some((x,i)=>x!==before[i]),"the alignment with the features is broken");
+  let same=0;for(let i=0;i<after.length;i++)if(after[i]===before[i])same++;
+  assert.ok(same<after.length*0.6,"most samples got a label from another time: "+same+" of "+after.length+" unchanged");
+ }
+ // the plain permutation, for contrast, destroys the run structure
+ const plain=shuffled(Lb,5);
+ const idxA=S.map((s,i)=>i).filter(i=>S[i].group==="A").sort((a,b)=>S[a].time-S[b].time);
+ const seams=(xs)=>xs.slice(1).filter((x,i)=>x!==xs[i]).length;
+ assert.ok(seams(idxA.map(i=>plain[i]))>seams(idxA.map(i=>Lb[i]))*3,"a whole-set permutation shreds the label runs, which is why it is not used for the leak control");
+ // deterministic, and a different seed gives a different rotation
+ assert.deepEqual(blockShiftLabels(S,Lb,5).labels,r.labels);
+ assert.notDeepEqual(blockShiftLabels(S,Lb,6).labels,r.labels);
+ // short groups are left in place and counted, never silently shuffled
+ const tiny=blockShiftLabels([{group:"X",time:1},{group:"X",time:2}],[0,1],1);
+ assert.deepEqual(tiny.labels,[0,1]);assert.equal(tiny.unshifted,2);
+ assert.throws(()=>blockShiftLabels([{group:"X",time:1}],[0,1],1),/line up/);
 });

@@ -76,6 +76,36 @@ export function randomFeatureBaseline(o: {
   return { n: scores.length, bss: scores, mean: scores.reduce((a, b) => a + b, 0) / scores.length, p95 };
 }
 
+/**
+ * The label control that keeps the time structure and breaks only the link between features and labels. Within EACH group (a coin) the labels are rotated
+ * along the time axis by an offset that is a quarter to three quarters of the group's length, so a sample keeps its features but gets the label of the same
+ * coin at a different time. What is kept: the label multiset of every group, and the autocorrelation of the labels (neighbouring samples still get neighbouring
+ * labels; only one seam per group breaks). What is broken: the feature-label alignment. Permuting the labels of the whole sample set instead destroys the
+ * overlap structure of the labels, and a leak that lives in that structure would then look absent (a false negative).
+ * `order` is each sample's rank in time within its group, from the samples' own times. Groups shorter than 8 samples are left in place and counted.
+ */
+export function blockShiftLabels<T>(samples: { group: string; time: number }[], labels: T[], seed: number): { labels: T[]; shifted: number; unshifted: number } {
+  if (samples.length !== labels.length) throw new Error("samples and labels must line up");
+  const rand = mulberry32(seed);
+  const byGroup = new Map<string, number[]>();
+  samples.forEach((s, i) => (byGroup.get(s.group) ?? byGroup.set(s.group, []).get(s.group)!).push(i));
+  const out = labels.slice();
+  let shifted = 0;
+  let unshifted = 0;
+  for (const idx of byGroup.values()) {
+    idx.sort((a, b) => samples[a].time - samples[b].time);
+    const n = idx.length;
+    if (n < 8) {
+      unshifted += n;
+      continue;
+    }
+    const offset = Math.floor(n / 4 + rand() * (n / 2));
+    for (let j = 0; j < n; j++) out[idx[j]] = labels[idx[(j + offset) % n]];
+    shifted += n;
+  }
+  return { labels: out, shifted, unshifted };
+}
+
 export type LeakStatus = "clean" | "leak_suspected" | "inconclusive";
 
 /**
