@@ -1,41 +1,47 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { RateLimiter } from "./rate-limit.mjs";
+import { classifyRequest } from "./collector-cost.mjs";
 const root=join(dirname(fileURLToPath(import.meta.url)),"..");
 const startedAt=new Date().toISOString(),id=startedAt.replace(/[:.]/g,"-");
 const output=join(root,"data","indicators",id);
 await mkdir(output,{recursive:true});
 const cutoff=Math.floor(Date.now()/3600000)*3600000;
-let nextRequest=0,blockedUntil=0,requestCount=0;
+// Per-family limiter (rate-limit.mjs): /futures/data/ is capped at 900 per 5 min, the market families by request weight. 403/418 abort, 429 blocks all families.
+const limiter=new RateLimiter();
+let requestCount=0;
 const errors=[],responses=[];
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 async function get(url){
   for(let attempt=0;attempt<3;attempt++){
-    const target=Math.max(Date.now(),nextRequest,blockedUntil);nextRequest=target+170;
-    await wait(Math.max(0,target-Date.now()));
-    if(Date.now()<blockedUntil)await wait(blockedUntil-Date.now());
+    const cls=classifyRequest(url);
+    if(cls)await limiter.acquire(cls.family,cls.cost);
     const receivedAt=new Date().toISOString();requestCount++;
     try{
       const r=await fetch(url,{signal:AbortSignal.timeout(20000),headers:{accept:"application/json","user-agent":"AlphaRadarResearch/2.0"}});
-      if(r.status===418||r.status===429){
-        const delay=Number(r.headers.get("retry-after")||60)*1000;
-        blockedUntil=Date.now()+Math.max(1000,Math.min(delay,300000));
-        if(r.status===418)throw new Error("HTTP 418: Binance blocked access; collection stopped");
+      if(cls){
+        const used=Number(r.headers.get("x-mbx-used-weight-1m"));
+        if(cls.family!=="futuresData"&&Number.isFinite(used)&&r.headers.has("x-mbx-used-weight-1m"))limiter.feedback(cls.family,used);
+      }
+      if(r.status===418||r.status===403)limiter.onStatus(r.status);
+      if(r.status===429){
+        limiter.onStatus(429,r.headers.get("retry-after"));
         if(attempt===2)throw new Error("HTTP 429 after retries");
-        await wait(Math.max(1000,delay));continue;
+        continue;
       }
       if(!r.ok)throw new Error("HTTP "+r.status);
       const data=await r.json();
       if(data?.code<0)throw new Error("API "+data.code+" "+data.msg);
       responses.push({url,receivedAt,status:r.status});return data;
     }catch(e){
-      if(String(e).includes("418"))throw e;
+      if(e?.name==="RateLimitAbort")throw e;
       if(attempt===2||/HTTP 4/.test(String(e)))throw e;
       await wait(700*(attempt+1));
     }
   }
 }
-async function optional(url){try{return await get(url)}catch(e){if(String(e).includes("418"))throw e;errors.push({url,error:String(e),at:new Date().toISOString()});return null;}}
+async function optional(url){try{return await get(url)}catch(e){if(e?.name==="RateLimitAbort")throw e;errors.push({url,error:String(e),at:new Date().toISOString()});return null;}}
 const UM="https://fapi.binance.com",CM="https://dapi.binance.com";
 const [um,cm]=await Promise.all([get(UM+"/fapi/v1/exchangeInfo"),get(CM+"/dapi/v1/exchangeInfo")]);
 if(!Array.isArray(um.symbols)||!Array.isArray(cm.symbols))throw Error("Exchange universe unavailable; refusing a partial universe.");

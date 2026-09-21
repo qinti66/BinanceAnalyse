@@ -1,0 +1,13 @@
+import assert from "node:assert/strict";
+import { classifyRequest } from "./collector-cost.mjs";
+const c = classifyRequest;
+assert.deepEqual(c("https://fapi.binance.com/futures/data/openInterestHist?symbol=BTCUSDT&period=1h"), { family: "futuresData", cost: 1 });
+assert.deepEqual(c("https://dapi.binance.com/futures/data/topLongShortAccountRatio?pair=BTCUSD"), { family: "futuresData", cost: 1 });
+assert.deepEqual(c("https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&limit=360"), { family: "umMarket", cost: 2 });
+assert.deepEqual(c("https://dapi.binance.com/dapi/v1/klines?symbol=X&limit=1000"), { family: "cmMarket", cost: 5 });
+assert.deepEqual(c("https://fapi.binance.com/fapi/v1/ticker/24hr"), { family: "umMarket", cost: 40 });
+assert.deepEqual(c("https://fapi.binance.com/fapi/v1/ticker/24hr?symbol=A"), { family: "umMarket", cost: 1 });
+assert.deepEqual(c("https://fapi.binance.com/fapi/v1/openInterest?symbol=A"), { family: "umMarket", cost: 1 });
+assert.deepEqual(c("https://api.binance.com/api/v3/ticker/price"), { family: "spot", cost: 4 });
+assert.equal(c("https://api.coingecko.com/api/v3/coins/markets"), null);
+console.log("collector-cost tests ok");
