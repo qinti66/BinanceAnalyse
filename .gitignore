@@ -25,3 +25,7 @@ data/calibration/
 
 # 含服务器凭据的明文文件，绝不可提交（建议移出仓库目录）
 YY.txt
+
+# 持仓/多空比历史：大，且【不可重新生成】（币安 /futures/data/ 只保留 30 天）。
+# 以部署服务器为存放地，由用户定期收集备份。git 不适合只增不减的序列数据。
+data/indicators/positions/

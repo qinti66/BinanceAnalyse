@@ -1,0 +1,17 @@
+import assert from "node:assert/strict";
+import { isDue, mergeSeries, REFETCH_MS, HOUR_MS } from "./positions-store.mjs";
+const pt = (t) => ({ timestamp: t, longShortRatio: "1" });
+assert.equal(isDue(null, 0), true);
+assert.equal(isDue({ lastFetchedAt: 0, points: [] }, REFETCH_MS - 1), false);
+assert.equal(isDue({ lastFetchedAt: 0, points: [] }, REFETCH_MS), true);
+const a = mergeSeries(null, [pt(3 * HOUR_MS), pt(1 * HOUR_MS), pt(2 * HOUR_MS)], 10);
+assert.deepEqual(a.store.points.map((p) => p.timestamp), [HOUR_MS, 2 * HOUR_MS, 3 * HOUR_MS]);
+assert.equal(a.gap, null);
+const b = mergeSeries(a.store, [pt(3 * HOUR_MS), pt(4 * HOUR_MS)], 20);
+assert.equal(b.store.points.length, 4, "overlap is deduplicated, not duplicated");
+assert.equal(b.gap, null);
+const c = mergeSeries(b.store, [pt(9 * HOUR_MS)], 30);
+assert.deepEqual(c.gap, { from: 4 * HOUR_MS, to: 9 * HOUR_MS }, "a hole is reported, not filled");
+assert.equal(c.store.points.length, 5);
+assert.equal(mergeSeries(c.store, [], 40).store.points.length, 5);
+console.log("positions-store tests ok");
