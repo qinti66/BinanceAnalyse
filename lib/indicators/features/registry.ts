@@ -183,17 +183,20 @@ function relBase(b: Bar[]): { ret: number; atrPct24: number } | string {
   return { ret, atrPct24: (atr / b[i].c) * 100 * Math.sqrt(24) };
 }
 
-function e1(b: Bar[], btc: Bar[] | null): R {
-  const base = relBase(b);
-  if (typeof base === "string") return no(base);
-  if (!btc || !btc.length) return no("BTC bars missing");
+/**
+ * The coin's beta to BTC at the last bar of `b`: the OLS slope of the last 168 hourly returns of the coin on BTC's, clipped to [0, 3]. THE one implementation:
+ * feature e1 uses it, and so does the residual label of the evaluation (BTC-beta-adjusted triple barrier), so the two can never disagree on what beta is.
+ * Returns the beta, or a reason it cannot be estimated (missing stays missing).
+ */
+export function estimateBeta(b: Bar[], btc: Bar[] | null): { beta: number } | { why: string } {
+  if (!btc || !btc.length) return { why: "BTC bars missing" };
   const need = BETA_RETURNS + 1;
-  if (b.length < need) return no(historyTooShort(b.length, need, HOUR_MS));
-  if (!contiguousTail(b, need, HOUR_MS)) return no("gap inside the beta window");
+  if (b.length < need) return { why: historyTooShort(b.length, need, HOUR_MS) };
+  if (!contiguousTail(b, need, HOUR_MS)) return { why: "gap inside the beta window" };
   const byCt = new Map(btc.map((x) => [x.ct, x]));
   const coin = tail(b, need);
   const bench = coin.map((x) => byCt.get(x.ct));
-  if (bench.some((x) => x === undefined)) return no("BTC bars do not cover the beta window");
+  if (bench.some((x) => x === undefined)) return { why: "BTC bars do not cover the beta window" };
   const rc: number[] = [];
   const rb: number[] = [];
   for (let k = 1; k < need; k++) {
@@ -201,8 +204,17 @@ function e1(b: Bar[], btc: Bar[] | null): R {
     rb.push(bench[k]!.c / bench[k - 1]!.c - 1);
   }
   const slope = olsSlope(rb, rc);
-  if (slope === null) return no("beta cannot be estimated");
-  const beta = Math.min(BETA_CLIP[1], Math.max(BETA_CLIP[0], slope));
+  if (slope === null) return { why: "beta cannot be estimated" };
+  return { beta: Math.min(BETA_CLIP[1], Math.max(BETA_CLIP[0], slope)) };
+}
+
+function e1(b: Bar[], btc: Bar[] | null): R {
+  const base = relBase(b);
+  if (typeof base === "string") return no(base);
+  if (!btc || !btc.length) return no("BTC bars missing");
+  const est = estimateBeta(b, btc);
+  if ("why" in est) return no(est.why);
+  const beta = est.beta;
   const j = lastIndexClosedBy(btc, b[b.length - 1].ct);
   if (j < 0 || btc[j].ct !== b[b.length - 1].ct) return no("BTC has no bar at the decision time");
   const btcRet = ret24hPct(btc, j);

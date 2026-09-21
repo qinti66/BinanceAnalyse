@@ -62,6 +62,20 @@ export interface TripleBarrierOptions {
    * "flat" refuses to guess. "down" is asymmetric between classes: check its frequency before trusting it.
    */
   sameBar?: "down" | "flat";
+  /**
+   * The settlement time (ms) of a contract that has been SETTLED, from its real deliveryDate; null or absent for every other contract.
+   * PRE-REGISTERED RULE (architect, calibration-log T30; not one word of it may change without a new registration):
+   *   If the contract has a REAL deliveryDate and t + horizon runs past the settlement time, the settlement time acts as a barrier that arrives EARLY:
+   *   1. the barriers are checked as usual over the bars from t+1 to the settlement time;
+   *   2. the first barrier touched decides the label (up or down), exactly as an ordinary label;
+   *   3. reaching the settlement time with no barrier touched is flat.
+   *   k, cost, ATR and the same-bar rule are the ordinary ones: NO new parameter.
+   * Why it is not a patch: for a live contract an incomplete forward window means the data has not been produced yet, so the outcome is UNKNOWN and the label
+   * is null. For a settled contract the outcome is KNOWN (the position is closed at the settlement price). A contract with no real deliveryDate (gone from
+   * exchangeInfo) never gets this rule: its end is inferred, and an inferred end may truncate data but may not assert an outcome.
+   * Applies only when the bars really do end at the settlement (the last bar opens before it and reaches it); otherwise the window is incomplete as ever.
+   */
+  settlementMs?: number | null;
 }
 
 export interface LabelResult {
@@ -72,9 +86,11 @@ export interface LabelResult {
   /** Bar index where a barrier was touched, if any. */
   touchIndex: number | null;
   ambiguous: boolean;
+  /** True when the forward window was cut short by the settlement time (see TripleBarrierOptions.settlementMs): reported separately, never mixed into the ordinary distribution. */
+  settled: boolean;
 }
 
-const none = (reason: string): LabelResult => ({ label: null, reason, endIndex: null, touchIndex: null, ambiguous: false });
+const none = (reason: string): LabelResult => ({ label: null, reason, endIndex: null, touchIndex: null, ambiguous: false, settled: false });
 
 /**
  * Entry at the close of bar t. Barriers: entry × (1 ± (k·ATR% + cost)). The first bar in t+1..t+horizon whose high reaches the upper
@@ -84,7 +100,19 @@ const none = (reason: string): LabelResult => ({ label: null, reason, endIndex: 
  */
 export function tripleBarrier(bars: Bar[], t: number, atr: (number | null)[], o: TripleBarrierOptions): LabelResult {
   if (!Number.isInteger(t) || t < 0 || t >= bars.length) return none("t out of range");
-  if (t + o.horizonBars >= bars.length) return none("forward window incomplete");
+  let end = t + o.horizonBars;
+  let settled = false;
+  if (end >= bars.length) {
+    // The window runs past the last bar. For an ordinary contract that is an unknown future: null. For a settled contract whose bars end AT the settlement it is
+    // a window cut short by the settlement: the barriers are checked to the end of the data, and no touch means flat.
+    const last = bars.length - 1;
+    const s = o.settlementMs;
+    const endsAtSettlement = typeof s === "number" && Number.isFinite(s) && bars[last].t < s && bars[last].t + HOUR_MS >= s;
+    if (!endsAtSettlement) return none("forward window incomplete");
+    if (t >= last) return none("no bar after the entry before the settlement");
+    end = last;
+    settled = true;
+  }
   if (!finite(o.cost) || o.cost < 0) return none("cost missing");
   const a = atr[t];
   const entry = bars[t].c;
@@ -92,7 +120,6 @@ export function tripleBarrier(bars: Bar[], t: number, atr: (number | null)[], o:
   const width = o.k * (a / entry) + o.cost;
   const up = entry * (1 + width);
   const down = entry * (1 - width);
-  const end = t + o.horizonBars;
   for (let j = t + 1; j <= end; j++) {
     const b = bars[j];
     if (b.t - bars[j - 1].t !== HOUR_MS) return none("gap inside the forward window");
@@ -101,12 +128,20 @@ export function tripleBarrier(bars: Bar[], t: number, atr: (number | null)[], o:
     const hitDown = b.l <= down;
     if (hitUp && hitDown) {
       const policy = o.sameBar ?? "down";
-      return { label: policy === "down" ? "down" : "flat", reason: null, endIndex: end, touchIndex: j, ambiguous: true };
+      return { label: policy === "down" ? "down" : "flat", reason: null, endIndex: end, touchIndex: j, ambiguous: true, settled };
     }
-    if (hitUp) return { label: "up", reason: null, endIndex: end, touchIndex: j, ambiguous: false };
-    if (hitDown) return { label: "down", reason: null, endIndex: end, touchIndex: j, ambiguous: false };
+    if (hitUp) return { label: "up", reason: null, endIndex: end, touchIndex: j, ambiguous: false, settled };
+    if (hitDown) return { label: "down", reason: null, endIndex: end, touchIndex: j, ambiguous: false, settled };
   }
-  return { label: "flat", reason: null, endIndex: end, touchIndex: null, ambiguous: false };
+  return { label: "flat", reason: null, endIndex: end, touchIndex: null, ambiguous: false, settled };
+}
+
+/** The class distribution of ordinary labels and of settlement-cut labels, SIDE BY SIDE: a difference between the two is a fact to know, not to average away. */
+export function splitBySettlement(results: LabelResult[]): { ordinary: LabelDistribution; settled: LabelDistribution } {
+  return {
+    ordinary: labelDistribution(results.filter((r) => !r.settled).map((r) => r.label)),
+    settled: labelDistribution(results.filter((r) => r.settled).map((r) => r.label)),
+  };
 }
 
 export interface LabelDistribution {

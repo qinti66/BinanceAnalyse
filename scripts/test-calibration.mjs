@@ -216,7 +216,7 @@ test("shuffled labels destroy the score, and a leaking pipeline would not be des
 
 // ---- the gate ----
 const CUTS={trend:{lower:.3,upper:.7},vol:{lower:20,upper:80}};
-const COV=(o={})=>({cutpoints:CUTS,trend:{low:60,high:60},vol:{low:60,high:60},...o});
+const COV=(o={})=>({cutpoints:CUTS,samplingIntervalDays:1,trend:{low:60,high:60},vol:{low:60,high:60},...o});
 const T={eceMax:.05,minClassSamples:50,regimeCutpoints:CUTS,minRegimeBinDays:30,minDelistedCoverage:.9,minFolds:3,minEffectiveN:2000,minEffectiveTestN:250,minTestSpanDays:60};
 const good=(o={})=>({folds:[{bss:.05,n:900},{bss:.04,n:900},{bss:.06,n:900}],pooled:{bss:.05,residualBss:.02,ece:.03,classCounts:[300,400,300],effectiveN:2500,effectiveTestN:400,regimeCoverage:COV(),testSpanDays:75,...(o.pooled||{})},randomBaselineP95:.02,leakStatus:"clean",universe:{identifiedDelisted:121,obtainedDelisted:121,unobtained:[]},...o,...(o.pooled?{pooled:{bss:.05,residualBss:.02,ece:.03,classCounts:[300,400,300],effectiveN:2500,effectiveTestN:400,regimeCoverage:COV(),testSpanDays:75,...o.pooled}}:{})});
 const fails=(r,t=T)=>evaluateGate(r,t);
@@ -484,4 +484,60 @@ test("blockShiftLabels keeps the time structure and breaks only the feature-labe
  const tiny=blockShiftLabels([{group:"X",time:1},{group:"X",time:2}],[0,1],1);
  assert.deepEqual(tiny.labels,[0,1]);assert.equal(tiny.unshifted,2);
  assert.throws(()=>blockShiftLabels([{group:"X",time:1}],[0,1],1),/line up/);
+});
+
+test("residual label: BTC-beta-adjusted, same beta as feature e1, missing stays missing",async()=>{
+ const {residualLabelAt}=await import("../lib/calibration/residual.ts");
+ const {estimateBeta}=await import("../lib/indicators/features/registry.ts");
+ const {atrSeries}=await import("../lib/structure/atr.ts");
+ const HOUR=3600000,N=400;
+ // BTC: a slow random-looking walk with a big move late. Coin A moves exactly 2x BTC (beta 2); coin B is BTC-independent noise.
+ let seed=99;const rnd=()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296;};
+ const btcC=[100];for(let i=1;i<N;i++)btcC.push(btcC[i-1]*(1+(rnd()-.5)*.01+(i>=350?.002:0)));
+ const bar=(i,c)=>({t:i*HOUR,ct:i*HOUR+HOUR-1,o:c,h:c*1.002,l:c*.998,c,v:1,qvUsd:1,takerBuyUsd:1,trades:1,flow:null});
+ const btc=btcC.map((c,i)=>bar(i,c));
+ const coinA=btcC.map((c)=>100*(c/100)**2); // a coin that is exactly BTC squared: beta 2 to first order, no idiosyncratic move
+ const A=coinA.map((c,i)=>bar(i,c));
+ const atrA=atrSeries(A,14);
+ const est=estimateBeta(A.slice(0,351),btc);
+ assert.ok("beta" in est&&Math.abs(est.beta-2)<0.02,"a coin that moves 2x BTC has beta 2 (the same estimate e1 uses): "+JSON.stringify(est));
+ const r=residualLabelAt({bars:A,i:350,btc,atr:atrA,horizonBars:24,k:1,cost:0.001});
+ assert.equal(r.reason,null);
+ assert.equal(r.label,"flat","the coin only followed the market (beta 2): the beta-adjusted path is flat");
+ // the same window against the PLAIN barrier is decided by the market move: this is exactly what the residual check removes
+ const {tripleBarrier}=await import("../lib/indicators/labels.ts");
+ const plain=tripleBarrier(A,350,atrA,{horizonBars:24,k:1,cost:0.001});
+ assert.notEqual(plain.label,"flat","without the adjustment the same window is up or down");
+ // missing stays missing
+ assert.equal(residualLabelAt({bars:A,i:395,btc,atr:atrA,horizonBars:24,k:1,cost:.001}).label,null,"forward window incomplete");
+ assert.equal(residualLabelAt({bars:A,i:350,btc:btc.filter((b,i)=>i!==360),atr:atrA,horizonBars:24,k:1,cost:.001}).label,null,"a BTC bar missing in the forward window: no nearest-bar substitute");
+ assert.match(residualLabelAt({bars:A,i:350,btc:btc.filter((b,i)=>i!==360),atr:atrA,horizonBars:24,k:1,cost:.001}).reason,/BTC bar missing/);
+ assert.equal(residualLabelAt({bars:A,i:100,btc,atr:atrA,horizonBars:24,k:1,cost:null}).label,null,"cost missing");
+ assert.equal(residualLabelAt({bars:A,i:50,btc,atr:atrA,horizonBars:24,k:1,cost:.001}).label,null,"not enough history for a beta");
+ assert.equal(residualLabelAt({bars:A,i:350,btc:[],atr:atrA,horizonBars:24,k:1,cost:.001}).label,null,"no BTC at all");
+});
+
+test("regime coverage refuses anything but daily sampling (the day threshold is not comparable otherwise)",async()=>{
+ const {modalGap,regimeCoverage:rc}=await import("../lib/calibration/regime.ts");
+ assert.equal(modalGap([1,2,3,4,5]),1);assert.equal(modalGap([1,4,7,10]),3);assert.equal(modalGap([5]),null);assert.equal(modalGap([]),null);
+ assert.equal(modalGap([1,2,3,10,11,12]),1,"the most common gap wins over one hole");
+ assert.equal(modalGap([1,2,4]),1,"ties go to the smaller gap");
+ assert.equal(modalGap([3,1,2]),1,"order does not matter");
+ // real coverages carry it, computed from the days actually present
+ const daily=rc({trend:[0,1,2,3],vol:[50,50,50,50],days:[10,11,12,13],cutpoints:FROZEN_REGIME_CUTPOINTS});
+ assert.equal(daily.samplingIntervalDays,1);
+ const every3=rc({trend:[0,1,2,3],vol:[50,50,50,50],days:[10,13,16,19],cutpoints:FROZEN_REGIME_CUTPOINTS});
+ assert.equal(every3.samplingIntervalDays,3);
+ // several samples on the same day are one day
+ const multi=rc({trend:[0,0,1,1],vol:[50,50,50,50],days:[10,10,11,11],cutpoints:FROZEN_REGIME_CUTPOINTS});
+ assert.equal(multi.samplingIntervalDays,1);
+ // the gate: interval 1 passes, everything else is refused, whatever the day counts
+ assert.equal(fails(good({pooled:{regimeCoverage:COV({samplingIntervalDays:1})}})).pass,true);
+ for(const bad of [2,3,7,0,null,undefined,NaN,"1"]){
+  const r=fails(good({pooled:{regimeCoverage:COV({samplingIntervalDays:bad})}}));
+  assert.equal(r.pass,false,"sampling interval "+String(bad));
+  assert.match(r.reasons.join(";"),/not consecutive|the test days/,"interval "+String(bad));
+ }
+ // even with plenty of days in every bin, a sparse sampling is refused
+ assert.equal(fails(good({pooled:{regimeCoverage:COV({samplingIntervalDays:3,trend:{low:1e4,high:1e4},vol:{low:1e4,high:1e4}})}})).pass,false);
 });

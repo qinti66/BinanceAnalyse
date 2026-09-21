@@ -62,6 +62,12 @@ export function regimeNotes(p: typeof REGIME_PROVENANCE = REGIME_PROVENANCE): st
 export interface RegimeCoverage {
   /** The cutpoints these counts were computed with; the gate refuses counts computed with any other cutpoints. */
   cutpoints: RegimeCutpoints;
+  /**
+   * The spacing, in days, between the distinct test days the coverage was counted from (the most common gap; null when there are fewer than two days). The day
+   * threshold (minRegimeBinDays) is only comparable when the test days are consecutive, i.e. 1: sampling every third day cuts every bin's day count to about a
+   * third (measured in the rehearsal: 28 days instead of about 38). The gate refuses any other value.
+   */
+  samplingIntervalDays: number | null;
   /** Distinct test DAYS whose regime value falls in the low and high bin of each axis. */
   trend: { low: number; high: number };
   vol: { low: number; high: number };
@@ -76,6 +82,18 @@ export function regimeTerciles(values: number[]): AxisCutpoints | null {
   const lower = quantile(v, 1 / 3);
   const upper = quantile(v, 2 / 3);
   return lower === null || upper === null || !(lower < upper) ? null : { lower, upper };
+}
+
+/** The most common gap between consecutive distinct days (ties go to the smaller gap); null with fewer than two days. */
+export function modalGap(distinctDays: number[]): number | null {
+  const d = [...distinctDays].sort((x, y) => x - y);
+  if (d.length < 2) return null;
+  const counts = new Map<number, number>();
+  for (let i = 1; i < d.length; i++) counts.set(d[i] - d[i - 1], (counts.get(d[i] - d[i - 1]) ?? 0) + 1);
+  let best = -1;
+  let bestN = -1;
+  for (const [gap, n] of counts) if (n > bestN || (n === bestN && gap < best)) [best, bestN] = [gap, n];
+  return best;
 }
 
 /**
@@ -112,7 +130,7 @@ export function regimeCoverage(o: { trend: number[]; vol: number[]; days: ArrayL
   const a = perDay(trend);
   const b = perDay(vol);
   if (!a || !b) return null;
-  return { cutpoints, trend: count(a, cutpoints.trend), vol: count(b, cutpoints.vol) };
+  return { cutpoints, samplingIntervalDays: modalGap([...new Set(Array.from(days))]), trend: count(a, cutpoints.trend), vol: count(b, cutpoints.vol) };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------

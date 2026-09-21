@@ -186,6 +186,9 @@ export function evaluateGate(report: HeadReport | null | undefined, t: Readonly<
         return !!x && x.lower === y.lower && x.upper === y.upper;
       });
       if (cutsOk && !same) reasons.push("regime coverage unverified: it was computed with different cutpoints than the gate's");
+      // The day threshold only means something for consecutive test days. Sampling every k days shrinks every bin's day count by about k and would fail (or pass)
+      // for the wrong reason, so anything but daily sampling is refused outright.
+      if (cov.samplingIntervalDays !== 1) reasons.push("regime coverage unverified: the test days are not consecutive (sampling interval " + String(cov.samplingIntervalDays) + " days, need 1); the day threshold is not comparable");
       for (const axis of ["trend", "vol"] as const) {
         for (const bin of ["low", "high"] as const) {
           const v = cov[axis]?.[bin];

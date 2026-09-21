@@ -21,6 +21,7 @@ import { baseRates, bss, ece, classCounts } from "../lib/calibration/metrics.ts"
 import { randomFeatureBaseline, blockShiftLabels, leakCheck } from "../lib/calibration/controls.ts";
 import { evaluateGate, CALIBRATION_GATE } from "../lib/calibration/gate.ts";
 import { regimeCoverage, FROZEN_REGIME_CUTPOINTS, btcTrailingReturnPct } from "../lib/calibration/regime.ts";
+import { residualLabelAt } from "../lib/calibration/residual.ts";
 import { assertNativeKlines } from "./kline-source.mjs";
 
 const HOUR = 3600000;
@@ -68,8 +69,7 @@ console.log(`coins ${coins.length}, decision days ${cts.length}, horizon ${H}h (
 const samples = [];
 const X = [];
 const Y = [];
-const tr = [];
-const vo = [];
+const YR = []; // the residual (BTC-beta-adjusted) label class, or -1 when it cannot be computed (missing stays missing)
 const gi = FEATURE_IDS.indexOf("g2_btc_vol_regime");
 const regimeByDay = new Map();
 let considered = 0;
@@ -90,14 +90,23 @@ for (let d = 0; d < cts.length; d++) {
     samples.push({ group: c.symbol, time: ct, endTime: c.bars[l.endIndex].ct });
     X.push(Array.from(v.values));
     Y.push(classIndex(l.label));
+    const rl = residualLabelAt({ bars: c.bars, i, btc, atr: c.atr, horizonBars: H, k: K, cost });
+    YR.push(rl.label === null ? -1 : classIndex(rl.label));
   }
   if ((d + 1) % 60 === 0) console.log(`  ${d + 1}/${cts.length} days, ${samples.length} samples, ${Math.round((Date.now() - t0) / 1000)}s`);
 }
 console.log(`points considered ${considered}, usable (21 features + a label) ${samples.length}`);
+{
+  const share = (ys) => { const n = ys.filter((y) => y >= 0).length; return [0, 1, 2].map((c) => ((100 * ys.filter((y) => y === c).length) / Math.max(1, n)).toFixed(1) + "%").join(" / "); };
+  console.log("class shares (down / flat / up): plain labels", share(Y), "| residual (BTC-beta-adjusted) labels", share(YR), "| residual label missing for", YR.filter((y) => y < 0).length, "samples");
+}
 
 // 2. walk-forward folds (purge + embargo), all test blocks after the consumed window
 const weights = uniquenessWeights(samples, HOUR);
-const testEnd = Math.max(...samples.map((s) => s.time)) + 1;
+// (a loop, not Math.max(...array): spreading 170,000 arguments overflows the call stack)
+const maxOf = (xs) => xs.reduce((m, x) => (x > m ? x : m), -Infinity);
+const minOf = (xs) => xs.reduce((m, x) => (x < m ? x : m), Infinity);
+const testEnd = maxOf(samples.map((s) => s.time)) + 1;
 const folds = walkForwardFolds(samples, { nFolds: 4, horizonBars: H, barMs: HOUR, testStart: MIN_TEST_START_MS, testEnd });
 const violations = folds.flatMap((f) => foldViolations(samples, f, { horizonBars: H, barMs: HOUR }));
 console.log(`folds ${folds.length}, split violations ${violations.length}${violations.length ? ": " + violations.slice(0, 3).join(" | ") : ""}`);
@@ -124,13 +133,31 @@ for (const f of folds) {
   const model = fitSoftmax(f.trainIdx.map((i) => X[i]), trainY, 3, { l2: L2, sampleWeights: trW, maxIter: 60 });
   const probs = predictProba(model, f.testIdx.map((i) => X[i]));
   const real = bss(probs, testY, rates, teW);
+  // residual skill: the SAME forecasts against the BTC-beta-adjusted labels (base rates from the training residual labels); samples with no residual label are left out
+  const trR = f.trainIdx.filter((i) => YR[i] >= 0);
+  const teR = f.testIdx.map((i, j) => (YR[i] >= 0 ? j : -1)).filter((j) => j >= 0);
+  const residualRates = trR.length ? baseRates(trR.map((i) => YR[i]), 3, trR.map((i) => weights[i])) : null;
+  const residual = residualRates && teR.length ? bss(teR.map((j) => probs[j]), teR.map((j) => YR[f.testIdx[j]]), residualRates, teR.map((j) => teW[j])) : null;
+  // Two DIAGNOSTICS of why the plain residual BSS can be so negative (they are reported, they are NOT what the gate reads):
+  //  (a) prior-shift: the residual labels have another class mix than the plain ones (mostly flat: the market move is removed), so forecasts calibrated to the plain mix
+  //      are penalised even with skill. Re-weight each forecast by the ratio of the TRAINING residual prior to the TRAINING plain prior and renormalise (no new parameter).
+  //  (b) own model: fit the same model on the residual labels and score it against the residual base rates: does the feature set carry information beyond the market?
+  let residualShift = null;
+  let residualOwn = null;
+  if (residualRates && rates && teR.length) {
+    const ratio = residualRates.map((r, c) => (rates[c] > 0 ? r / rates[c] : 0));
+    const shifted = teR.map((j) => { const q = probs[j].map((pc, c) => pc * ratio[c]); const z = q.reduce((a, b) => a + b, 0); return q.map((x) => x / z); });
+    residualShift = bss(shifted, teR.map((j) => YR[f.testIdx[j]]), residualRates, teR.map((j) => teW[j]));
+    const ownModel = fitSoftmax(trR.map((i) => X[i]), trR.map((i) => YR[i]), 3, { l2: L2, sampleWeights: trR.map((i) => weights[i]), maxIter: 60 });
+    residualOwn = bss(predictProba(ownModel, teR.map((j) => X[f.testIdx[j]])), teR.map((j) => YR[f.testIdx[j]]), residualRates, teR.map((j) => teW[j]));
+  }
   const shufTrainY = f.trainIdx.map((i) => YS[i]);
   const shufTestY = f.testIdx.map((i) => YS[i]);
   const shufModel = fitSoftmax(f.trainIdx.map((i) => X[i]), shufTrainY, 3, { l2: L2, sampleWeights: trW, maxIter: 60 });
   const shuf = bss(predictProba(shufModel, f.testIdx.map((i) => X[i])), shufTestY, baseRates(shufTrainY, 3, trW), teW);
   const rb = randomFeatureBaseline({ trainY, testY, k: 3, nFeatures: FEATURE_IDS.length, l2: L2, trainWeights: trW, testWeights: teW, draws: 20, seed: 100 + f.index, maxIter: 60 });
   baseline = rb ?? baseline;
-  rows.push({ fold: f.index, train: trainY.length, test: testY.length, purged: f.purged, effTrain: Math.round(effectiveN(trW)), effTest: Math.round(effectiveN(teW)), real, shuf, randP95: rb?.p95 ?? null, randMean: rb?.mean ?? null, classes: classCounts(testY, 3) });
+  rows.push({ residual, residualShift, residualOwn, residualN: teR.length, fold: f.index, train: trainY.length, test: testY.length, purged: f.purged, effTrain: Math.round(effectiveN(trW)), effTest: Math.round(effectiveN(teW)), real, shuf, randP95: rb?.p95 ?? null, randMean: rb?.mean ?? null, classes: classCounts(testY, 3) });
   probs.forEach((p, j) => {
     allTest.probs.push(p);
     allTest.y.push(testY[j]);
@@ -150,17 +177,23 @@ for (const r of rows) console.log(r.note ? `${r.fold}  ${r.note} (${r.train}/${r
 const good = rows.filter((r) => !r.note && r.real !== null);
 const wsum = good.reduce((a, r) => a + r.effTest, 0);
 const pooledBss = wsum ? good.reduce((a, r) => a + r.real * r.effTest, 0) / wsum : null;
+const residualGood = good.filter((r) => r.residual !== null);
+const rsum = residualGood.reduce((a, r) => a + r.effTest, 0);
+const pooledResidual = rsum ? residualGood.reduce((a, r) => a + r.residual * r.effTest, 0) / rsum : null;
 const pooledShuf = wsum ? good.reduce((a, r) => a + r.shuf * r.effTest, 0) / wsum : null;
 const p95 = baseline?.p95 ?? null;
 const leak = leakCheck({ realBss: pooledBss, shuffledBss: pooledShuf, randomP95: p95 });
 const eceRes = allTest.y.length ? ece(allTest.probs, allTest.y, { minBinSamples: 50, maxBins: 10 }) : null;
 const cov = regimeCoverage({ trend: allTest.trend, vol: allTest.vol, days: allTest.days, cutpoints: FROZEN_REGIME_CUTPOINTS });
+const avgW = (key) => { const g = good.filter((r) => r[key] !== null && r[key] !== undefined); const w = g.reduce((a, r) => a + r.effTest, 0); return w ? g.reduce((a, r) => a + r[key] * r.effTest, 0) / w : null; };
+console.log("residual DIAGNOSTICS (not read by the gate): prior-shift-adjusted forecasts per fold", rows.map((r) => (r.note ? "-" : f4(r.residualShift))).join(" | "), "| pooled", f4(avgW("residualShift")), "|| a model fitted on the residual labels, per fold", rows.map((r) => (r.note ? "-" : f4(r.residualOwn))).join(" | "), "| pooled", f4(avgW("residualOwn")));
+console.log("residual BSS per fold (same forecasts vs BTC-beta-adjusted labels):", rows.map((r) => (r.note ? "-" : f4(r.residual) + " (n " + r.residualN + ")")).join(" | "), "| pooled", f4(pooledResidual));
 console.log(`\npooled BSS ${f4(pooledBss)} | shuffled ${f4(pooledShuf)} | random-feature p95 ${f4(p95)} | leak control: ${leak.status} (${leak.reason})`);
 console.log(`ECE ${eceRes ? f4(eceRes.ece) : "-"} | regime coverage in DAYS (frozen cutpoints):`, cov ? JSON.stringify({ trend: cov.trend, vol: cov.vol }) : "null (a day carried two different values, or days did not line up)");
-const testSpanDays = allTest.days.length ? Math.max(...allTest.days) - Math.min(...allTest.days) + 1 : null;
+const testSpanDays = allTest.days.length ? maxOf(allTest.days) - minOf(allTest.days) + 1 : null;
 const report = {
   folds: good.map((r) => ({ bss: r.real, n: r.test })),
-  pooled: { bss: pooledBss, residualBss: null, ece: eceRes?.ece ?? null, classCounts: classCounts(allTest.y, 3), effectiveN: good.length ? good.at(-1).effTrain : null, effectiveTestN: wsum || null, regimeCoverage: cov, testSpanDays },
+  pooled: { bss: pooledBss, residualBss: pooledResidual, ece: eceRes?.ece ?? null, classCounts: classCounts(allTest.y, 3), effectiveN: good.length ? good.at(-1).effTrain : null, effectiveTestN: wsum || null, regimeCoverage: cov, testSpanDays },
   randomBaselineP95: p95,
   leakStatus: leak.status,
   universe: { identifiedDelisted: 121, obtainedDelisted: 0, unobtained: Array.from({ length: 121 }, (_, k) => ({ symbol: "delisted-" + (k + 1), reason: "not yet downloaded: batches await the user's approval" })) },
@@ -170,4 +203,4 @@ console.log(`\nGATE (shipped default): pass = ${gate.pass}; reasons:`);
 for (const r of gate.reasons) console.log("  - " + r);
 console.log("notes carried by the result:");
 for (const n of gate.notes) console.log("  * " + n);
-console.log("\nREHEARSAL ONLY. residualBss is not computed here (null), so the gate lists it as missing. Survivors only. None of these numbers is a model result.");
+console.log("\nREHEARSAL ONLY. Survivors only. None of these numbers is a model result.");
