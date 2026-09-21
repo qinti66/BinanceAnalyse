@@ -9,6 +9,7 @@
 // routed around; HTTP 418/429/403 stops the run (limits and the web firewall are obeyed, not worked around) and the partial progress is kept.
 // Observed 2026-09-20: one HTTP 403 (an HTML firewall page) after ~126 symbols at 800 ms pacing; the next requests were fine. The pace was
 // then halved. If a 403 happens again, stop for good and report instead of resuming.
+import "./require-node.mjs"; // Node-version gate: keep this the FIRST import (test-entry-static-graph.mjs)
 import { mkdir, readFile, writeFile, access } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";

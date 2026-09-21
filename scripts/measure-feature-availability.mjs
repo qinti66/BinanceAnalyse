@@ -1,3 +1,4 @@
+// NOTE: this script statically imports .ts files, so it needs Node >=22.18 (or >=23.6); the require-node.mjs entry gate cannot run before that load error.
 // Feature-side availability and distribution of the 1h-only features on an old window (calibration-log-v1.md T4/T5).
 // Touches no labels and no returns. usage: node scripts/measure-feature-availability.mjs <klines.json>
 import { readFile } from "node:fs/promises";

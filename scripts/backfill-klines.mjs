@@ -6,6 +6,7 @@
 // its klines weight (limit <= 100: 1, <= 500: 2, <= 1000: 5, above: 10) and the server-reported X-MBX-USED-WEIGHT-1M feeds back into the
 // limiter. Boundaries (scripts/binance-net.mjs, scripts/rate-limit.mjs): HTTP 451 stops the run and is never routed around; 429 waits out
 // Retry-After and retries a few times; 418 and 403 (web application firewall) abort; nothing works around a limit.
+import "./require-node.mjs"; // Node-version gate: keep this the FIRST import (test-entry-static-graph.mjs)
 import { mkdir, writeFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";

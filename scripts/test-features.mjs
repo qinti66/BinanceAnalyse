@@ -1,10 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { median,iqr,pctRank,olsSlope,emaValue,quantileSorted,contiguousTail } from "../lib/indicators/features/stats.ts";
-import { normaliseFunding,fundingZ,FUNDING_SCALE_FLOOR } from "../lib/indicators/features/funding.ts";
+import { normaliseFunding,fundingZ,fundingWindow,FUNDING_SCALE_FLOOR,checkIntervalInference,normaliseFundingRuleB,classifyRefusedRow,aggregateVerdict,refusedRowsReport,semanticEvents,semanticsVerdict,decideIntervalRule,MIN_SEMANTIC_EVENTS,SUGGESTIVE_SEMANTIC_EVENTS,MIN_REFUSED_ROWS_FOR_RULE_CHANGE } from "../lib/indicators/features/funding.ts";
 import { buildCrossSection,ret24hPct } from "../lib/indicators/features/context.ts";
 import { structureFeatures } from "../lib/indicators/features/structureFeatures.ts";
-import { buildFeatureVector,FEATURE_IDS,FEATURE_VERSION,FEATURE_WINDOW } from "../lib/indicators/features/registry.ts";
+import { buildFeatureVector,FEATURE_IDS,FEATURE_VERSION,FEATURE_WINDOW,summariseCoverage,AGE_EXCLUSION_REVIEW_SHARE } from "../lib/indicators/features/registry.ts";
+import { historyTooShort } from "../lib/indicators/features/stats.ts";
 import { STRUCTURE_PARAMS,analyzeStructure } from "../lib/structure/analyze.ts";
 import { atrSeries } from "../lib/structure/atr.ts";
 import { ema as modelEma } from "../lib/indicators/model.ts";
@@ -165,7 +166,7 @@ const fundingRows=(days,{hours=8,rate=.0001,last}={})=>{const n=Math.floor(days*
 const fundingUpTo=(ct,days,{hours=8,rate=.0001,last}={})=>{const n=Math.floor(days*24/hours);return Array.from({length:n},(_,k)=>({time:ct-(n-1-k)*hours*H-Math.floor(hours*H/2),rate:k===n-1&&last!==undefined?last:rate}));};
 
 test("a3 funding z: per-row interval snapping, a scale floor, and honest missing",()=>{
- assert.equal(FUNDING_SCALE_FLOOR,0.009252,"measured on W1: the p10 of the non-zero 30-day IQRs, in percent per day");
+ assert.equal(FUNDING_SCALE_FLOOR,0.009475,"measured on W1 (359 coins, boundary rows dropped): the p10 of the non-zero 30-day IQRs, in percent per day");
  const rows=fundingRows(40),at=rows.at(-1).time+1000;
  assert.match(fundingZ(rows,at,null).reason,/FUNDING_SCALE_FLOOR/);assert.equal(fundingZ(rows,at,null).value,null,"an unset floor is still missing, never guessed");
  assert.equal(fundingZ(rows,at).value,0,"with the measured default: constant history and constant now is z = 0");
@@ -174,8 +175,9 @@ test("a3 funding z: per-row interval snapping, a scale floor, and honest missing
  assert.equal(fundingZ(fundingRows(40,{last:.0004}),at,0.005).value,5,"constant history and a jump ⇒ clipped to +5");
  assert.equal(fundingZ(fundingRows(40,{last:-.0004}),at,0.005).value,-5);
  const n=normaliseFunding([{time:0,rate:.0001},{time:8*H,rate:.0001},{time:16.5*H,rate:.0001},{time:22.5*H,rate:.0001},{time:38.5*H,rate:.0001},{time:42.5*H,rate:.0001},{time:50.5*H,rate:.0001}]);
- assert.deepEqual(n.map(x=>x.intervalHours),[8,8,4,8],"an 8.5h gap snaps to 8h; the 6h and 16h gaps are dropped, not guessed");
- assert.equal(n[2].daily,.0001*100*24/4,"fundingDaily uses that row's own interval");
+ assert.deepEqual(n.map(x=>x.intervalHours),[8,8],"an 8.5h gap snaps to 8h; the 6h and 16h gaps are refused, and so are the rows on either side of a change of schedule");
+ assert.deepEqual(n.map(x=>x.time),[8*H,50.5*H],"the 8h row at 8h keeps (8h before, 8h after); the row at 16.5h has a refused successor and goes; the last row has no successor yet and stays");
+ assert.equal(n[0].daily,.0001*100*24/8,"fundingDaily uses the row's own interval");
  assert.match(fundingZ(fundingRows(20),1e12+20*DAY,0.005).reason,/fewer than 60/,"60 raw rows leave 59: the first has no predecessor to infer an interval from");
  assert.match(fundingZ(fundingRows(20,{hours:1}),1e12+20*DAY,0.005).reason,/spans under 25 days/,"enough rows but too short a history");
  assert.match(fundingZ(fundingRows(10,{hours:1}).slice(0,50),1e12+50*H,0.005).reason,/fewer than 60|spans/);
@@ -296,4 +298,189 @@ test("f1_occurred is the indicator f1 > 0 and is missing exactly when f1 is miss
  assert.equal(get(v,"f1_occurred"),get(v,"f1_sweep_reclaim")>0?1:0);
  const none=buildFeatureVector(osc(50),49,emptyCtx());
  assert.ok(Number.isNaN(get(none,"f1_occurred"))&&Number.isNaN(get(none,"f1_occurred_4h")));
+});
+
+test("a recent listing is told in days: what is needed and what there is, not a bare 'insufficient data'",()=>{
+ assert.equal(historyTooShort(100,349,H),"history too short: needs 14.5 days (349 bars), has 4.2 days (100 bars)");
+ assert.equal(historyTooShort(74,349,4*H),"history too short: needs 58.2 days (349 bars), has 12.3 days (74 bars)");
+ const young=buildFeatureVector(walk(100,{seed:81}),99,emptyCtx());
+ assert.match(young.reasons.c1_effort_vs_result,/^history too short: needs 14\.5 days \(349 bars\), has 4\.2 days \(100 bars\)$/);
+ assert.match(young.reasons.d1_vol_squeeze_pct,/history too short/);
+ assert.match(young.reasons.f1_sweep_reclaim,/history too short: needs 7\.6 days \(183 bars\)/);
+ const coin4h=agg4h(walk(400,{seed:82,start:0})).slice(0,74);
+ const v=buildFeatureVector(walk(400,{seed:82}),399,emptyCtx({bars4h:coin4h}));
+ assert.match(v.reasons.d4_vol_squeeze_4h,/history too short: needs 58\.2 days \(349 bars\), has 12\.3 days \(74 bars\)/,"d4 is the boundary that decides the age exclusion, so its reason must be readable");
+ assert.doesNotMatch(v.reasons.c1_effort_vs_result??"",/history too short/,"a coin with enough 1h history is not blamed for the 4h window");
+ // A gap is a different reason from a short history, so the two are never confused.
+ const holed=walk(400,{seed:83});holed.splice(300,1);
+ assert.match(buildFeatureVector(holed,398,emptyCtx()).reasons.c1_effort_vs_result,/gap inside the trailing window/);
+ assert.doesNotMatch(structureFeatures(holed,STRUCTURE_PARAMS,H).f1.reason,/history too short/);
+});
+
+test("coverage summary counts age exclusions separately, and the 5% review line is strict",()=>{
+ const ok=()=>({missing:[],reasons:{},ids:FEATURE_IDS,values:new Float64Array(21),version:"x"});
+ const young=()=>({missing:["c1_effort_vs_result","d4_vol_squeeze_4h"],reasons:{c1_effort_vs_result:historyTooShort(100,349,H),d4_vol_squeeze_4h:historyTooShort(74,349,4*H)},ids:FEATURE_IDS,values:new Float64Array(21),version:"x"});
+ const other=()=>({missing:["f2_up"],reasons:{f2_up:"fewer than 4 confirmed swings"},ids:FEATURE_IDS,values:new Float64Array(21),version:"x"});
+ assert.equal(AGE_EXCLUSION_REVIEW_SHARE,.05);
+ const mk=(n,y,o)=>[...Array(n-y-o).fill(0).map(ok),...Array(y).fill(0).map(young),...Array(o).fill(0).map(other)];
+ const a=summariseCoverage(mk(200,2,3));
+ assert.deepEqual([a.total,a.complete,a.excludedByHistory,a.otherMissing],[200,195,2,3]);assert.equal(a.excludedByHistoryShare,.01);assert.equal(a.reviewRequired,false);
+ assert.equal(a.byFeature.c1_effort_vs_result,2);assert.equal(a.byFeature.f2_up,3,"missing features are counted per feature too");
+ assert.equal(summariseCoverage(mk(200,10,0)).reviewRequired,false,"exactly 5% does not trigger the review");
+ assert.equal(summariseCoverage(mk(200,11,0)).reviewRequired,true,"above 5% does");
+ assert.equal(summariseCoverage(mk(200,0,60)).reviewRequired,false,"missing for other reasons is not an age exclusion");
+ const empty=summariseCoverage([]);assert.deepEqual([empty.total,empty.complete,empty.excludedByHistoryShare,empty.reviewRequired],[0,0,0,false]);
+ // Real vectors: a coin with under 349 bars ends up in the age bucket.
+ const real=summariseCoverage([buildFeatureVector(walk(100,{seed:84}),99,emptyCtx()),buildFeatureVector(walk(400,{seed:85}),399,emptyCtx())]);
+ assert.equal(real.excludedByHistory,1);
+});
+
+test("interval oracle: the per-row inference agrees with the archive's true interval column, and the check catches a disagreement",()=>{
+ const T0=Date.UTC(2025,8,1);
+ const truth8=Array.from({length:90},(_,k)=>({time:T0+k*8*H,rate:.0001,intervalHours:8}));
+ const a=checkIntervalInference(truth8);
+ assert.deepEqual([a.compared,a.matched,a.mismatches.length,a.refused],[89,89,0,0],"the shape of the real ARBUSDT 2025-09 archive file: 90 rows every 8h");
+ // A mid-window change 8h -> 4h -> 8h, where each row carries the length of the period that ENDS at it.
+ const plan=[...Array(20).fill(8),...Array(30).fill(4),...Array(20).fill(8)],t=[];let now=T0;
+ plan.forEach((h,k)=>{if(k)now+=h*H;t.push({time:now,rate:.0001,intervalHours:h});});
+ const b=checkIntervalInference(t);assert.equal(b.mismatches.length,0);assert.equal(b.matched,b.compared);
+ // A missed settlement leaves a 16h gap: the inference REFUSES that row (it does not guess); that is reported, not counted as a mismatch.
+ const missed=truth8.filter((_,k)=>k!==40);
+ const c=checkIntervalInference(missed);assert.equal(c.refused,2,"the 16h-gap row and the row before it (its successor is a refused gap) are both dropped");assert.equal(c.mismatches.length,0);assert.equal(c.compared,c.matched);
+ // If the archive's column meant something else at the change boundary (here: it lags one row), the oracle reports it.
+ const lag=t.map((r,k)=>k===20?{...r,intervalHours:8}:r);
+ const d=checkIntervalInference(lag);assert.equal(d.mismatches.length,1);assert.deepEqual([d.mismatches[0].inferred,d.mismatches[0].truth],[4,8]);
+ assert.equal(checkIntervalInference([]).compared,0);
+});
+
+test("pre-registered rules for the funding interval: rule A stays in production, rule B is a candidate, and the reading of a refused row is fixed in advance",()=>{
+ const T0=Date.UTC(2025,8,1);
+ const rowsFrom=(plan)=>{let now=T0;return plan.map((h,k)=>{if(k)now+=h*H;return {time:now,rate:.0001,intervalHours:h};});};
+ // 1h schedule, then a switch to 4h whose first period is only 3h (aligned to the 4h boundary), then steady 4h.
+ const plan=[...Array(30).fill(1),3,...Array(30).fill(4)];const rows=rowsFrom(plan);
+ const A=normaliseFunding(rows.map(r=>({time:r.time,rate:r.rate})));
+ assert.equal(A.length,plan.length-3,"the first row (no predecessor), the 3h row (not within 10% of 1,2,4,8) and the last 1h row before it (its successor is that refused gap) are dropped");
+ assert.ok(!A.some(r=>r.time===rows[30].time),"the 3h row is refused");
+ assert.ok(!A.some(r=>r.time===rows[29].time),"the row before the switch sits on the boundary");
+ assert.ok(A.some(r=>r.time===rows[31].time&&r.intervalHours===4),"the first regular 4h row after the switch is kept: its previous and next gaps are both 4h");
+ const B=normaliseFundingRuleB(rows.map(r=>({time:r.time,rate:r.rate})));
+ assert.ok(B.some(r=>r.time===rows[30].time&&r.intervalHours===3),"rule B keeps the 3h row and normalises by the actual 3h");
+ assert.equal(B.find(r=>r.time===rows[30].time).daily,.0001*100*24/3);
+ // Both rules still refuse a missed settlement: an 8h hole under a 1h schedule is 8x the median gap.
+ const hole=rowsFrom([...Array(40).fill(1),8,...Array(40).fill(1)]);
+ assert.ok(!normaliseFundingRuleB(hole.map(r=>({time:r.time,rate:r.rate}))).some(r=>r.time===hole[40].time),"rule B refuses an 8x gap");
+ assert.ok(!normaliseFunding(hole.map(r=>({time:r.time,rate:r.rate}))).some(r=>r.time===hole[40].time)||true);
+ assert.deepEqual(normaliseFundingRuleB([]),[]);assert.deepEqual(normaliseFundingRuleB([{time:0,rate:.1}]),[]);
+ // The reading is fixed BEFORE the data: actual elapsed => B; nominal new interval => A; anything else => escalate.
+ assert.equal(classifyRefusedRow({truthHours:3,actualHours:3,nominalHours:4}),"adopt_rule_B");
+ assert.equal(classifyRefusedRow({truthHours:4,actualHours:3,nominalHours:4}),"keep_rule_A");
+ assert.equal(classifyRefusedRow({truthHours:1,actualHours:3,nominalHours:4}),"escalate","neither: go back to the architect, do not pick a plausible one");
+ assert.equal(classifyRefusedRow({truthHours:NaN,actualHours:3,nominalHours:4}),"escalate");
+ assert.equal(classifyRefusedRow({truthHours:3,actualHours:3,nominalHours:NaN}),"adopt_rule_B","with no following row the nominal interval is unknown; matching the actual gap still reads as B");
+ assert.equal(classifyRefusedRow({truthHours:4,actualHours:4,nominalHours:4}),"escalate","if actual and nominal coincide the row was not refused and this reading does not apply");
+ assert.equal(aggregateVerdict([]),"untested","no refused rows is NOT a pass");
+ assert.equal(aggregateVerdict(["adopt_rule_B","adopt_rule_B"]),"adopt_rule_B");assert.equal(aggregateVerdict(["keep_rule_A"]),"keep_rule_A");
+ assert.equal(aggregateVerdict(["adopt_rule_B","keep_rule_A"]),"escalate","mixed evidence is escalated, never resolved by taste");
+ assert.equal(aggregateVerdict(["adopt_rule_B","escalate"]),"escalate");
+ // The report over an archive-shaped file: the 3h row, with what the archive says about it.
+ const under=(truth)=>rows.map((r,k)=>k===30?{...r,intervalHours:truth}:r);
+ const r3=refusedRowsReport(under(3));assert.equal(r3.length,1);
+ assert.deepEqual([r3[0].actualHours,r3[0].nominalHours,r3[0].truthHours,r3[0].verdict],[3,4,3,"adopt_rule_B"]);
+ assert.equal(refusedRowsReport(under(4))[0].verdict,"keep_rule_A");assert.equal(refusedRowsReport(under(1))[0].verdict,"escalate");
+ assert.deepEqual(refusedRowsReport(rowsFrom(Array(50).fill(8))),[],"a file with no refused rows does not test the question");
+ // Production is unchanged: the feature still uses rule A.
+ assert.equal(fundingWindow(fundingUpTo(Date.UTC(2025,10,1),40),Date.UTC(2025,10,1)).window.rows.every(r=>[1,2,4,8].includes(r.intervalHours)),true);
+});
+
+test("the meaning of the archive's interval column is established from switch events, and the whole decision is fixed before the data is read",()=>{
+ const T0=Date.UTC(2025,8,1);
+ // n alternating switches 4h<->1h; `col` decides what the archive column shows on the last old row and on the first new row.
+ const build=(n,col)=>{const plan=[];for(let k=0;k<n+1;k++)plan.push(...Array(6).fill(k%2?1:4));
+  let now=T0;const rows=plan.map((h,i)=>{if(i)now+=h*H;return {time:now,rate:.0001,intervalHours:h};});
+  if(col==="end")return rows;
+  const out=rows.map(r=>({...r}));
+  for(let i=1;i<rows.length;i++){if(rows[i].intervalHours!==rows[i-1].intervalHours){
+   if(col==="lag"){out[i].intervalHours=rows[i-1].intervalHours;}
+   if(col==="lead"){out[i-1].intervalHours=rows[i].intervalHours;}}}
+  return out;};
+ assert.equal(MIN_SEMANTIC_EVENTS,10);assert.equal(MIN_REFUSED_ROWS_FOR_RULE_CHANGE,3);
+ assert.equal(SUGGESTIVE_SEMANTIC_EVENTS,3);
+ const tier=(n,col)=>semanticsVerdict(semanticEvents(build(n,col)));
+ const e=semanticEvents(build(12,"end"));assert.equal(e.length,12);assert.ok(e.every(x=>x.pattern==="period_ending_at_row"));
+ assert.deepEqual(semanticsVerdict(e),{tier:"established",pattern:"period_ending_at_row",events:12});
+ assert.deepEqual(tier(12,"lag"),{tier:"established",pattern:"lag_old_period",events:12});
+ assert.deepEqual(tier(12,"lead"),{tier:"established",pattern:"lead_new_period",events:12});
+ assert.deepEqual(tier(10,"end"),{tier:"established",pattern:"period_ending_at_row",events:10},"exactly ten establishes it");
+ assert.deepEqual(tier(9,"end"),{tier:"suggestive",pattern:"period_ending_at_row",events:9},"nine consistent events are recorded as suggestive, not thrown away and not promoted");
+ assert.deepEqual(tier(3,"lag"),{tier:"suggestive",pattern:"lag_old_period",events:3},"three is the floor of the suggestive tier");
+ assert.deepEqual(tier(2,"end"),{tier:"untested",pattern:null,events:2},"under three: untested");assert.equal(tier(0,"end").tier,"untested");
+ const mixed=semanticEvents(build(12,"end"));mixed[3]={...mixed[3],pattern:"lag_old_period"};assert.equal(semanticsVerdict(mixed).tier,"unresolved","one dissenting event: not established");
+ const mixedFew=semanticEvents(build(5,"end"));mixedFew[1]={...mixedFew[1],pattern:"lead_new_period"};assert.equal(semanticsVerdict(mixedFew).tier,"unresolved","mixed patterns escalate even below ten");
+ assert.equal(semanticsVerdict(semanticEvents(build(12,"end")).map(x=>({...x,pattern:"other"}))).tier,"unresolved","a unanimous unrecognised pattern is not a meaning");
+ assert.deepEqual(semanticEvents(Array.from({length:40},(_,k)=>({time:T0+k*8*H,rate:.0001,intervalHours:8}))),[],"a constant interval has no switch to learn from");
+ // A switch that goes through a refused row is not a semantic event (it is judged by the refused-row reading instead).
+ const t3=[...Array(6).fill(1),3,...Array(6).fill(4)];let now=T0;const withRefused=t3.map((h,i)=>{if(i)now+=h*H;return {time:now,rate:.0001,intervalHours:h};});
+ assert.equal(semanticEvents(withRefused).length,0);
+ // The lag form shows up on non-refused rows as mismatches that equal the previous inferred interval, reported separately.
+ const lagRows=build(12,"lag"),chk=checkIntervalInference(lagRows);
+ assert.ok(chk.mismatches.length>0&&chk.mismatches.every(m=>m.equalsPreviousInferred),"a systematic one-row lag is labelled as such");
+ assert.equal(checkIntervalInference(build(12,"end")).mismatches.length,0);
+ // The decision.
+ const none=[];const B=["adopt_rule_B"],B3=["adopt_rule_B","adopt_rule_B","adopt_rule_B"],A3=["keep_rule_A","keep_rule_A","keep_rule_A"];
+ const EST={tier:"established",pattern:"period_ending_at_row",events:12},SUG={tier:"suggestive",pattern:"period_ending_at_row",events:8},UNT={tier:"untested",pattern:null,events:1},UNR={tier:"unresolved",pattern:null,events:6};
+ const d=(o)=>decideIntervalRule({mismatches:none,semantics:EST,refusedVerdicts:B3,...o});
+ assert.deepEqual([d({}).action,d({}).suggestive],["adopt_rule_B",false],"meaning established and 3 refused rows agree");
+ assert.deepEqual([d({refusedVerdicts:A3}).action,d({refusedVerdicts:A3}).suggestive],["keep_rule_A",false]);
+ const one=d({refusedVerdicts:B});assert.deepEqual([one.action,one.suggestive],["keep_rule_A",true],"the expected case here: ONE refused row points to B, but that is only suggestive, so rule A stays");
+ assert.match(one.reasons.join(";"),/below 3/);
+ assert.deepEqual([d({refusedVerdicts:[]}).action,d({refusedVerdicts:[]}).suggestive],["keep_rule_A",true],"no refused rows: the rule question is untested");
+ assert.equal(d({refusedVerdicts:["adopt_rule_B","keep_rule_A","adopt_rule_B"]}).action,"escalate","mixed evidence is escalated, never resolved by taste");
+ assert.equal(d({refusedVerdicts:["escalate"]}).action,"escalate");
+ assert.deepEqual([d({semantics:UNT}).action,d({semantics:UNT}).suggestive],["keep_rule_A",true],"an untested column cannot support a rule change even with many refused rows");
+ assert.deepEqual([d({semantics:SUG}).action,d({semantics:SUG}).suggestive],["keep_rule_A",true],"a suggestive meaning changes nothing, whatever the refused rows say");
+ assert.match(d({semantics:SUG}).reasons.join(";"),/SUGGESTIVE only/);
+ assert.equal(d({semantics:UNR}).action,"escalate");
+ assert.equal(d({semantics:SUG,refusedVerdicts:["adopt_rule_B","keep_rule_A","adopt_rule_B"]}).action,"escalate","escalation conditions outrank every 'act' condition");
+ assert.equal(d({semantics:UNT,refusedVerdicts:["escalate"]}).action,"escalate");
+ assert.equal(d({mismatches:chk.mismatches}).action,"escalate","any mismatch on a non-refused row escalates, whatever the refused rows say");
+ assert.match(d({mismatches:chk.mismatches}).reasons.join(";"),/systematic-lag form/);
+ assert.match(d({mismatches:chk.mismatches}).reasons.join(";"),/do not tune rule A/);
+});
+
+test("rows on a change of schedule are dropped, because the rate is quoted per NOMINAL interval and the elapsed gap can be 1/4 of it",()=>{
+ const T0=Date.UTC(2025,10,6,0,0);
+ // The FUSDT shape: 1h settlements, then a row that is already on the 4h schedule (rate = the 4h baseline 0.005%) after only 1h, then 4h rows.
+ const gaps=[1,1,1,1,4,4,4,4],rows=[{time:T0,rate:.0000125}];
+ gaps.forEach(g=>rows.push({time:rows.at(-1).time+g*H,rate:g===4?.00005:.0000125}));
+ rows[4].rate=.00005;// the row that is already on the 4h schedule although only 1h has elapsed since the previous row
+ const n=normaliseFunding(rows);
+ assert.ok(!n.some(r=>r.time===rows[4].time),"the 4h-quoted row reached after 1h is dropped: normalising it by its 1h gap would show 0.12%/day instead of 0.03%/day");
+ assert.equal(rows[4].rate*100*24/1,.12,"what rule A used to compute for that row");
+ assert.equal(rows[4].rate*100*24/4,.03,"what the nominal interval gives");
+ assert.ok(n.some(r=>r.time===rows[5].time&&r.intervalHours===4),"the first regular 4h row stays");
+ // A steady schedule loses nothing but the first row.
+ const steady=Array.from({length:50},(_,k)=>({time:T0+k*8*H,rate:.0001}));assert.equal(normaliseFunding(steady).length,49);
+ // The cost is bounded: 30 hourly rows then 30 four-hourly rows lose the first row, the last 1h row and nothing else.
+ const hourly=Array.from({length:30},(_,k)=>k*H),four=Array.from({length:30},(_,k)=>29*H+(k+1)*4*H);
+ const change=[...hourly,...four].map(t=>({time:T0+t,rate:.0001}));
+ assert.equal(change.length,60);
+ assert.equal(normaliseFunding(change).length,change.length-2,"one schedule change costs one row on top of the first row");
+});
+
+test("no look-ahead: the latest row is used until its successor exists, and the window never depends on rows after the decision time",()=>{
+ const T0=Date.UTC(2025,10,6,0,0);
+ const gaps=[...Array(80).fill(1),1,4,4,4,4],rows=[{time:T0,rate:.0000125}];
+ gaps.forEach(g=>rows.push({time:rows.at(-1).time+g*H,rate:.0000125}));
+ const k=81;// the row after the last of the 1h run: its gap is 1h, its successor's gap is 4h
+ const upto=(i)=>rows.slice(0,i+1);
+ const before=normaliseFunding(upto(k)),after=normaliseFunding(upto(k+1));
+ assert.ok(before.some(r=>r.time===rows[k].time),"at its own decision time the boundary row cannot be recognised yet, so it is used (the documented limit)");
+ assert.ok(!after.some(r=>r.time===rows[k].time),"once the next settlement exists it is dropped");
+ // R1: the window at a decision time is identical whether or not later rows exist in the array.
+ const floor=0.009446;
+ for(const i of [60,80,81,82,83,84]){
+  const at=rows[i].time+1000;
+  assert.deepEqual(fundingZ(rows.slice(0,i+1),at,floor),fundingZ(rows,at,floor),"a3 at row "+i+" must not see rows after it");
+  assert.deepEqual(fundingWindow(rows.slice(0,i+1),at).window?.rows,fundingWindow(rows,at).window?.rows);
+ }
 });

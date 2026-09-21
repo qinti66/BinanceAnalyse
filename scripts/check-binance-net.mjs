@@ -1,5 +1,6 @@
 // One-line answer to "can we reach Binance, and by which path?". Run before any collection.
 //   node scripts/check-binance-net.mjs
+import "./require-node.mjs"; // Node version gate first: a wrong Node makes the network result meaningless
 import { preflight } from "./binance-net.mjs";
 
 try {

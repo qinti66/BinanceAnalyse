@@ -1,3 +1,4 @@
+import "./require-node.mjs";
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";

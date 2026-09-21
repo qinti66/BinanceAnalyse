@@ -3,7 +3,7 @@ import { STRUCTURE_PARAMS, STRUCTURE_PARAMS_4H } from "../../structure/analyze.t
 import type { Bar } from "../../structure/types.ts";
 import { HOUR_MS, ret24hPct, type FeatureContext } from "./context.ts";
 import { fundingZ } from "./funding.ts";
-import { contiguousTail, finite, lastIndexClosedBy, median, olsSlope, pctRank } from "./stats.ts";
+import { contiguousTail, finite, historyTooShort, lastIndexClosedBy, median, olsSlope, pctRank } from "./stats.ts";
 import { SWEEP_WINDOW_4H, SWEEP_WINDOW_1H, structureFeatures } from "./structureFeatures.ts";
 
 /**
@@ -76,7 +76,7 @@ interface Prep {
 
 /** Trailing-window preconditions shared by the 336-window features. Null with a reason when unmet. */
 function prep(b: Bar[], intervalMs: number): { p: Prep | null; why: string | null } {
-  if (b.length < PRECONDITION_BARS) return { p: null, why: "fewer than " + PRECONDITION_BARS + " bars" };
+  if (b.length < PRECONDITION_BARS) return { p: null, why: historyTooShort(b.length, PRECONDITION_BARS, intervalMs) };
   if (!contiguousTail(b, PRECONDITION_BARS, intervalMs)) return { p: null, why: "gap inside the trailing window" };
   const atr = atrSeries(b, ATR_PERIOD);
   const atrPct = atr.map((a, j) => (a === null ? null : (a / b[j].c) * 100));
@@ -104,7 +104,8 @@ function c1(b: Bar[]): R {
 
 /** c2: sellRatio × (1 − min(1, |Δclose|/ATR)). Sellers were active but price did not move. qvUsd = 0 ⇒ sellRatio = 0, explicitly. */
 function c2(b: Bar[]): R {
-  if (b.length < ATR_PERIOD + 1 || !contiguousTail(b, ATR_PERIOD + 1, HOUR_MS)) return no("fewer than 15 contiguous bars");
+  if (b.length < ATR_PERIOD + 1) return no(historyTooShort(b.length, ATR_PERIOD + 1, HOUR_MS));
+  if (!contiguousTail(b, ATR_PERIOD + 1, HOUR_MS)) return no("gap inside the last 15 bars");
   const i = b.length - 1;
   const atr = atrSeries(b, ATR_PERIOD)[i];
   if (atr === null || !(atr > 0)) return no("ATR invalid");
@@ -172,7 +173,8 @@ function d3(b: Bar[]): R {
  * cross-coin relationship and add a missing-data condition.
  */
 function relBase(b: Bar[]): { ret: number; atrPct24: number } | string {
-  if (b.length < ATR_PERIOD + 1 || !contiguousTail(b, ATR_PERIOD + 1, HOUR_MS)) return "fewer than 15 contiguous bars";
+  if (b.length < ATR_PERIOD + 1) return historyTooShort(b.length, ATR_PERIOD + 1, HOUR_MS);
+  if (!contiguousTail(b, ATR_PERIOD + 1, HOUR_MS)) return "gap inside the last 15 bars";
   const i = b.length - 1;
   const ret = ret24hPct(b, i);
   if (ret === null) return "24h return unavailable";
@@ -186,7 +188,8 @@ function e1(b: Bar[], btc: Bar[] | null): R {
   if (typeof base === "string") return no(base);
   if (!btc || !btc.length) return no("BTC bars missing");
   const need = BETA_RETURNS + 1;
-  if (b.length < need || !contiguousTail(b, need, HOUR_MS)) return no("fewer than 169 contiguous bars for beta");
+  if (b.length < need) return no(historyTooShort(b.length, need, HOUR_MS));
+  if (!contiguousTail(b, need, HOUR_MS)) return no("gap inside the beta window");
   const byCt = new Map(btc.map((x) => [x.ct, x]));
   const coin = tail(b, need);
   const bench = coin.map((x) => byCt.get(x.ct));
@@ -330,4 +333,50 @@ export function buildFeatureVector(bars: Bar[], atIndex: number, ctx: FeatureCon
   set("g2_btc_vol_regime", g2(ct, ctx.btcLongBars));
   set("a3_funding_z", ctx.isPerpetual ? fundingZ(ctx.funding, ct) : { value: null, reason: "not a perpetual contract" });
   return finish();
+}
+
+/**
+ * The excluded share of coins above which the 58-day boundary of d4 must be reconsidered. Pre-registered so the decision is not made by feel:
+ * d4 (a 336-bar trailing percentile on 4h plus 13 ATR warm-up bars = 349 bars = 58.2 days) is the one requirement that keeps young listings
+ * from getting a probability. Today that is 1.1% of coins. Above this share, or if the product explicitly wants newly listed coins, the 4h trailing
+ * window of d4 is the only thing to revisit. Not before: changing a frozen definition for a marginal case costs more than it returns.
+ */
+export const AGE_EXCLUSION_REVIEW_SHARE = 0.05;
+
+export interface CoverageSummary {
+  total: number;
+  /** Every feature present: eligible for a probability. */
+  complete: number;
+  /** Missing at least one feature because the history is too short (a recent listing). */
+  excludedByHistory: number;
+  excludedByHistoryShare: number;
+  /** Missing something for another reason (a gap in the bars, a missing series, too few swings for f2 ...). */
+  otherMissing: number;
+  /** Coins missing each feature. */
+  byFeature: Record<string, number>;
+  /** True when the age exclusion is above AGE_EXCLUSION_REVIEW_SHARE. */
+  reviewRequired: boolean;
+}
+
+const isHistoryReason = (why: string | undefined) => !!why && why.startsWith("history too short");
+
+/**
+ * Coverage summary for one collection run: how many coins can get a probability, and how many are held back by age. A coin counts as an age
+ * exclusion when ANY of its missing features was missing for lack of history; the run log should print this every time so the boundary is
+ * visible instead of a silent blank.
+ */
+export function summariseCoverage(vectors: FeatureVector[]): CoverageSummary {
+  const total = vectors.length;
+  const byFeature: Record<string, number> = {};
+  let complete = 0;
+  let excludedByHistory = 0;
+  let otherMissing = 0;
+  for (const v of vectors) {
+    for (const id of v.missing) byFeature[id] = (byFeature[id] || 0) + 1;
+    if (!v.missing.length) complete++;
+    else if (v.missing.some((id) => isHistoryReason(v.reasons[id]))) excludedByHistory++;
+    else otherMissing++;
+  }
+  const share = total ? excludedByHistory / total : 0;
+  return { total, complete, excludedByHistory, excludedByHistoryShare: share, otherMissing, byFeature, reviewRequired: share > AGE_EXCLUSION_REVIEW_SHARE };
 }

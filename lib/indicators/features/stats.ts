@@ -70,6 +70,15 @@ export function contiguousTail(bars: Bar[], n: number, intervalMs: number): bool
   return true;
 }
 
+/**
+ * The reason a series is too short, in terms a person can act on: how much history is needed and how much there is. For a coin whose data
+ * starts at its listing this is "the listing is too recent", a boundary the user should be able to read rather than a blank.
+ */
+export function historyTooShort(haveBars: number, needBars: number, intervalMs: number): string {
+  const days = (n: number) => ((n * intervalMs) / 86400000).toFixed(1);
+  return "history too short: needs " + days(needBars) + " days (" + needBars + " bars), has " + days(haveBars) + " days (" + haveBars + " bars)";
+}
+
 /** Index of the last bar whose closeTime is <= ct, or -1. Bars must be sorted oldest first. */
 export function lastIndexClosedBy(bars: Bar[], ct: number): number {
   let lo = 0;

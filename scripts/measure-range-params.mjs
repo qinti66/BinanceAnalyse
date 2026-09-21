@@ -1,3 +1,4 @@
+// NOTE: this script statically imports .ts files, so it needs Node >=22.18 (or >=23.6); the require-node.mjs entry gate cannot run before that load error.
 // Feature-side measurement of range detection on an OLD window (calibration-log-v1.md, T1).
 // Touches no labels, no returns, no future outcomes. Reproduces the numbers behind the frozen STRUCTURE_PARAMS.
 //

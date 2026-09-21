@@ -1,3 +1,4 @@
+// NOTE: this script statically imports .ts files, so it needs Node >=22.18 (or >=23.6); the require-node.mjs entry gate cannot run before that load error.
 // Coverage and distribution of the a3_funding_z feature on window W1, from backfilled funding history (calibration-log-v1.md T10).
 // Uses the real `fundingZ` with the frozen FUNDING_SCALE_FLOOR. Feature side only: no labels, no returns. No network.
 //

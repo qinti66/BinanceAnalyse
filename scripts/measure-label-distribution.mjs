@@ -1,3 +1,4 @@
+// NOTE: this script statically imports .ts files, so it needs Node >=22.18 (or >=23.6); the require-node.mjs entry gate cannot run before that load error.
 // Class shares of the triple-barrier direction labels on an OLD window (calibration-log-v1.md T7/T8).
 // Descriptive only: no model, no features. The rule for k: no class under 15% or over 60%.
 //

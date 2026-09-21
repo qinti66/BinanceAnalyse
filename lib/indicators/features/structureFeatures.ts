@@ -1,6 +1,6 @@
 import { analyzeStructure, type StructureParams } from "../../structure/analyze.ts";
 import type { Bar } from "../../structure/types.ts";
-import { contiguousTail } from "./stats.ts";
+import { contiguousTail, historyTooShort } from "./stats.ts";
 
 /** Bars searched for a sweep. 4h uses 24 (same 0.286 share of its 84-bar lookback that 48 is of 168). */
 export const SWEEP_WINDOW_1H = 48;
@@ -41,8 +41,14 @@ const miss = (reason: string): StructureValue => ({ value: null, reason });
  */
 export function structureFeatures(bars: Bar[], params: Readonly<StructureParams>, intervalMs: number, sweepWindow: number = SWEEP_WINDOW_1H): StructureFeatures {
   const need = params.rangeLookback + params.atrPeriod + 1;
-  const gap = miss("history too short or has gaps for the structure window");
-  if (bars.length < need || !contiguousTail(bars, need, intervalMs)) return { f1: gap, f1Occurred: gap, f2Up: gap, f2Down: gap, f3: gap };
+  if (bars.length < need) {
+    const short = miss(historyTooShort(bars.length, need, intervalMs));
+    return { f1: short, f1Occurred: short, f2Up: short, f2Down: short, f3: short };
+  }
+  if (!contiguousTail(bars, need, intervalMs)) {
+    const gap = miss("gap inside the structure window");
+    return { f1: gap, f1Occurred: gap, f2Up: gap, f2Down: gap, f3: gap };
+  }
   const i = bars.length - 1;
   const r = analyzeStructure(bars, i, params);
 
