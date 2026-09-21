@@ -71,7 +71,7 @@ export async function processSymbol(p, { outDir, withFunding, only4h = false, ge
     const end = t.rows.length ? Number(t.rows.at(-1)[0]) + stepMs : start;
     const trim = { cutBy: t.cutBy, cutAtTime: t.cutAtTime, dropped: t.dropped, interiorFrozenBars: t.interiorFrozenBars, deliveryMs: p.deliveryMs ?? null };
     await writeFile(join(outDir, "klines", interval, symbol + ".json"), JSON.stringify({ symbol, interval, start, end, source: "data.binance.vision futures/um monthly, sha256-verified, trimmed", trim, missingMonths, rows: t.rows }));
-    parts.push(`${interval} kept ${t.kept}, dropped ${t.dropped.total} (${t.cutBy ? "cut by " + t.cutBy + "; the first dropped bar opens " + new Date(t.cutAtTime).toISOString().slice(0, 16) : "nothing to cut"}), ${missingMonths.length}/${ms.length} months missing, frozen bars kept inside ${t.interiorFrozenBars}`);
+    parts.push(`${interval} kept ${t.kept}, dropped ${t.dropped.total}${t.dropped.byTrailing ? " incl. " + t.dropped.byTrailing + " trailing frozen" : ""} (${t.cutBy ? "cut by " + t.cutBy + "; the first dropped bar opens " + new Date(t.cutAtTime).toISOString().slice(0, 16) : "nothing to cut"}), ${missingMonths.length}/${ms.length} months missing, frozen bars kept inside ${t.interiorFrozenBars}`);
     return t;
   };
   // 24 frozen bars = 24 hours of 1h; the same real time (a day) in 4h bars is 6

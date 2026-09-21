@@ -2,10 +2,13 @@
 //
 // Why: after a contract is settled, data.binance.vision keeps publishing monthly files for it, filled with bars frozen at the settlement price
 // (measured on 1000XUSDT 2026-08: 744 bars, open = high = low = close = 0.02555, volume 0, trades 0, sha256 valid). Using them would train on a price that never
-// moved. Two independent rules, and the earlier cut wins:
+// moved. Three rules; the earlier of the first two wins, then the third strips what is left at the end:
 //   1. deliveryDate (exchangeInfo, for contracts still listed as SETTLING): keep only bars that closed at or before it.
 //   2. signature, needing no metadata (contracts that are gone from exchangeInfo have no deliveryDate, and unknown cases may exist): the first run of
 //      FROZEN_RUN or more consecutive frozen bars (volume 0, trades 0, open = high = low = close) and everything after it is cut.
+//   3. TRAILING frozen bars of any length (added after the first batch, see calibration-log T27): the archive's last file for a contract ends with the
+//      settlement bar, one flat zero-volume bar after the last trade (EOSUSDT 2025-05-21 09:00, a single one, so rule 2 never fired). A series cannot validly END
+//      on bars with no trade, so any frozen bars at the very end are dropped after rules 1 and 2. Frozen bars before a real bar are never touched.
 // The function also reports what it did, and `assertNothingPastCut` is a hard check for the caller.
 const HOUR = 3600000;
 export const FROZEN_RUN = 24;
@@ -39,16 +42,19 @@ export function trimDelisted(rows, { deliveryMs = NaN, stepMs = HOUR, minRun = F
   const byDeliveryIdx = barsBeforeDelivery(rows, deliveryMs, stepMs);
   const sig = firstFrozenRun(rows, minRun);
   const bySignatureIdx = sig >= 0 ? sig : rows.length;
-  const cut = Math.min(byDeliveryIdx, bySignatureIdx);
+  const firstCut = Math.min(byDeliveryIdx, bySignatureIdx);
+  let cut = firstCut;
+  while (cut > 0 && isFrozen(rows[cut - 1])) cut--; // rule 3: trailing frozen bars
   const kept = rows.slice(0, cut);
-  const cutBy = cut === rows.length ? null : byDeliveryIdx === bySignatureIdx ? "both" : byDeliveryIdx < bySignatureIdx ? "delivery" : "signature";
+  const base = firstCut === rows.length ? null : byDeliveryIdx === bySignatureIdx ? "both" : byDeliveryIdx < bySignatureIdx ? "delivery" : "signature";
+  const cutBy = cut === firstCut ? base : base === null ? "trailing" : base + "+trailing";
   return {
     rows: kept,
     kept: kept.length,
     cutBy,
     cutAtIndex: cut,
     cutAtTime: cut < rows.length ? Number(rows[cut][0]) : null,
-    dropped: { total: rows.length - cut, byDelivery: rows.length - byDeliveryIdx, bySignature: rows.length - bySignatureIdx },
+    dropped: { total: rows.length - cut, byDelivery: rows.length - byDeliveryIdx, bySignature: rows.length - bySignatureIdx, byTrailing: firstCut - cut },
     // frozen bars that remain (shorter halts inside the real life): kept, reported
     interiorFrozenBars: kept.filter(isFrozen).length,
   };

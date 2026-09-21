@@ -163,7 +163,7 @@ const report = {
   pooled: { bss: pooledBss, residualBss: null, ece: eceRes?.ece ?? null, classCounts: classCounts(allTest.y, 3), effectiveN: good.length ? good.at(-1).effTrain : null, effectiveTestN: wsum || null, regimeCoverage: cov, testSpanDays },
   randomBaselineP95: p95,
   leakStatus: leak.status,
-  universe: { identifiedDelisted: 121, obtainedDelisted: 0, unobtained: [{ symbol: "(all 121)", reason: "not yet downloaded: batches await the user's approval" }] },
+  universe: { identifiedDelisted: 121, obtainedDelisted: 0, unobtained: Array.from({ length: 121 }, (_, k) => ({ symbol: "delisted-" + (k + 1), reason: "not yet downloaded: batches await the user's approval" })) },
 };
 const gate = evaluateGate(report, CALIBRATION_GATE);
 console.log(`\nGATE (shipped default): pass = ${gate.pass}; reasons:`);

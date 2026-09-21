@@ -54,6 +54,21 @@ r = trimDelisted([...seq(30), ...tail(10, 30), ...seq(20, 40)], {});
 assert.equal(r.kept, 60);
 assert.equal(r.interiorFrozenBars, 10);
 assert.equal(r.cutBy, null);
+// trailing frozen bars of ANY length at the very end (EOSUSDT: one settlement bar after the last trade)
+r = trimDelisted([...seq(30), ...tail(1, 30)], {});
+assert.equal(r.kept, 30);assert.equal(r.cutBy, "trailing");assert.equal(r.dropped.byTrailing, 1);assert.equal(r.cutAtTime, T0 + 30 * H);
+r = trimDelisted([...seq(30), ...tail(5, 30)], {});
+assert.equal(r.kept, 30);assert.equal(r.cutBy, "trailing", "five frozen bars at the end are not a 24-bar run, but they are trailing");
+r = trimDelisted([...seq(30), ...tail(300, 30)], { deliveryMs: T0 + 30 * H });
+assert.equal(r.cutBy, "both", "a cut by delivery or signature that already lands on the last real bar has no trailing bars left to drop");
+assert.equal(r.dropped.byTrailing, 0);
+r = trimDelisted([...seq(30), ...tail(3, 30), ...seq(10, 33), ...tail(2, 43)], {});
+assert.equal(r.kept, 43);assert.equal(r.interiorFrozenBars, 3, "the halt before real bars is kept and reported; only the end is stripped");
+assert.equal(r.cutBy, "trailing");
+r = trimDelisted([...seq(30), ...tail(24, 30)], { deliveryMs: T0 + 25 * H });
+assert.equal(r.kept, 25);assert.equal(r.cutBy, "delivery");
+r = trimDelisted(tail(3, 0), {});
+assert.equal(r.kept, 0, "a series that is nothing but frozen bars has no real life at all");
 assert.throws(() => trimDelisted([live(1), live(0)], {}), /sorted oldest first/);
 assert.throws(() => trimDelisted([live(0), live(0)], {}), /unique open times/);
 
