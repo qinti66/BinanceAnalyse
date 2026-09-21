@@ -38,7 +38,7 @@ export async function fetchKlinesRange(get, limiter, symbol, interval, start, en
   let cursor = start;
   let requests = 0;
   for (let page = 0; page < 10000 && cursor < end; page++) {
-    const url = `${base}/fapi/v1/klines?symbol=${symbol}&interval=${interval}&startTime=${cursor}&endTime=${end - 1}&limit=${limit}`;
+    const url = `${base}/fapi/v1/klines?symbol=${encodeURIComponent(symbol)}&interval=${interval}&startTime=${cursor}&endTime=${end - 1}&limit=${limit}`;
     let r;
     for (let attempt = 0; ; attempt++) {
       await limiter.acquire("umMarket", klinesWeight(limit));

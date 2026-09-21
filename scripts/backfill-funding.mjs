@@ -37,7 +37,7 @@ export async function fetchFundingRange(get, symbol, start, end, { sleep = (ms) 
   const rows = [];
   let cursor = start;
   for (let page = 0; page < 200; page++) {
-    const r = await get(`https://fapi.binance.com/fapi/v1/fundingRate?symbol=${symbol}&startTime=${cursor}&endTime=${end - 1}&limit=${PAGE}`);
+    const r = await get(`https://fapi.binance.com/fapi/v1/fundingRate?symbol=${encodeURIComponent(symbol)}&startTime=${cursor}&endTime=${end - 1}&limit=${PAGE}`);
     if (r.status === 418 || r.status === 429 || r.status === 403) throw new RateLimitedError(r.status, r.headers["retry-after"]);
     if (r.status !== 200) throw new Error(`HTTP ${r.status} for ${symbol}: ${r.text.slice(0, 120)}`);
     const batch = r.json();

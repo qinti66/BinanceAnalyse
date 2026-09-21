@@ -8,7 +8,24 @@ import { basicOk, requestedName, parseRange, createExportServer } from "./export
 
 // --- symbols
 assert.deepEqual(parseSymbols("BTCUSDT,ETHUSDT\nSOLUSDT  BTCUSDT"), ["BTCUSDT", "ETHUSDT", "SOLUSDT"], "commas/newlines/spaces, deduplicated, order kept");
-assert.throws(() => parseSymbols("btcusdt"), /not a symbol/);
+assert.deepEqual(parseSymbols("哈基米USDT,币安人生USDT,BTCUSDT"), ["哈基米USDT", "币安人生USDT", "BTCUSDT"], "non-ASCII perpetual names are real symbols");
+for (const bad of ["BTC/USDT", "a b", "..", "a&symbol=X", "a=b", "a?b", "a#b", "a%20b", "a.json", "a'b", "x", "\u0000ab"]) assert.throws(() => parseSymbols(bad), /not a symbol/, bad);
+assert.deepEqual(parseSymbols("btcusdt"), ["btcusdt"], "letters of any case are syntactically fine; the exchange decides whether the symbol exists");
+{
+  // The request URL must carry the encoded symbol, or https.request rejects the non-ASCII path.
+  const { fetchKlinesRange } = await import("./backfill-klines.mjs");
+  const { fetchFundingRange } = await import("./backfill-funding.mjs");
+  const { RateLimiter } = await import("./rate-limit.mjs");
+  const urls = [];
+  const get = async (u) => (urls.push(u), { status: 200, headers: {}, text: "[]", json: () => [] });
+  await fetchKlinesRange(get, new RateLimiter(), "哈基米USDT", "1h", 0, 3600000, {});
+  await fetchFundingRange(get, "哈基米USDT", 0, 3600000, { sleep: async () => {}, paceMs: 0 });
+  assert.equal(urls.length, 2);
+  for (const u of urls) {
+    assert.match(u, /symbol=%E5%93%88%E5%9F%BA%E7%B1%B3USDT&/, u);
+    assert.doesNotMatch(u, /[^\x00-\x7F]/, "the URL is pure ASCII");
+  }
+}
 assert.throws(() => parseSymbols("BTC/USDT"), /not a symbol/);
 assert.throws(() => parseSymbols("BTCUSDT;rm"), /not a symbol/);
 assert.equal(stripComments("# note about x\nBTCUSDT\n  # more\nETHUSDT"), "BTCUSDT\nETHUSDT");

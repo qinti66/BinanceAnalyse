@@ -1,7 +1,9 @@
 // Symbol lists for the backfill scripts: "BTCUSDT,ETHUSDT" inline, or "@path/to/file" (one symbol per line or comma-separated, # comments allowed).
 import { readFile } from "node:fs/promises";
 
-const SYMBOL = /^[A-Z0-9_]{2,30}$/;
+// Binance lists perpetuals with non-ASCII names (e.g. 哈基米USDT), so letters and digits of any script are allowed. Anything that could change a URL or a
+// file path (slashes, spaces, dots, quotes, & = ? # %) is not. Requests must still encodeURIComponent the symbol.
+const SYMBOL = /^[\p{L}\p{N}_]{2,40}$/u;
 
 export function parseSymbols(text) {
   const out = [];
