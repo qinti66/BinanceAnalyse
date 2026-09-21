@@ -134,16 +134,24 @@ console.log("delisted-trim and aggregate-4h tests ok");
     const fund = JSON.parse(await readFile(join(dir, "funding", "TESTUSDT.json"), "utf8"));
     assert.ok(fund.rows.every((x) => x.time < Y + 300 * H) && fund.rows.length > 0 && fund.dropped > 0, "funding is cut at the delivery too");
     assert.equal(r.requests, 6, "one month each of 1h, 4h and funding, each with its checksum");
-    assert.match(r.line, /1h kept 300, dropped 444 \(both at 2025-01-13T12:00\)/);
+    assert.match(r.line, /1h kept 300, dropped 444 \(cut by both; the first dropped bar opens 2025-01-13T12:00\)/);
     assert.match(r.line, /4h kept 75/);
     assert.deepEqual(seen, ["TESTUSDT-1h-2025-01", "TESTUSDT-4h-2025-01", "TESTUSDT-fundingRate-2025-01"]);
     // a contract with no delivery date: only the signature protects it (24 frozen bars in 1h, 6 in 4h: the same day)
     const gone = [{ symbol: "TESTUSDT", kind: "gone", first: "2025-01", end: "2025-01", months: 1, deliveryMs: null }];
     const g = await processSymbol(planFor(gone, "TESTUSDT"), { outDir: dir, withFunding: true, getMonth });
-    assert.match(g.line, /1h kept 300, dropped 444 \(signature/);
-    assert.match(g.line, /4h kept 75, dropped 111 \(signature/);
+    assert.match(g.line, /1h kept 300, dropped 444 \(cut by signature/);
+    assert.match(g.line, /4h kept 75, dropped 111 \(cut by signature/);
     assert.match(g.line, /NOT cut \(no delivery date\)/, "funding cannot be cut without a delivery date, and the report says so");
     assert.throws(() => planFor(plan, "NOPEUSDT"), /not in the plan/);
+    // --only-4h: nothing but the 4h months is requested, and the existing 1h file is left alone
+    const before1h = await readFile(join(dir, "klines", "1h", "TESTUSDT.json"), "utf8");
+    seen.length = 0;
+    const o = await processSymbol(planFor(plan, "TESTUSDT"), { outDir: dir, withFunding: true, only4h: true, getMonth });
+    assert.deepEqual(seen, ["TESTUSDT-4h-2025-01"], "only the 4h month was requested (funding is ignored under --only-4h)");
+    assert.equal(o.requests, 2);
+    assert.equal(await readFile(join(dir, "klines", "1h", "TESTUSDT.json"), "utf8"), before1h, "the 1h file is untouched");
+    assert.match(o.line, /^TESTUSDT \[SETTLING\] 1 month\(s\) \| 4h kept 75/);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

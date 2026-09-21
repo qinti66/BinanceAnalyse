@@ -1,7 +1,9 @@
 import "./require-node.mjs"; // Node-version gate: keep this the FIRST import (test-entry-static-graph.mjs)
 // Download the archive history of delisted contracts, cut it where the contract's real life ends, and write it OUTSIDE the training folders.
 //
-//   node scripts/fetch-delisted.mjs <plan.json> <outDir> <SYMBOL[,SYMBOL...]|@file> [--funding]
+//   node scripts/fetch-delisted.mjs <plan.json> <outDir> <SYMBOL[,SYMBOL...]|@file> [--funding | --only-4h]
+//     --funding   also the fundingRate months
+//     --only-4h   ONLY the exchange's 4h months (1h and funding are not requested, existing 1h files are left alone): to add the 4h to a contract whose 1h is done
 //
 // AUTHORISATION: every batch needs the user's explicit approval in the session that runs it. This script does exactly the symbols on its command line,
 // never the whole plan. Files come from data.binance.vision, each verified against its published SHA256; nothing is fetched after the delivery month.
@@ -42,7 +44,7 @@ export function planFor(plan, symbol) {
  * a 4h, so a 4h built from 1h would be data the model never sees live), cut both, write the files. `getMonth(url, name)` is injectable so the whole flow is testable
  * without a network. Returns { requests, bytes, line }.
  */
-export async function processSymbol(p, { outDir, withFunding, getMonth: get }) {
+export async function processSymbol(p, { outDir, withFunding, only4h = false, getMonth: get }) {
   const symbol = p.symbol;
   let requests = 0;
   let bytes = 0;
@@ -69,14 +71,14 @@ export async function processSymbol(p, { outDir, withFunding, getMonth: get }) {
     const end = t.rows.length ? Number(t.rows.at(-1)[0]) + stepMs : start;
     const trim = { cutBy: t.cutBy, cutAtTime: t.cutAtTime, dropped: t.dropped, interiorFrozenBars: t.interiorFrozenBars, deliveryMs: p.deliveryMs ?? null };
     await writeFile(join(outDir, "klines", interval, symbol + ".json"), JSON.stringify({ symbol, interval, start, end, source: "data.binance.vision futures/um monthly, sha256-verified, trimmed", trim, missingMonths, rows: t.rows }));
-    parts.push(`${interval} kept ${t.kept}, dropped ${t.dropped.total} (${t.cutBy ?? "nothing to cut"}${t.cutAtTime ? " at " + new Date(t.cutAtTime).toISOString().slice(0, 16) : ""}), ${missingMonths.length}/${ms.length} months missing, frozen bars kept inside ${t.interiorFrozenBars}`);
+    parts.push(`${interval} kept ${t.kept}, dropped ${t.dropped.total} (${t.cutBy ? "cut by " + t.cutBy + "; the first dropped bar opens " + new Date(t.cutAtTime).toISOString().slice(0, 16) : "nothing to cut"}), ${missingMonths.length}/${ms.length} months missing, frozen bars kept inside ${t.interiorFrozenBars}`);
     return t;
   };
   // 24 frozen bars = 24 hours of 1h; the same real time (a day) in 4h bars is 6
-  await fetchInterval("1h", HOUR, 24);
+  if (!only4h) await fetchInterval("1h", HOUR, 24);
   await fetchInterval("4h", 4 * HOUR, 6);
   let fundingNote = "";
-  if (withFunding) {
+  if (withFunding && !only4h) {
     const frows = [];
     const fmissing = [];
     for (const month of ms) {
@@ -100,7 +102,9 @@ export async function processSymbol(p, { outDir, withFunding, getMonth: get }) {
 async function main() {
   const [, , planPath, outDir, symbolsArg, ...rest] = process.argv;
   if (!planPath || !outDir || !symbolsArg) throw new Error("usage: see the header of scripts/fetch-delisted.mjs");
+  const only4h = rest.includes("--only-4h");
   const withFunding = rest.includes("--funding");
+  if (only4h && withFunding) throw new Error("--only-4h and --funding cannot be combined");
   const plan = JSON.parse(await readFile(planPath, "utf8"));
   const symbols = await readSymbolsArg(symbolsArg);
   for (const s of symbols) planFor(plan, s); // every symbol must be in the plan before anything is requested
@@ -109,7 +113,7 @@ async function main() {
   let requests = 0;
   let bytes = 0;
   for (const symbol of symbols) {
-    const r = await processSymbol(planFor(plan, symbol), { outDir, withFunding, getMonth: (url, name) => getMonth(url, tmp, name) });
+    const r = await processSymbol(planFor(plan, symbol), { outDir, withFunding, only4h, getMonth: (url, name) => getMonth(url, tmp, name) });
     requests += r.requests;
     bytes += r.bytes;
     console.log(r.line);
