@@ -90,6 +90,7 @@ console.log("delisted-trim and aggregate-4h tests ok");
 // ---- the whole per-contract flow with a fake archive (no network)
 {
   const { processSymbol, planFor } = await import("./fetch-delisted.mjs");
+  const { assertNativeKlines } = await import("./kline-source.mjs");
   const { mkdtemp, mkdir, readFile, rm } = await import("node:fs/promises");
   const { tmpdir } = await import("node:os");
   const { join } = await import("node:path");
@@ -98,17 +99,20 @@ console.log("delisted-trim and aggregate-4h tests ok");
     for (const d of ["klines/1h", "klines/4h", "funding"]) await mkdir(join(dir, d), { recursive: true });
     const Y = Date.UTC(2025, 0, 1);
     const csvOf = (rows) => "open_time,open,high,low,close,volume,close_time,quote_volume,count,taker_buy_volume,taker_buy_quote_volume,ignore\n" + rows.map((r) => r.join(",")).join("\n");
-    const bar = (i, frozenBar) => {
-      const t = Y + i * H;
-      return frozenBar ? [t, "0.02555", "0.02555", "0.02555", "0.02555", "0", t + H - 1, "0", 0, "0", "0", "0"] : [t, "1.0", "1.2", "0.9", "1.1", "5", t + H - 1, "5.5", 3, "2", "2.2", "0"];
+    const barOf = (step, i, frozenBar) => {
+      const t = Y + i * step;
+      return frozenBar ? [t, "0.02555", "0.02555", "0.02555", "0.02555", "0", t + step - 1, "0", 0, "0", "0", "0"] : [t, "1.0", "1.2", "0.9", "1.1", "5", t + step - 1, "5.5", 3, "2", "2.2", "0"];
     };
-    // January 2025 (744 hours): real for 300 hours, then frozen to the end of the month; delivery at hour 300 exactly
-    const january = Array.from({ length: 744 }, (_, i) => bar(i, i >= 300));
-    const fundingCsv = "calc_time,funding_interval_hours,last_funding_rate\n" + [0, 8, 16, 24, 32].map((h) => `${Y + h * 300 * 0 + h * 3600000 * 10},8,0.0001`).join("\n");
+    // January 2025: real until hour 300 (delivery exactly there), frozen afterwards. The 4h file is the exchange's own, with its OWN values
+    // (deliberately different from anything a 1h aggregate would give: volume 777).
+    const january1h = Array.from({ length: 744 }, (_, i) => barOf(H, i, i >= 300));
+    const january4h = Array.from({ length: 186 }, (_, i) => { const r = barOf(4 * H, i, i * 4 >= 300); return i * 4 >= 300 ? r : [...r.slice(0, 5), "777", ...r.slice(6)]; });
+    const fundingCsv = "calc_time,funding_interval_hours,last_funding_rate\n" + [0, 8, 16, 24, 32].map((h) => `${Y + h * 3600000 * 10},8,0.0001`).join("\n");
     const seen = [];
     const getMonth = async (url, name) => {
       seen.push(name);
-      if (name === "TESTUSDT-1h-2025-01") return { status: "ok", csv: csvOf(january), bytes: 1000 };
+      if (name === "TESTUSDT-1h-2025-01") return { status: "ok", csv: csvOf(january1h), bytes: 1000 };
+      if (name === "TESTUSDT-4h-2025-01") return { status: "ok", csv: csvOf(january4h), bytes: 400 };
       if (name === "TESTUSDT-fundingRate-2025-01") return { status: "ok", csv: fundingCsv, bytes: 100 };
       return { status: "missing" };
     };
@@ -122,16 +126,22 @@ console.log("delisted-trim and aggregate-4h tests ok");
     assert.ok(file.rows.every((x) => Number(x[0]) < Y + 300 * H), "no bar past the delivery");
     assert.ok(file.rows.every((x) => Number(x[8]) > 0), "every kept bar traded");
     const four = JSON.parse(await readFile(join(dir, "klines", "4h", "TESTUSDT.json"), "utf8"));
-    assert.equal(four.rows.length, 75, "300 hours = 75 complete 4h bars");
+    assert.equal(four.rows.length, 75, "300 hours = 75 4h bars, from the exchange's own 4h file");
+    assert.ok(four.rows.every((x) => x[5] === "777"), "the values are the EXCHANGE's 4h values, not sums of 1h bars (an aggregate would give 20)");
+    assert.doesNotThrow(() => assertNativeKlines(four, "4h", "delisted 4h"), "the delisted 4h file passes the R1 source check");
+    assert.doesNotThrow(() => assertNativeKlines(file, "1h", "delisted 1h"));
+    assert.ok(!/aggregat/i.test(four.source), "the 4h file does not claim to be an aggregate");
     const fund = JSON.parse(await readFile(join(dir, "funding", "TESTUSDT.json"), "utf8"));
     assert.ok(fund.rows.every((x) => x.time < Y + 300 * H) && fund.rows.length > 0 && fund.dropped > 0, "funding is cut at the delivery too");
-    assert.equal(r.requests, 4, "one kline month and one funding month, each with its checksum");
+    assert.equal(r.requests, 6, "one month each of 1h, 4h and funding, each with its checksum");
     assert.match(r.line, /1h kept 300, dropped 444 \(both at 2025-01-13T12:00\)/);
-    assert.deepEqual(seen, ["TESTUSDT-1h-2025-01", "TESTUSDT-fundingRate-2025-01"]);
-    // a contract with no delivery date: only the signature protects it
+    assert.match(r.line, /4h kept 75/);
+    assert.deepEqual(seen, ["TESTUSDT-1h-2025-01", "TESTUSDT-4h-2025-01", "TESTUSDT-fundingRate-2025-01"]);
+    // a contract with no delivery date: only the signature protects it (24 frozen bars in 1h, 6 in 4h: the same day)
     const gone = [{ symbol: "TESTUSDT", kind: "gone", first: "2025-01", end: "2025-01", months: 1, deliveryMs: null }];
     const g = await processSymbol(planFor(gone, "TESTUSDT"), { outDir: dir, withFunding: true, getMonth });
-    assert.match(g.line, /kept 300, dropped 444 \(signature/);
+    assert.match(g.line, /1h kept 300, dropped 444 \(signature/);
+    assert.match(g.line, /4h kept 75, dropped 111 \(signature/);
     assert.match(g.line, /NOT cut \(no delivery date\)/, "funding cannot be cut without a delivery date, and the report says so");
     assert.throws(() => planFor(plan, "NOPEUSDT"), /not in the plan/);
   } finally {

@@ -12,6 +12,7 @@ import { toBars } from "../lib/structure/bars.ts";
 import { buildFeatureVector, FEATURE_IDS } from "../lib/indicators/features/registry.ts";
 import { buildCrossSection } from "../lib/indicators/features/context.ts";
 import { regimeTerciles } from "../lib/calibration/regime.ts";
+import { assertNativeKlines } from "./kline-source.mjs";
 
 const HOUR = 3600000;
 const DAY = 24 * HOUR;
@@ -32,7 +33,7 @@ for (const symbol of symbols) {
   universe.push(bars);
   if (symbol === "BTCUSDT") {
     btc = bars;
-    btc4h = toBars((await readJson(join(cal, "klines", "4h", symbol + ".json"))).rows, "UM", 1, null, f1.end, 4 * HOUR).bars;
+    btc4h = toBars(assertNativeKlines(await readJson(join(cal, "klines", "4h", symbol + ".json")), "4h", "BTCUSDT 4h").rows, "UM", 1, null, f1.end, 4 * HOUR).bars; // R1
   }
 }
 if (!btc) throw new Error("BTCUSDT is needed");

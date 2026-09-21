@@ -15,6 +15,7 @@ import { toBars } from "../lib/structure/bars.ts";
 import { buildFeatureVector, FEATURE_IDS } from "../lib/indicators/features/registry.ts";
 import { buildCrossSection } from "../lib/indicators/features/context.ts";
 import { lastIndexClosedBy } from "../lib/indicators/features/stats.ts";
+import { assertNativeKlines } from "./kline-source.mjs";
 
 const HOUR = 3600000;
 const DAY = 24 * HOUR;
@@ -44,7 +45,7 @@ const coins = [];
 let btc = null;
 for (const symbol of symbols) {
   const f1 = await readJson(join(cal, "klines", "1h", symbol + ".json"));
-  const f4 = await readJson(join(cal, "klines", "4h", symbol + ".json"));
+  const f4 = assertNativeKlines(await readJson(join(cal, "klines", "4h", symbol + ".json")), "4h", symbol + " 4h"); // R1: the exchange's own 4h, never an aggregate
   let funding = null;
   try {
     funding = (await readJson(join(cal, "funding", symbol + ".json"))).rows;
