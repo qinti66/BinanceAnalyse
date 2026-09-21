@@ -172,3 +172,22 @@ console.log("delisted-trim and aggregate-4h tests ok");
   }
 }
 console.log("fetch-delisted flow test ok");
+
+// ---- retrim: apply rule 3 to a file written by the older script; idempotent; aggregated files refused
+{
+  const { retrimFile } = await import("./retrim-delisted.mjs");
+  const oldFile = { symbol: "EOSUSDT", interval: "1h", start: T0, end: T0 + 31 * H, source: "data.binance.vision futures/um monthly, sha256-verified, trimmed", trim: { cutBy: null, cutAtTime: null, deliveryMs: null }, rows: [...seq(30), ...tail(1, 30)] };
+  const r1 = retrimFile(oldFile);
+  assert.equal(r1.changed, true);
+  assert.equal(r1.dropped, 1);
+  assert.equal(r1.file.rows.length, 30);
+  assert.equal(r1.file.end, T0 + 30 * H, "the file now ends where the real life ends");
+  assert.equal(r1.file.trim.cutBy, "trailing");
+  const r2 = retrimFile(r1.file);
+  assert.equal(r2.changed, false, "idempotent: nothing left to cut");
+  assert.equal(retrimFile({ ...oldFile, rows: seq(30) }).changed, false, "a file with no frozen tail is untouched");
+  assert.throws(() => retrimFile({ ...oldFile, source: "aggregated from the trimmed 1h" }), /AGGREGATED/, "an aggregated file is refused, never re-cut");
+  const four = { ...oldFile, interval: "4h", rows: [live(0), live(4), ...tail(1, 8)].map((x, i) => [T0 + i * 4 * H, ...x.slice(1)]) };
+  assert.equal(retrimFile(four).dropped, 1, "4h is handled with its own step");
+}
+console.log("retrim tests ok");
