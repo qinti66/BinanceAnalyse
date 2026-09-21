@@ -32,3 +32,6 @@ data/indicators/positions/
 
 # 导出给用户下载的数据包（由 scripts/serve-export.mjs 提供下载）
 data/export/
+
+# 从服务器拷回的数据副本（体积大，只在本地使用，不进 git）
+CypeData/

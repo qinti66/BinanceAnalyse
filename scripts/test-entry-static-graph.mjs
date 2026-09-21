@@ -12,6 +12,7 @@ const ENTRIES = [
   "serve-export.mjs",
   "list-symbols.mjs",
   "summarize-data.mjs",
+  "probe-archive-symbols.mjs",
   "collect-indicators.mjs",
   "backfill-funding.mjs",
   "backfill-klines.mjs",
