@@ -1,16 +1,20 @@
 // Backfill klines from /fapi/v1/klines into data/calibration/klines/<interval>/<SYMBOL>.json (git-ignored), by startTime pagination.
 //
-//   node scripts/backfill-klines.mjs <SYMBOL[,SYMBOL...]> <interval> <startISO> <endISO> [--limit N]
+//   node scripts/backfill-klines.mjs <SYMBOL[,SYMBOL...]|@symbols-file> <interval> <startISO> <endISO> [--limit N]
+//
+// "@file" reads the symbols from a file (scripts/list-symbols.mjs writes data/calibration/symbols.txt). Resumable: a symbol whose file already
+// exists for the same interval, start and end is skipped, so a run stopped by a limit or the firewall can be started again with the same command.
 //
 // Rows keep Binance's 12 raw columns so they go through the same `toBars` as live data. Each request is charged to the umMarket family by
 // its klines weight (limit <= 100: 1, <= 500: 2, <= 1000: 5, above: 10) and the server-reported X-MBX-USED-WEIGHT-1M feeds back into the
 // limiter. Boundaries (scripts/binance-net.mjs, scripts/rate-limit.mjs): HTTP 451 stops the run and is never routed around; 429 waits out
 // Retry-After and retries a few times; 418 and 403 (web application firewall) abort; nothing works around a limit.
 import "./require-node.mjs"; // Node-version gate: keep this the FIRST import (test-entry-static-graph.mjs)
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { preflight, createGet, RegionBlockedError } from "./binance-net.mjs";
+import { readSymbolsArg } from "./symbols.mjs";
 import { RateLimiter, RateLimitAbort, klinesWeight } from "./rate-limit.mjs";
 
 export const INTERVAL_MS = { "5m": 300000, "15m": 900000, "30m": 1800000, "1h": 3600000, "4h": 14400000, "1d": 86400000 };
@@ -63,6 +67,16 @@ export async function fetchKlinesRange(get, limiter, symbol, interval, start, en
   return { rows: out, gaps, requests };
 }
 
+/** A finished file for exactly this request (same interval, start and end, at least one bar). */
+export async function alreadyDone(path, interval, start, end) {
+  try {
+    const f = JSON.parse(await readFile(path, "utf8"));
+    return f.interval === interval && f.start === start && f.end === end && Array.isArray(f.rows) && f.rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 async function main() {
   const [, , symbolsArg, interval, startIso, endIso, ...rest] = process.argv;
   if (!symbolsArg || !interval || !startIso || !endIso) throw new Error("usage: node scripts/backfill-klines.mjs <SYMBOL[,..]> <interval> <startISO> <endISO> [--limit N]");
@@ -77,12 +91,21 @@ async function main() {
   for (const line of report) console.log(line);
   const get = createGet(routes);
   const limiter = new RateLimiter();
-  for (const symbol of symbolsArg.split(",")) {
+  const symbols = await readSymbolsArg(symbolsArg);
+  let skipped = 0;
+  for (const symbol of symbols) {
+    if (await alreadyDone(join(outDir, symbol + ".json"), interval, start, end)) {
+      skipped++;
+      continue;
+    }
     const t0 = Date.now();
     const { rows, gaps, requests } = await fetchKlinesRange(get, limiter, symbol, interval, start, end, { limit });
-    await writeFile(join(outDir, symbol + ".json"), JSON.stringify({ symbol, interval, start, end, source: "fapi/v1/klines", rows }));
+    const target = join(outDir, symbol + ".json");
+    await writeFile(target + ".tmp", JSON.stringify({ symbol, interval, start, end, source: "fapi/v1/klines", rows }));
+    await rename(target + ".tmp", target);
     console.log(`${symbol} ${interval}: ${rows.length} bars, ${requests} requests (limit ${limit}, weight ${klinesWeight(limit)} each), ${gaps.length} gaps, ${Date.now() - t0}ms`);
   }
+  console.log(`done: ${symbols.length - skipped} fetched, ${skipped} already present (skipped)`);
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
