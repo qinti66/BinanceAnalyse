@@ -10,10 +10,11 @@
 // Observed 2026-09-20: one HTTP 403 (an HTML firewall page) after ~126 symbols at 800 ms pacing; the next requests were fine. The pace was
 // then halved. If a 403 happens again, stop for good and report instead of resuming.
 import "./require-node.mjs"; // Node-version gate: keep this the FIRST import (test-entry-static-graph.mjs)
-import { mkdir, readFile, writeFile, access } from "node:fs/promises";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { preflight, createGet, RegionBlockedError } from "./binance-net.mjs";
+import { planRange, mergeRows } from "./backfill-range.mjs";
 
 const HOUR = 3600000;
 const DAY = 24 * HOUR;
@@ -53,18 +54,41 @@ export async function fetchFundingRange(get, symbol, start, end, { sleep = (ms) 
   return rows.filter((x) => Number.isFinite(x.time) && Number.isFinite(x.rate) && (seen.has(x.time) ? false : seen.add(x.time))).sort((a, b) => a.time - b.time);
 }
 
-export function population(raw, start) {
+/**
+ * Default: USDT perpetuals listed at least 30 days before `start`, so the trailing 30-day window exists from the first evaluation point (the W1 design).
+ * allListed: every USDT perpetual, whenever it was listed. A contract listed after `start` simply has no rows before its listing, and the feature
+ * (a3) stays missing until its own 30-day window exists; missing stays missing.
+ */
+export function population(raw, start, { allListed = false } = {}) {
   return raw.contracts
-    .filter((c) => c.contract.family === "UM" && c.contract.quoteAsset === "USDT" && c.contract.contractType === "PERPETUAL" && c.contract.onboardDate < start - 30 * DAY)
+    .filter((c) => c.contract.family === "UM" && c.contract.quoteAsset === "USDT" && c.contract.contractType === "PERPETUAL" && (allListed || c.contract.onboardDate < start - 30 * DAY))
     .map((c) => c.contract.symbol)
     .sort();
 }
 
-const exists = (p) => access(p).then(() => true, () => false);
+async function readExisting(path) {
+  try {
+    return JSON.parse(await readFile(path, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+/** One symbol: skip, fetch everything, or fetch only the tail and merge it into the existing file. Returns { action, rows, added }. */
+export async function backfillFundingSymbol({ get, file, symbol, start, end, sleep, paceMs }) {
+  const existing = await readExisting(file);
+  const plan = planRange(existing, { start, end });
+  if (plan.action === "skip") return { action: "skip" };
+  const fetched = await fetchFundingRange(get, symbol, plan.action === "extend" ? plan.from : start, end, { sleep, paceMs });
+  const rows = plan.action === "extend" ? mergeRows(existing.rows, fetched, (r) => r.time) : fetched;
+  await writeFile(file + ".tmp", JSON.stringify({ symbol, start, end, source: "fapi/v1/fundingRate", rows }));
+  await rename(file + ".tmp", file);
+  return { action: plan.action, rows, added: fetched.length };
+}
 
 async function main() {
   const [, , rawPath, startIso, endIso, ...rest] = process.argv;
-  if (!rawPath || !startIso || !endIso) throw new Error("usage: node scripts/backfill-funding.mjs <raw.json> <startISO> <endISO> [--limit-symbols N]");
+  if (!rawPath || !startIso || !endIso) throw new Error("usage: node scripts/backfill-funding.mjs <raw.json> <startISO> <endISO> [--limit-symbols N] [--all-listed]");
   const start = Date.parse(startIso);
   const end = Date.parse(endIso);
   const limitIdx = rest.indexOf("--limit-symbols");
@@ -73,7 +97,7 @@ async function main() {
   const outDir = join(root, "data", "calibration", "funding");
   await mkdir(outDir, { recursive: true });
   const raw = JSON.parse(await readFile(rawPath, "utf8"));
-  const symbols = population(raw, start).slice(0, limit);
+  const symbols = population(raw, start, { allListed: rest.includes("--all-listed") }).slice(0, limit);
 
   const { routes, report } = await preflight(["fapi.binance.com"]);
   for (const line of report) console.log(line);
@@ -86,16 +110,15 @@ async function main() {
   console.log(`funding backfill: ${symbols.length} symbols, ${startIso} -> ${endIso}, pacing ${PACE_MS}ms`);
   for (const symbol of symbols) {
     const file = join(outDir, symbol + ".json");
-    if (await exists(file)) {
-      skipped++;
-      continue;
-    }
     const counting = async (url) => {
       requests++;
       return get(url);
     };
-    const rows = await fetchFundingRange(counting, symbol, start, end);
-    await writeFile(file, JSON.stringify({ symbol, start, end, source: "fapi/v1/fundingRate", rows }));
+    const r = await backfillFundingSymbol({ get: counting, file, symbol, start, end });
+    if (r.action === "skip") {
+      skipped++;
+      continue;
+    }
     done++;
     await new Promise((r) => setTimeout(r, PACE_MS));
     if (done % 25 === 0) console.log(`  ${done + skipped}/${symbols.length} symbols, ${requests} requests, ${Math.round((Date.now() - started) / 1000)}s`);

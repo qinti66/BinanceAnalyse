@@ -127,6 +127,15 @@ const describe = (route) => (route.kind === "proxy" ? `proxy ${route.proxy.label
  * Resolves { status, headers, text, json(), tcp }: `tcp` is true once a connection (or the proxy tunnel) existed, which separates
  * "unreachable / bogus address" from "reachable but the handshake was cut". HTTP 451 rejects with RegionBlockedError.
  */
+/**
+ * Call `cb` once `sock` is connected. A keep-alive socket is reused by many requests and is already connected, so waiting for a "connect" event on it
+ * would never fire and would add one more listener per request (Node's MaxListenersExceededWarning after ten). Only a socket still connecting is waited on.
+ */
+export function onConnected(sock, cb) {
+  if (sock.connecting) sock.once("connect", cb);
+  else cb();
+}
+
 export function request(route, host, path, { headers = {}, timeoutMs = 20000 } = {}) {
   return new Promise((resolve, reject) => {
     let tcp = false;
@@ -150,7 +159,7 @@ export function request(route, host, path, { headers = {}, timeoutMs = 20000 } =
     req.on("socket", (sock) => {
       // A proxied socket only appears once the tunnel is up, so its mere existence means the connection was made.
       if (agent) tcp = true;
-      else sock.once("connect", () => { tcp = true; });
+      else onConnected(sock, () => { tcp = true; });
     });
     req.on("timeout", () => req.destroy(Object.assign(new Error("timeout"), { code: "ETIMEDOUT" })));
     req.on("error", (e) => {

@@ -115,4 +115,99 @@ try {
 } finally {
   await rm(tmp, { recursive: true, force: true });
 }
+
+// --- backfill range planning: moving the end forward fetches only the tail
+{
+  const { planRange, mergeRows, gapsOf, endIsAligned } = await import("./backfill-range.mjs");
+  const H = 3600000;
+  const file = (o = {}) => ({ interval: "1h", start: 0, end: 10 * H, rows: [[0], [H]], ...o });
+  assert.deepEqual(planRange(null, { interval: "1h", start: 0, end: 10 * H }), { action: "fetch-all" });
+  assert.deepEqual(planRange(file(), { interval: "1h", start: 0, end: 10 * H }), { action: "skip" }, "same request");
+  assert.deepEqual(planRange(file(), { interval: "1h", start: 0, end: 5 * H }), { action: "skip" }, "the file already covers a shorter request");
+  assert.deepEqual(planRange(file(), { interval: "1h", start: 0, end: 20 * H }), { action: "extend", from: 10 * H }, "a later end asks only for the tail");
+  assert.deepEqual(planRange(file(), { interval: "1h", start: H, end: 20 * H }), { action: "fetch-all" }, "another start is a different file");
+  assert.deepEqual(planRange(file(), { interval: "4h", start: 0, end: 20 * H }), { action: "fetch-all" }, "another interval");
+  assert.deepEqual(planRange(file({ rows: [] }), { interval: "1h", start: 0, end: 10 * H }), { action: "fetch-all" }, "an empty file (listed later) is asked again");
+  assert.deepEqual(planRange({ start: 0, end: 10 * H, rows: [{ time: 1 }] }, { start: 0, end: 20 * H }), { action: "extend", from: 10 * H }, "funding files have no interval");
+  assert.deepEqual(planRange({ start: 0, rows: [{ time: 1 }] }, { start: 0, end: 20 * H }), { action: "fetch-all" }, "no end recorded: do not guess");
+  assert.equal(await alreadyDone(join(tmpdir(), "no-such-file.json"), "1h", 0, H), false);
+  // merge: exact seam, overlap deduplicated, order kept
+  assert.deepEqual(mergeRows([[0], [H]], [[2 * H], [3 * H]], (r) => r[0]), [[0], [H], [2 * H], [3 * H]]);
+  assert.deepEqual(mergeRows([[0, "old"], [H]], [[H, "new"], [2 * H]], (r) => r[0]), [[0, "old"], [H, "new"], [2 * H]], "a row in both keeps the new value");
+  assert.deepEqual(mergeRows([{ time: 2 }], [{ time: 1 }, { time: 3 }], (r) => r.time), [{ time: 1 }, { time: 2 }, { time: 3 }]);
+  // gaps include the seam
+  assert.deepEqual(gapsOf([[0], [H], [3 * H]], H), [{ after: H, next: 3 * H }]);
+  assert.deepEqual(gapsOf([[0], [H], [2 * H]], H), []);
+  assert.equal(endIsAligned(Date.UTC(2026, 8, 21), 14400000), true);
+  assert.equal(endIsAligned(Date.UTC(2026, 8, 21, 1), 14400000), false, "01:00 is not a 4h boundary");
+  assert.equal(endIsAligned(NaN, H), false);
+}
+
+// --- the whole per-symbol flow with a fake exchange: first run, rerun, then the end moves forward
+{
+  const { backfillSymbol } = await import("./backfill-klines.mjs");
+  const { backfillFundingSymbol } = await import("./backfill-funding.mjs");
+  const { RateLimiter } = await import("./rate-limit.mjs");
+  const { readFile } = await import("node:fs/promises");
+  const dir = await mkdtemp(join(tmpdir(), "bf-test-"));
+  try {
+    const H = 3600000;
+    const bar = (t) => [t, "1", "1", "1", "1", "1", t + H - 1, "1", 1, "1", "1", "0"];
+    const asked = [];
+    const get = async (url) => {
+      const q = new URL(url).searchParams;
+      const from = Number(q.get("startTime"));
+      const to = Number(q.get("endTime"));
+      asked.push([from, to]);
+      const out = [];
+      for (let t = from; t <= to && out.length < Number(q.get("limit") ?? 1000); t += H) out.push(url.includes("klines") ? bar(t) : { fundingTime: t, fundingRate: "0.0001" });
+      return { status: 200, headers: {}, text: "", json: () => out };
+    };
+    const args = { get, limiter: new RateLimiter(), target: join(dir, "X.json"), symbol: "X", interval: "1h", start: 0, end: 10 * H, limit: 500 };
+    const a = await backfillSymbol(args);
+    assert.equal(a.action, "fetch-all");
+    assert.equal(a.rows.length, 10);
+    assert.equal((await backfillSymbol(args)).action, "skip", "the same request again does nothing");
+    asked.length = 0;
+    const b = await backfillSymbol({ ...args, end: 15 * H });
+    assert.equal(b.action, "extend");
+    assert.equal(b.rows.length, 15, "10 old bars plus 5 new ones");
+    assert.equal(b.added, 5, "only the tail was fetched");
+    assert.deepEqual(asked, [[10 * H, 15 * H - 1]], "the request starts exactly at the old end and nowhere earlier");
+    assert.deepEqual(b.gaps, [], "no hole at the seam");
+    assert.deepEqual(b.rows.map((r) => r[0]), [...Array(15).keys()].map((i) => i * H));
+    const saved = JSON.parse(await readFile(join(dir, "X.json"), "utf8"));
+    assert.equal(saved.end, 15 * H);
+    assert.equal(saved.rows.length, 15);
+    // funding: the same three steps
+    const f = { get, file: join(dir, "F.json"), symbol: "F", start: 0, end: 4 * H, sleep: async () => {}, paceMs: 0 };
+    assert.equal((await backfillFundingSymbol(f)).action, "fetch-all");
+    assert.equal((await backfillFundingSymbol(f)).action, "skip");
+    asked.length = 0;
+    const fx = await backfillFundingSymbol({ ...f, end: 6 * H });
+    assert.equal(fx.action, "extend");
+    assert.deepEqual(fx.rows.map((r) => r.time), [0, 1, 2, 3, 4, 5].map((i) => i * H));
+    assert.equal(asked[0][0], 4 * H, "funding tail starts at the old end");
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+}
+
+// --- a reused keep-alive socket must not collect "connect" listeners (MaxListenersExceededWarning)
+{
+  const { onConnected } = await import("./binance-net.mjs");
+  const { EventEmitter } = await import("node:events");
+  const connected = Object.assign(new EventEmitter(), { connecting: false });
+  let calls = 0;
+  for (let i = 0; i < 50; i++) onConnected(connected, () => calls++);
+  assert.equal(calls, 50, "an already connected socket calls back at once");
+  assert.equal(connected.listenerCount("connect"), 0, "and adds no listener");
+  const connecting = Object.assign(new EventEmitter(), { connecting: true });
+  let late = 0;
+  onConnected(connecting, () => late++);
+  assert.equal(late, 0);
+  connecting.emit("connect");
+  assert.equal(late, 1, "a connecting socket is waited on");
+  assert.equal(connecting.listenerCount("connect"), 0, "once, then the listener is gone");
+}
 console.log("export-server and symbols tests ok");
