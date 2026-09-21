@@ -62,7 +62,7 @@ export function checksumMatches(buf, checksumText) {
   return !!want && createHash("sha256").update(buf).digest("hex") === want;
 }
 
-async function fetchVerified(url, paceMs) {
+export async function fetchVerified(url, paceMs) {
   await wait(paceMs);
   const [z, c] = await Promise.all([fetch(url, { signal: AbortSignal.timeout(30000) }), fetch(url + ".CHECKSUM", { signal: AbortSignal.timeout(30000) })]);
   if (z.status === 404) return { status: "missing", buf: null };
@@ -71,7 +71,7 @@ async function fetchVerified(url, paceMs) {
   return checksumMatches(buf, await c.text()) ? { status: "ok", buf } : { status: "CHECKSUM MISMATCH", buf: null };
 }
 
-async function unzipCsv(buf, dir, name) {
+export async function unzipCsv(buf, dir, name) {
   await writeFile(join(dir, name + ".zip"), buf);
   let last = null;
   for (const [cmd, args] of EXTRACTORS) {

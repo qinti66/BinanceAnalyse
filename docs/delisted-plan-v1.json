@@ -1,0 +1,1091 @@
+[
+ {
+  "symbol": "1000WHYUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2026-03",
+  "months": 17,
+  "deliveryMs": 1773738000000,
+  "delivery": "2026-03-17T09:00:00.000Z"
+ },
+ {
+  "symbol": "1000XUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2025-11",
+  "months": 13,
+  "deliveryMs": 1763110800000,
+  "delivery": "2025-11-14T09:00:00.000Z"
+ },
+ {
+  "symbol": "42USDT",
+  "kind": "SETTLING",
+  "first": "2025-10",
+  "end": "2026-01",
+  "months": 4,
+  "deliveryMs": 1769763600000,
+  "delivery": "2026-01-30T09:00:00.000Z"
+ },
+ {
+  "symbol": "A2ZUSDT",
+  "kind": "SETTLING",
+  "first": "2025-07",
+  "end": "2026-03",
+  "months": 9,
+  "deliveryMs": 1774342800000,
+  "delivery": "2026-03-24T09:00:00.000Z"
+ },
+ {
+  "symbol": "ACXUSDT",
+  "kind": "SETTLING",
+  "first": "2024-12",
+  "end": "2026-08",
+  "months": 21,
+  "deliveryMs": 1786093200000,
+  "delivery": "2026-08-07T09:00:00.000Z"
+ },
+ {
+  "symbol": "AERGOUSDT",
+  "kind": "gone",
+  "first": "2024-09",
+  "end": "2026-06",
+  "months": 22,
+  "deliveryMs": null,
+  "delivery": null
+ },
+ {
+  "symbol": "AI16ZUSDT",
+  "kind": "SETTLING",
+  "first": "2025-01",
+  "end": "2025-11",
+  "months": 11,
+  "deliveryMs": 1762419600000,
+  "delivery": "2025-11-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "AIUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-04",
+  "months": 20,
+  "deliveryMs": 1777370400000,
+  "delivery": "2026-04-28T10:00:00.000Z"
+ },
+ {
+  "symbol": "ALPACAUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-04",
+  "months": 8,
+  "deliveryMs": 1746003600000,
+  "delivery": "2025-04-30T09:00:00.000Z"
+ },
+ {
+  "symbol": "ALPHAUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-09",
+  "months": 13,
+  "deliveryMs": 1758618000000,
+  "delivery": "2025-09-23T09:00:00.000Z"
+ },
+ {
+  "symbol": "AMBUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-02",
+  "months": 6,
+  "deliveryMs": 1740128400000,
+  "delivery": "2025-02-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "ATAUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-05",
+  "months": 21,
+  "deliveryMs": 1779181200000,
+  "delivery": "2026-05-19T09:00:00.000Z"
+ },
+ {
+  "symbol": "B3USDT",
+  "kind": "SETTLING",
+  "first": "2025-02",
+  "end": "2026-04",
+  "months": 15,
+  "deliveryMs": 1777366800000,
+  "delivery": "2026-04-28T09:00:00.000Z"
+ },
+ {
+  "symbol": "BADGERUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-04",
+  "months": 8,
+  "deliveryMs": 1744621200000,
+  "delivery": "2025-04-14T09:00:00.000Z"
+ },
+ {
+  "symbol": "BAKEUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-10",
+  "months": 14,
+  "deliveryMs": 1759482000000,
+  "delivery": "2025-10-03T09:00:00.000Z"
+ },
+ {
+  "symbol": "BALUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-04",
+  "months": 8,
+  "deliveryMs": 1744621200000,
+  "delivery": "2025-04-14T09:00:00.000Z"
+ },
+ {
+  "symbol": "BDXNUSDT",
+  "kind": "gone",
+  "first": "2025-06",
+  "end": "2026-03",
+  "months": 10,
+  "deliveryMs": null,
+  "delivery": null
+ },
+ {
+  "symbol": "BIDUSDT",
+  "kind": "SETTLING",
+  "first": "2025-03",
+  "end": "2026-01",
+  "months": 11,
+  "deliveryMs": 1768986000000,
+  "delivery": "2026-01-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "BLZUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1734944400000,
+  "delivery": "2024-12-23T09:00:00.000Z"
+ },
+ {
+  "symbol": "BNXUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-03",
+  "months": 7,
+  "deliveryMs": 1742202000000,
+  "delivery": "2025-03-17T09:00:00.000Z"
+ },
+ {
+  "symbol": "BOBUSDT",
+  "kind": "SETTLING",
+  "first": "2025-11",
+  "end": "2026-04",
+  "months": 6,
+  "deliveryMs": 1777366800000,
+  "delivery": "2026-04-28T09:00:00.000Z"
+ },
+ {
+  "symbol": "BONDUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1734339600000,
+  "delivery": "2024-12-16T09:00:00.000Z"
+ },
+ {
+  "symbol": "BSWUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-09",
+  "months": 13,
+  "deliveryMs": 1757926800000,
+  "delivery": "2025-09-15T09:00:00.000Z"
+ },
+ {
+  "symbol": "BTCSTUSDT",
+  "kind": "gone",
+  "first": "2024-09",
+  "end": "2026-06",
+  "months": 22,
+  "deliveryMs": null,
+  "delivery": null
+ },
+ {
+  "symbol": "CHESSUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-02",
+  "months": 18,
+  "deliveryMs": 1770368400000,
+  "delivery": "2026-02-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "COMBOUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-03",
+  "months": 7,
+  "deliveryMs": 1743066000000,
+  "delivery": "2025-03-27T09:00:00.000Z"
+ },
+ {
+  "symbol": "COMMONUSDT",
+  "kind": "SETTLING",
+  "first": "2025-10",
+  "end": "2026-01",
+  "months": 4,
+  "deliveryMs": 1769763600000,
+  "delivery": "2026-01-30T09:00:00.000Z"
+ },
+ {
+  "symbol": "COSUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-06",
+  "months": 22,
+  "deliveryMs": 1781168400000,
+  "delivery": "2026-06-11T09:00:00.000Z"
+ },
+ {
+  "symbol": "CUDISUSDT",
+  "kind": "SETTLING",
+  "first": "2025-08",
+  "end": "2026-01",
+  "months": 6,
+  "deliveryMs": 1769763600000,
+  "delivery": "2026-01-30T09:00:00.000Z"
+ },
+ {
+  "symbol": "DAMUSDT",
+  "kind": "SETTLING",
+  "first": "2025-08",
+  "end": "2026-04",
+  "months": 9,
+  "deliveryMs": 1777453200000,
+  "delivery": "2026-04-29T09:00:00.000Z"
+ },
+ {
+  "symbol": "DARUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1735203600000,
+  "delivery": "2024-12-26T09:00:00.000Z"
+ },
+ {
+  "symbol": "DEGENUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2026-04",
+  "months": 18,
+  "deliveryMs": 1777366800000,
+  "delivery": "2026-04-28T09:00:00.000Z"
+ },
+ {
+  "symbol": "DEGOUSDT",
+  "kind": "SETTLING",
+  "first": "2024-12",
+  "end": "2026-04",
+  "months": 17,
+  "deliveryMs": 1776762000000,
+  "delivery": "2026-04-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "DENTUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-04",
+  "months": 20,
+  "deliveryMs": 1776762000000,
+  "delivery": "2026-04-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "DFUSDT",
+  "kind": "SETTLING",
+  "first": "2024-12",
+  "end": "2026-02",
+  "months": 15,
+  "deliveryMs": 1770368400000,
+  "delivery": "2026-02-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "DMCUSDT",
+  "kind": "SETTLING",
+  "first": "2025-06",
+  "end": "2026-01",
+  "months": 8,
+  "deliveryMs": 1768986000000,
+  "delivery": "2026-01-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "DUSDT",
+  "kind": "SETTLING",
+  "first": "2025-01",
+  "end": "2026-06",
+  "months": 18,
+  "deliveryMs": 1781168400000,
+  "delivery": "2026-06-11T09:00:00.000Z"
+ },
+ {
+  "symbol": "EOSUSDT",
+  "kind": "gone",
+  "first": "2024-09",
+  "end": "2025-05",
+  "months": 9,
+  "deliveryMs": null,
+  "delivery": null
+ },
+ {
+  "symbol": "EPTUSDT",
+  "kind": "SETTLING",
+  "first": "2025-04",
+  "end": "2026-01",
+  "months": 10,
+  "deliveryMs": 1769763600000,
+  "delivery": "2026-01-30T09:00:00.000Z"
+ },
+ {
+  "symbol": "FIOUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-04",
+  "months": 20,
+  "deliveryMs": 1776243600000,
+  "delivery": "2026-04-15T09:00:00.000Z"
+ },
+ {
+  "symbol": "FISUSDT",
+  "kind": "SETTLING",
+  "first": "2025-04",
+  "end": "2025-12",
+  "months": 9,
+  "deliveryMs": 1765357200000,
+  "delivery": "2025-12-10T09:00:00.000Z"
+ },
+ {
+  "symbol": "FLMUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-11",
+  "months": 15,
+  "deliveryMs": 1763715600000,
+  "delivery": "2025-11-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "FORTHUSDT",
+  "kind": "SETTLING",
+  "first": "2025-04",
+  "end": "2026-03",
+  "months": 12,
+  "deliveryMs": 1774342800000,
+  "delivery": "2026-03-24T09:00:00.000Z"
+ },
+ {
+  "symbol": "FRONTUSDT",
+  "kind": "gone",
+  "first": "2024-09",
+  "end": "2024-09",
+  "months": 1,
+  "deliveryMs": null,
+  "delivery": null
+ },
+ {
+  "symbol": "FTMUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-01",
+  "months": 5,
+  "deliveryMs": 1736154000000,
+  "delivery": "2025-01-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "FUNUSDT",
+  "kind": "SETTLING",
+  "first": "2025-03",
+  "end": "2026-04",
+  "months": 14,
+  "deliveryMs": 1776243600000,
+  "delivery": "2026-04-15T09:00:00.000Z"
+ },
+ {
+  "symbol": "FXSUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-01",
+  "months": 17,
+  "deliveryMs": 1767690000000,
+  "delivery": "2026-01-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "GHSTUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-02",
+  "months": 18,
+  "deliveryMs": 1770368400000,
+  "delivery": "2026-02-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "HFTUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-08",
+  "months": 24,
+  "deliveryMs": 1786093200000,
+  "delivery": "2026-08-07T09:00:00.000Z"
+ },
+ {
+  "symbol": "HIFIUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-10",
+  "months": 14,
+  "deliveryMs": 1759482000000,
+  "delivery": "2025-10-03T09:00:00.000Z"
+ },
+ {
+  "symbol": "HIGHUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-06",
+  "months": 22,
+  "deliveryMs": 1781168400000,
+  "delivery": "2026-06-11T09:00:00.000Z"
+ },
+ {
+  "symbol": "HIPPOUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2026-04",
+  "months": 18,
+  "deliveryMs": 1775638800000,
+  "delivery": "2026-04-08T09:00:00.000Z"
+ },
+ {
+  "symbol": "HOOKUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-03",
+  "months": 19,
+  "deliveryMs": 1774342800000,
+  "delivery": "2026-03-24T09:00:00.000Z"
+ },
+ {
+  "symbol": "ICXUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-08",
+  "months": 24,
+  "deliveryMs": 1787734800000,
+  "delivery": "2026-08-26T09:00:00.000Z"
+ },
+ {
+  "symbol": "IPUSDT",
+  "kind": "SETTLING",
+  "first": "2025-02",
+  "end": "2026-06",
+  "months": 17,
+  "deliveryMs": 1782637200000,
+  "delivery": "2026-06-28T09:00:00.000Z"
+ },
+ {
+  "symbol": "IRUSDT",
+  "kind": "SETTLING",
+  "first": "2025-12",
+  "end": "2026-04",
+  "months": 5,
+  "deliveryMs": 1777453200000,
+  "delivery": "2026-04-29T09:00:00.000Z"
+ },
+ {
+  "symbol": "KDAUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-11",
+  "months": 15,
+  "deliveryMs": 1762419600000,
+  "delivery": "2025-11-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "KEYUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1733216400000,
+  "delivery": "2024-12-03T09:00:00.000Z"
+ },
+ {
+  "symbol": "KLAYUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-10",
+  "months": 2,
+  "deliveryMs": 1729587600000,
+  "delivery": "2024-10-22T09:00:00.000Z"
+ },
+ {
+  "symbol": "LEVERUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-09",
+  "months": 13,
+  "deliveryMs": 1756890000000,
+  "delivery": "2025-09-03T09:00:00.000Z"
+ },
+ {
+  "symbol": "LINAUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-03",
+  "months": 7,
+  "deliveryMs": 1743066000000,
+  "delivery": "2025-03-27T09:00:00.000Z"
+ },
+ {
+  "symbol": "LOKAUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-07",
+  "months": 11,
+  "deliveryMs": 1753088400000,
+  "delivery": "2025-07-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "LOOMUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1733734800000,
+  "delivery": "2024-12-09T09:00:00.000Z"
+ },
+ {
+  "symbol": "LRCUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-03",
+  "months": 19,
+  "deliveryMs": 1774342800000,
+  "delivery": "2026-03-24T09:00:00.000Z"
+ },
+ {
+  "symbol": "MATICUSDT",
+  "kind": "gone",
+  "first": "2024-09",
+  "end": "2024-09",
+  "months": 1,
+  "deliveryMs": null,
+  "delivery": null
+ },
+ {
+  "symbol": "MBOXUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-06",
+  "months": 22,
+  "deliveryMs": 1781168400000,
+  "delivery": "2026-06-11T09:00:00.000Z"
+ },
+ {
+  "symbol": "MEMEFIUSDT",
+  "kind": "SETTLING",
+  "first": "2025-04",
+  "end": "2025-08",
+  "months": 5,
+  "deliveryMs": 1754902800000,
+  "delivery": "2025-08-11T09:00:00.000Z"
+ },
+ {
+  "symbol": "MILKUSDT",
+  "kind": "SETTLING",
+  "first": "2025-05",
+  "end": "2025-12",
+  "months": 8,
+  "deliveryMs": 1764925200000,
+  "delivery": "2025-12-05T09:00:00.000Z"
+ },
+ {
+  "symbol": "MKRUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-09",
+  "months": 13,
+  "deliveryMs": 1757322000000,
+  "delivery": "2025-09-08T09:00:00.000Z"
+ },
+ {
+  "symbol": "MLNUSDT",
+  "kind": "SETTLING",
+  "first": "2025-03",
+  "end": "2026-05",
+  "months": 15,
+  "deliveryMs": 1779181200000,
+  "delivery": "2026-05-19T09:00:00.000Z"
+ },
+ {
+  "symbol": "MYROUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-11",
+  "months": 15,
+  "deliveryMs": 1763110800000,
+  "delivery": "2025-11-14T09:00:00.000Z"
+ },
+ {
+  "symbol": "NEIROETHUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-09",
+  "months": 13,
+  "deliveryMs": 1758877200000,
+  "delivery": "2025-09-26T09:00:00.000Z"
+ },
+ {
+  "symbol": "NFPUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-07",
+  "months": 23,
+  "deliveryMs": 1782982800000,
+  "delivery": "2026-07-02T09:00:00.000Z"
+ },
+ {
+  "symbol": "NKNUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-02",
+  "months": 18,
+  "deliveryMs": 1770368400000,
+  "delivery": "2026-02-06T09:00:00.000Z"
+ },
+ {
+  "symbol": "NTRNUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-03",
+  "months": 19,
+  "deliveryMs": 1774342800000,
+  "delivery": "2026-03-24T09:00:00.000Z"
+ },
+ {
+  "symbol": "NULSUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-04",
+  "months": 8,
+  "deliveryMs": 1744621200000,
+  "delivery": "2025-04-14T09:00:00.000Z"
+ },
+ {
+  "symbol": "OBOLUSDT",
+  "kind": "SETTLING",
+  "first": "2025-05",
+  "end": "2025-12",
+  "months": 8,
+  "deliveryMs": 1764927000000,
+  "delivery": "2025-12-05T09:30:00.000Z"
+ },
+ {
+  "symbol": "OLUSDT",
+  "kind": "SETTLING",
+  "first": "2025-06",
+  "end": "2026-04",
+  "months": 11,
+  "deliveryMs": 1775638800000,
+  "delivery": "2026-04-08T09:00:00.000Z"
+ },
+ {
+  "symbol": "OMGUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-01",
+  "months": 5,
+  "deliveryMs": 1738314000000,
+  "delivery": "2025-01-31T09:00:00.000Z"
+ },
+ {
+  "symbol": "OMNIUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-09",
+  "months": 13,
+  "deliveryMs": 1758531600000,
+  "delivery": "2025-09-22T09:00:00.000Z"
+ },
+ {
+  "symbol": "OMUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-02",
+  "months": 18,
+  "deliveryMs": 1771837200000,
+  "delivery": "2026-02-23T09:00:00.000Z"
+ },
+ {
+  "symbol": "ORBSUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1733734800000,
+  "delivery": "2024-12-09T09:00:00.000Z"
+ },
+ {
+  "symbol": "OXTUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-04",
+  "months": 20,
+  "deliveryMs": 1776243600000,
+  "delivery": "2026-04-15T09:00:00.000Z"
+ },
+ {
+  "symbol": "PERPUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-11",
+  "months": 15,
+  "deliveryMs": 1763715600000,
+  "delivery": "2025-11-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "PHBUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-05",
+  "months": 21,
+  "deliveryMs": 1779181200000,
+  "delivery": "2026-05-19T09:00:00.000Z"
+ },
+ {
+  "symbol": "PONKEUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2025-11",
+  "months": 13,
+  "deliveryMs": 1764320400000,
+  "delivery": "2025-11-28T09:00:00.000Z"
+ },
+ {
+  "symbol": "PORT3USDT",
+  "kind": "SETTLING",
+  "first": "2025-06",
+  "end": "2025-11",
+  "months": 6,
+  "deliveryMs": 1763879400000,
+  "delivery": "2025-11-23T06:30:00.000Z"
+ },
+ {
+  "symbol": "PUFFERUSDT",
+  "kind": "SETTLING",
+  "first": "2025-06",
+  "end": "2026-04",
+  "months": 11,
+  "deliveryMs": 1775638800000,
+  "delivery": "2026-04-08T09:00:00.000Z"
+ },
+ {
+  "symbol": "QUICKUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-11",
+  "months": 15,
+  "deliveryMs": 1764320400000,
+  "delivery": "2025-11-28T09:00:00.000Z"
+ },
+ {
+  "symbol": "RDNTUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-03",
+  "months": 19,
+  "deliveryMs": 1774342800000,
+  "delivery": "2026-03-24T09:00:00.000Z"
+ },
+ {
+  "symbol": "REEFUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-01",
+  "months": 5,
+  "deliveryMs": 1737536400000,
+  "delivery": "2025-01-22T09:00:00.000Z"
+ },
+ {
+  "symbol": "REIUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-12",
+  "months": 16,
+  "deliveryMs": 1765357200000,
+  "delivery": "2025-12-10T09:00:00.000Z"
+ },
+ {
+  "symbol": "RENUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1733216400000,
+  "delivery": "2024-12-03T09:00:00.000Z"
+ },
+ {
+  "symbol": "RLSUSDT",
+  "kind": "SETTLING",
+  "first": "2025-12",
+  "end": "2026-04",
+  "months": 5,
+  "deliveryMs": 1775638800000,
+  "delivery": "2026-04-08T09:00:00.000Z"
+ },
+ {
+  "symbol": "RVVUSDT",
+  "kind": "SETTLING",
+  "first": "2025-10",
+  "end": "2026-02",
+  "months": 5,
+  "deliveryMs": 1770714000000,
+  "delivery": "2026-02-10T09:00:00.000Z"
+ },
+ {
+  "symbol": "SCRTUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2026-08",
+  "months": 22,
+  "deliveryMs": 1787734800000,
+  "delivery": "2026-08-26T09:00:00.000Z"
+ },
+ {
+  "symbol": "SKATEUSDT",
+  "kind": "SETTLING",
+  "first": "2025-06",
+  "end": "2025-12",
+  "months": 7,
+  "deliveryMs": 1765357200000,
+  "delivery": "2025-12-10T09:00:00.000Z"
+ },
+ {
+  "symbol": "SLERFUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2025-10",
+  "months": 12,
+  "deliveryMs": 1760950800000,
+  "delivery": "2025-10-20T09:00:00.000Z"
+ },
+ {
+  "symbol": "STMXUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-02",
+  "months": 6,
+  "deliveryMs": 1740128400000,
+  "delivery": "2025-02-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "STORJUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-08",
+  "months": 24,
+  "deliveryMs": 1787734800000,
+  "delivery": "2026-08-26T09:00:00.000Z"
+ },
+ {
+  "symbol": "SWELLUSDT",
+  "kind": "SETTLING",
+  "first": "2024-11",
+  "end": "2025-11",
+  "months": 13,
+  "deliveryMs": 1764320400000,
+  "delivery": "2025-11-28T09:00:00.000Z"
+ },
+ {
+  "symbol": "SXPUSDT",
+  "kind": "gone",
+  "first": "2024-09",
+  "end": "2026-05",
+  "months": 21,
+  "deliveryMs": null,
+  "delivery": null
+ },
+ {
+  "symbol": "SYSUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-05",
+  "months": 21,
+  "deliveryMs": 1779181200000,
+  "delivery": "2026-05-19T09:00:00.000Z"
+ },
+ {
+  "symbol": "TANSSIUSDT",
+  "kind": "SETTLING",
+  "first": "2025-07",
+  "end": "2026-01",
+  "months": 7,
+  "deliveryMs": 1768986000000,
+  "delivery": "2026-01-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "TOKENUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-12",
+  "months": 16,
+  "deliveryMs": 1764927000000,
+  "delivery": "2025-12-05T09:30:00.000Z"
+ },
+ {
+  "symbol": "TONUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-06",
+  "months": 22,
+  "deliveryMs": 1782205200000,
+  "delivery": "2026-06-23T09:00:00.000Z"
+ },
+ {
+  "symbol": "TROYUSDT",
+  "kind": "SETTLING",
+  "first": "2024-10",
+  "end": "2025-04",
+  "months": 7,
+  "deliveryMs": 1744621200000,
+  "delivery": "2025-04-14T09:00:00.000Z"
+ },
+ {
+  "symbol": "TRUUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-04",
+  "months": 20,
+  "deliveryMs": 1776762000000,
+  "delivery": "2026-04-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "UNFIUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-10",
+  "months": 2,
+  "deliveryMs": 1730278800000,
+  "delivery": "2024-10-30T09:00:00.000Z"
+ },
+ {
+  "symbol": "UXLINKUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-09",
+  "months": 13,
+  "deliveryMs": 1758877200000,
+  "delivery": "2025-09-26T09:00:00.000Z"
+ },
+ {
+  "symbol": "VANRYUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2026-08",
+  "months": 24,
+  "deliveryMs": 1786093200000,
+  "delivery": "2026-08-07T09:00:00.000Z"
+ },
+ {
+  "symbol": "VFYUSDT",
+  "kind": "SETTLING",
+  "first": "2025-09",
+  "end": "2026-03",
+  "months": 7,
+  "deliveryMs": 1773738000000,
+  "delivery": "2026-03-17T09:00:00.000Z"
+ },
+ {
+  "symbol": "VICUSDT",
+  "kind": "SETTLING",
+  "first": "2025-03",
+  "end": "2026-08",
+  "months": 18,
+  "deliveryMs": 1786093200000,
+  "delivery": "2026-08-07T09:00:00.000Z"
+ },
+ {
+  "symbol": "VIDTUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-04",
+  "months": 8,
+  "deliveryMs": 1744621200000,
+  "delivery": "2025-04-14T09:00:00.000Z"
+ },
+ {
+  "symbol": "VINEUSDT",
+  "kind": "SETTLING",
+  "first": "2025-01",
+  "end": "2026-04",
+  "months": 16,
+  "deliveryMs": 1777370400000,
+  "delivery": "2026-04-28T10:00:00.000Z"
+ },
+ {
+  "symbol": "VOXELUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2025-12",
+  "months": 16,
+  "deliveryMs": 1765357200000,
+  "delivery": "2025-12-10T09:00:00.000Z"
+ },
+ {
+  "symbol": "XCNUSDT",
+  "kind": "SETTLING",
+  "first": "2025-04",
+  "end": "2025-11",
+  "months": 8,
+  "deliveryMs": 1763715600000,
+  "delivery": "2025-11-21T09:00:00.000Z"
+ },
+ {
+  "symbol": "XEMUSDT",
+  "kind": "SETTLING",
+  "first": "2024-09",
+  "end": "2024-12",
+  "months": 4,
+  "deliveryMs": 1733734800000,
+  "delivery": "2024-12-09T09:00:00.000Z"
+ },
+ {
+  "symbol": "YALAUSDT",
+  "kind": "SETTLING",
+  "first": "2025-08",
+  "end": "2026-02",
+  "months": 7,
+  "deliveryMs": 1770714000000,
+  "delivery": "2026-02-10T09:00:00.000Z"
+ },
+ {
+  "symbol": "ZKJUSDT",
+  "kind": "SETTLING",
+  "first": "2025-05",
+  "end": "2026-04",
+  "months": 12,
+  "deliveryMs": 1777453200000,
+  "delivery": "2026-04-29T09:00:00.000Z"
+ },
+ {
+  "symbol": "ZRCUSDT",
+  "kind": "SETTLING",
+  "first": "2025-07",
+  "end": "2026-01",
+  "months": 7,
+  "deliveryMs": 1768986000000,
+  "delivery": "2026-01-21T09:00:00.000Z"
+ }
+]
