@@ -18,10 +18,10 @@ const RUN = { "1h": 24, "4h": 6 };
 export function retrimFile(file) {
   assertNativeKlines(file, file.interval, "delisted " + file.interval + " file");
   const step = STEP[file.interval];
-  const t = trimDelisted(file.rows, { deliveryMs: file.trim?.deliveryMs ?? NaN, stepMs: step, minRun: RUN[file.interval] });
+  const t = trimDelisted(file.rows, { deliveryMs: file.trim?.deliveryMs ?? NaN, stepMs: step, minRun: RUN[file.interval], keepPartialLast: file.interval === "1h" });
   if (t.rows.length === file.rows.length) return { changed: false, file, dropped: 0 };
   const end = t.rows.length ? Number(t.rows.at(-1)[0]) + step : file.start;
-  const trim = { ...file.trim, cutBy: file.trim?.cutBy ? file.trim.cutBy + "+" + t.cutBy : t.cutBy, cutAtTime: t.cutAtTime, retrimmedTrailing: (file.trim?.retrimmedTrailing ?? 0) + (file.rows.length - t.rows.length) };
+  const trim = { ...file.trim, partialLastBarOpen: t.partialLastBarOpen ?? file.trim?.partialLastBarOpen ?? null, cutBy: file.trim?.cutBy ? file.trim.cutBy + "+" + t.cutBy : t.cutBy, cutAtTime: t.cutAtTime, retrimmedTrailing: (file.trim?.retrimmedTrailing ?? 0) + (file.rows.length - t.rows.length) };
   return { changed: true, dropped: file.rows.length - t.rows.length, file: { ...file, end, rows: t.rows, trim } };
 }
 

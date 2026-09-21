@@ -1,8 +1,9 @@
 import "./require-node.mjs"; // Node-version gate: keep this the FIRST import (test-entry-static-graph.mjs)
 // Download the archive history of delisted contracts, cut it where the contract's real life ends, and write it OUTSIDE the training folders.
 //
-//   node scripts/fetch-delisted.mjs <plan.json> <outDir> <SYMBOL[,SYMBOL...]|@file> [--funding | --only-4h]
+//   node scripts/fetch-delisted.mjs <plan.json> <outDir> <SYMBOL[,SYMBOL...]|@file> [--funding | --only-4h | --only-1h]
 //     --funding   also the fundingRate months
+//     --only-1h   ONLY the 1h months (4h and funding are not requested, existing 4h/funding files are left alone): to redo a contract's 1h under a newer rule
 //     --only-4h   ONLY the exchange's 4h months (1h and funding are not requested, existing 1h files are left alone): to add the 4h to a contract whose 1h is done
 //
 // AUTHORISATION: every batch needs the user's explicit approval in the session that runs it. This script does exactly the symbols on its command line,
@@ -44,13 +45,13 @@ export function planFor(plan, symbol) {
  * a 4h, so a 4h built from 1h would be data the model never sees live), cut both, write the files. `getMonth(url, name)` is injectable so the whole flow is testable
  * without a network. Returns { requests, bytes, line }.
  */
-export async function processSymbol(p, { outDir, withFunding, only4h = false, getMonth: get }) {
+export async function processSymbol(p, { outDir, withFunding, only4h = false, only1h = false, getMonth: get }) {
   const symbol = p.symbol;
   let requests = 0;
   let bytes = 0;
   const ms = months(p.first, p.end);
   const parts = [];
-  const fetchInterval = async (interval, stepMs, minRun) => {
+  const fetchInterval = async (interval, stepMs, minRun, keepPartialLast) => {
     const rows = [];
     const missingMonths = [];
     for (const month of ms) {
@@ -65,20 +66,21 @@ export async function processSymbol(p, { outDir, withFunding, only4h = false, ge
       rows.push(...parseKlinesCsv(r.csv));
     }
     const sorted = [...new Map(rows.map((x) => [x[0], x])).values()].sort((a, b) => a[0] - b[0]);
-    const t = trimDelisted(sorted, { deliveryMs: p.deliveryMs ?? NaN, stepMs, minRun });
+    const t = trimDelisted(sorted, { deliveryMs: p.deliveryMs ?? NaN, stepMs, minRun, keepPartialLast });
     assertNothingPastCut(t.rows, t.cutAtTime);
     const start = Date.UTC(Number(p.first.slice(0, 4)), Number(p.first.slice(5, 7)) - 1, 1);
     const end = t.rows.length ? Number(t.rows.at(-1)[0]) + stepMs : start;
-    const trim = { cutBy: t.cutBy, cutAtTime: t.cutAtTime, dropped: t.dropped, interiorFrozenBars: t.interiorFrozenBars, deliveryMs: p.deliveryMs ?? null };
+    const trim = { cutBy: t.cutBy, cutAtTime: t.cutAtTime, dropped: t.dropped, interiorFrozenBars: t.interiorFrozenBars, deliveryMs: p.deliveryMs ?? null, partialLastBarOpen: t.partialLastBarOpen };
     await writeFile(join(outDir, "klines", interval, symbol + ".json"), JSON.stringify({ symbol, interval, start, end, source: "data.binance.vision futures/um monthly, sha256-verified, trimmed", trim, missingMonths, rows: t.rows }));
-    parts.push(`${interval} kept ${t.kept}, dropped ${t.dropped.total}${t.dropped.byTrailing ? " incl. " + t.dropped.byTrailing + " trailing frozen" : ""} (${t.cutBy ? "cut by " + t.cutBy + "; the first dropped bar opens " + new Date(t.cutAtTime).toISOString().slice(0, 16) : "nothing to cut"}), ${missingMonths.length}/${ms.length} months missing, frozen bars kept inside ${t.interiorFrozenBars}`);
+    parts.push(`${interval} kept ${t.kept}${t.partialLastBarOpen !== null ? " (the last bar, opening " + new Date(t.partialLastBarOpen).toISOString().slice(0, 16) + ", is a PARTIAL hour: label path only, never a decision point)" : ""}, dropped ${t.dropped.total}${t.dropped.byTrailing ? " incl. " + t.dropped.byTrailing + " trailing frozen" : ""} (${t.cutBy ? "cut by " + t.cutBy + "; the first dropped bar opens " + new Date(t.cutAtTime).toISOString().slice(0, 16) : "nothing to cut"}), ${missingMonths.length}/${ms.length} months missing, frozen bars kept inside ${t.interiorFrozenBars}`);
     return t;
   };
   // 24 frozen bars = 24 hours of 1h; the same real time (a day) in 4h bars is 6
-  const t1h = only4h ? null : await fetchInterval("1h", HOUR, 24);
-  await fetchInterval("4h", 4 * HOUR, 6);
+  // 1h keeps the partial hour the delivery falls inside (label path only). 4h has no consumer for a partial block, so it stays strict.
+  const t1h = only4h ? null : await fetchInterval("1h", HOUR, 24, true);
+  if (!only1h) await fetchInterval("4h", 4 * HOUR, 6, false);
   let fundingNote = "";
-  if (withFunding && !only4h) {
+  if (withFunding && !only4h && !only1h) {
     const frows = [];
     const fmissing = [];
     for (const month of ms) {
@@ -108,7 +110,9 @@ async function main() {
   if (!planPath || !outDir || !symbolsArg) throw new Error("usage: see the header of scripts/fetch-delisted.mjs");
   const only4h = rest.includes("--only-4h");
   const withFunding = rest.includes("--funding");
-  if (only4h && withFunding) throw new Error("--only-4h and --funding cannot be combined");
+  const only1h = rest.includes("--only-1h");
+  if ((only4h || only1h) && withFunding) throw new Error("--only-4h and --only-1h cannot be combined with --funding");
+  if (only4h && only1h) throw new Error("--only-4h and --only-1h cannot be combined");
   const plan = JSON.parse(await readFile(planPath, "utf8"));
   const symbols = await readSymbolsArg(symbolsArg);
   for (const s of symbols) planFor(plan, s); // every symbol must be in the plan before anything is requested
@@ -117,7 +121,7 @@ async function main() {
   let requests = 0;
   let bytes = 0;
   for (const symbol of symbols) {
-    const r = await processSymbol(planFor(plan, symbol), { outDir, withFunding, only4h, getMonth: (url, name) => getMonth(url, tmp, name) });
+    const r = await processSymbol(planFor(plan, symbol), { outDir, withFunding, only4h, only1h, getMonth: (url, name) => getMonth(url, tmp, name) });
     requests += r.requests;
     bytes += r.bytes;
     console.log(r.line);

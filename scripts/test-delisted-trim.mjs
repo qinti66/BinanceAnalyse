@@ -72,6 +72,44 @@ assert.equal(r.kept, 0, "a series that is nothing but frozen bars has no real li
 assert.throws(() => trimDelisted([live(1), live(0)], {}), /sorted oldest first/);
 assert.throws(() => trimDelisted([live(0), live(0)], {}), /unique open times/);
 
+// the partial hour the delivery falls inside: kept for the label path, never a decision point
+{
+  const { barsOpenedBeforeDelivery, partialLastIndex, decisionEligible } = await import("./delisted-trim.mjs");
+  const mid = T0 + 100 * H + 1800000; // delivery at 100:30, inside the bar that opens at hour 100
+  assert.equal(barsOpenedBeforeDelivery(seq(200), mid), 101, "the bar the delivery falls inside opened before it");
+  assert.equal(barsOpenedBeforeDelivery(seq(200), T0 + 100 * H), 100, "a delivery exactly on the hour opens nothing after it");
+  assert.equal(barsOpenedBeforeDelivery(seq(50), mid), 50);
+  assert.equal(barsOpenedBeforeDelivery(seq(200), NaN), 200);
+  const k = trimDelisted([...seq(100), live(100), ...tail(200, 101)], { deliveryMs: mid, keepPartialLast: true });
+  assert.equal(k.kept, 101, "the partial hour is kept");
+  assert.equal(k.partialLastBarOpen, T0 + 100 * H);
+  assert.equal(k.cutBy, "both", "the cut is at the same place by delivery and by signature");
+  const dropped = trimDelisted([...seq(100), live(100), ...tail(200, 101)], { deliveryMs: mid });
+  assert.equal(dropped.kept, 100, "without the flag the partial hour is dropped (what the 4h files do)");
+  assert.equal(dropped.partialLastBarOpen, null);
+  assert.equal(trimDelisted([...seq(100), ...tail(200, 100)], { deliveryMs: T0 + 100 * H, keepPartialLast: true }).partialLastBarOpen, null, "a delivery on the hour has no partial bar");
+  assert.equal(trimDelisted(seq(50), { keepPartialLast: true }).partialLastBarOpen, null, "no delivery date, no partial bar");
+  // roles: the partial bar is the last row; it is a label-path bar, not a decision point
+  const trimInfo = { partialLastBarOpen: k.partialLastBarOpen };
+  assert.equal(partialLastIndex(k.rows, trimInfo), 100);
+  assert.equal(decisionEligible(k.rows, trimInfo, 99), true);
+  assert.equal(decisionEligible(k.rows, trimInfo, 100), false, "no decision point on the partial hour");
+  assert.equal(decisionEligible(k.rows, trimInfo, 101), false, "and none past the end");
+  assert.equal(decisionEligible(k.rows, {}, 100), true, "a file with no partial bar: every bar is eligible");
+  assert.equal(partialLastIndex([], trimInfo), -1);
+  // a label on the partial bar: a decision 4 bars before it, horizon 4, sees the partial bar in its forward window
+  const { tripleBarrier } = await import("../lib/indicators/labels.ts");
+  const { atrSeries } = await import("../lib/structure/atr.ts");
+  const toB = (r) => ({ t: r[0], ct: r[6], o: Number(r[1]), h: Number(r[2]), l: Number(r[3]), c: Number(r[4]), v: 1, qvUsd: 1, takerBuyUsd: 1, trades: 1, flow: null });
+  const crash = [...seq(100), [T0 + 100 * H, "10.0", "10.0", "5.0", "6.0", "100", T0 + 101 * H - 1, "1000", 40, "50", "500", "0"]];
+  const bs = crash.map(toB);
+  const atr = atrSeries(bs, 14);
+  const withPartial = tripleBarrier(bs, 96, atr, { horizonBars: 4, k: 1, cost: 0.001 });
+  const withoutPartial = tripleBarrier(bs.slice(0, 100), 96, atr, { horizonBars: 4, k: 1, cost: 0.001 });
+  assert.equal(withPartial.label, "down", "the last move is in the label path");
+  assert.equal(withoutPartial.label, null, "without it the forward window is incomplete and the sample is lost, not relabelled");
+}
+
 // the hard check
 r = trimDelisted(wholeMonth, {});
 assertNothingPastCut(r.rows, r.cutAtTime);
@@ -172,6 +210,29 @@ console.log("delisted-trim and aggregate-4h tests ok");
     assert.equal(o.requests, 2);
     assert.equal(await readFile(join(dir, "klines", "1h", "TESTUSDT.json"), "utf8"), before1h, "the 1h file is untouched");
     assert.match(o.line, /^TESTUSDT \[SETTLING\] 1 month\(s\) \| 4h kept 75/);
+    // --only-1h: only the 1h month, the 4h file is untouched
+    const before4h = await readFile(join(dir, "klines", "4h", "TESTUSDT.json"), "utf8");
+    seen.length = 0;
+    const o1 = await processSymbol(planFor(plan, "TESTUSDT"), { outDir: dir, withFunding: false, only1h: true, getMonth });
+    assert.deepEqual(seen, ["TESTUSDT-1h-2025-01"]);
+    assert.equal(o1.requests, 2);
+    assert.equal(await readFile(join(dir, "klines", "4h", "TESTUSDT.json"), "utf8"), before4h, "the 4h file is untouched");
+    // a delivery at 300:30 (inside the bar that opens at hour 300): 1h keeps that partial hour for the label path and says so; 4h stays strict
+    const midPlan = [{ symbol: "TESTUSDT", kind: "SETTLING", first: "2025-01", end: "2025-01", months: 1, deliveryMs: Y + 300 * H + 1800000 }];
+    const january1hMid = Array.from({ length: 744 }, (_, i) => barOf(H, i, i >= 301));
+    const getMid = async (url, name) => (name === "TESTUSDT-1h-2025-01" ? { status: "ok", csv: csvOf(january1hMid), bytes: 1000 } : getMonth(url, name));
+    const m = await processSymbol(planFor(midPlan, "TESTUSDT"), { outDir: dir, withFunding: false, getMonth: getMid });
+    const mid1h = JSON.parse(await readFile(join(dir, "klines", "1h", "TESTUSDT.json"), "utf8"));
+    assert.equal(mid1h.rows.length, 301, "the partial hour is kept");
+    assert.equal(mid1h.trim.partialLastBarOpen, Y + 300 * H);
+    assert.match(m.line, /1h kept 301 \(the last bar, opening 2025-01-13T12:00, is a PARTIAL hour: label path only, never a decision point\)/);
+    const mid4h = JSON.parse(await readFile(join(dir, "klines", "4h", "TESTUSDT.json"), "utf8"));
+    assert.equal(mid4h.rows.length, 75, "the 4h file keeps only blocks that closed by the delivery");
+    assert.equal(mid4h.trim.partialLastBarOpen, null);
+    const { partialLastIndex, decisionEligible } = await import("./delisted-trim.mjs");
+    assert.equal(partialLastIndex(mid1h.rows, mid1h.trim), 300);
+    assert.equal(decisionEligible(mid1h.rows, mid1h.trim, 300), false, "no decision point on the partial hour");
+    assert.equal(decisionEligible(mid1h.rows, mid1h.trim, 299), true);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
