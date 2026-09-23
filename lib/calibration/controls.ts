@@ -119,3 +119,42 @@ export function leakCheck(o: { realBss: number | null; shuffledBss: number | nul
   if (o.shuffledBss > o.randomP95) return { status: "leak_suspected", reason: "shuffled labels still score above the random-feature bar" };
   return { status: "clean", reason: "shuffling the labels drops the score to noise level" };
 }
+
+/**
+ * The day-clustered null for the leak and skill controls. Inside ONE set of samples (a fold's training set, or its test set) the DAYS are cut into blocks of
+ * `blockDays` consecutive days, the blocks are put in a random order, and every day takes the labels of the day at its position in the new order. The SAME day map is
+ * used for every coin. So: (1) the labels of all coins on a day still come from one common market day (cross-coin same-day structure kept); (2) inside a block the
+ * labels keep their order (autocorrelation kept up to the block length); (3) the class mix of the set is exactly unchanged, so the train-to-test DRIFT of the class
+ * mix is what the real evaluation has, not a larger one; only the alignment between features and labels is broken. (A single shift of all days by a long offset
+ * moves labels between distant periods, and the class-mix drift that adds makes the null much lower than zero, which is not the null of "no information".)
+ * A coin with no sample on the source day gets -1 (masked: neither trained on nor scored), never a substitute. Deterministic in the seed.
+ * `indices` are the samples of the set; `days[i]` is the integer day of sample i; the result is aligned with `indices`.
+ */
+export function dayBlockPermuteLabels(samples: { group: string }[], days: ArrayLike<number>, labels: ArrayLike<number>, indices: number[], blockDays: number, seed: number): { labels: Int8Array; masked: number } {
+  if (samples.length !== labels.length || days.length !== labels.length) throw new Error("samples, days and labels must line up");
+  if (!(blockDays >= 1) || !Number.isInteger(blockDays)) throw new Error("blockDays must be a positive integer");
+  const rand = mulberry32(seed);
+  const distinct = [...new Set(indices.map((i) => days[i]))].sort((a, b) => a - b);
+  const blocks: number[][] = [];
+  for (let k = 0; k < distinct.length; k += blockDays) blocks.push(distinct.slice(k, k + blockDays));
+  for (let k = blocks.length - 1; k > 0; k--) {
+    const j = Math.floor(rand() * (k + 1));
+    [blocks[k], blocks[j]] = [blocks[j], blocks[k]];
+  }
+  const source = blocks.flat(); // the day at position k of the new order
+  const sourceOf = new Map<number, number>();
+  distinct.forEach((d, k) => sourceOf.set(d, source[k]));
+  const key = (g: string, d: number) => g + "|" + d;
+  const byKey = new Map<string, number>();
+  for (const i of indices) byKey.set(key(samples[i].group, days[i]), labels[i]);
+  const out = new Int8Array(indices.length);
+  let masked = 0;
+  indices.forEach((i, pos) => {
+    const v = byKey.get(key(samples[i].group, sourceOf.get(days[i])!));
+    if (v === undefined) {
+      out[pos] = -1;
+      masked++;
+    } else out[pos] = v;
+  });
+  return { labels: out, masked };
+}

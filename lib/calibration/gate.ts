@@ -91,7 +91,15 @@ export interface HeadReport {
   folds: { bss: number | null; n: number }[];
   pooled: {
     bss: number | null;
-    /** BSS of the same forecasts against labels on the BTC-beta-adjusted path. ≈ 0 means the model only predicts the market. */
+    /**
+     * BSS of the DEPLOYED model's forecasts against the residual labels (the BTC-beta-adjusted triple barrier), AFTER a prior-shift adjustment: each forecast is
+     * re-weighted class by class by (training residual prior / training plain prior) and renormalised (priorShift, lib/calibration/residual.ts; training priors only,
+     * no new parameter). ≈ 0 or below means the model only predicts the market. THE ADJUSTMENT IS PART OF THE DEFINITION, and it was added on 2026-09-21 AFTER
+     * seeing the unadjusted value (-0.1754), because the residual labels have another class mix (mostly flat) than the plain ones and forecasts calibrated to the
+     * plain mix are punished by that mismatch alone, whatever their skill (provable without data). Both alternative definitions then gave positive values; that is
+     * on record too (calibration-log-v1.md T31). Diagnostic (b), a model re-fitted on the residual labels, is reported next to it and is NOT read here: it scores a
+     * model that is never deployed.
+     */
     residualBss: number | null;
     ece: number | null;
     classCounts: number[];

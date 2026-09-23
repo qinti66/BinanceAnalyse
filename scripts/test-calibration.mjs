@@ -541,3 +541,103 @@ test("regime coverage refuses anything but daily sampling (the day threshold is 
  // even with plenty of days in every bin, a sparse sampling is refused
  assert.equal(fails(good({pooled:{regimeCoverage:COV({samplingIntervalDays:3,trend:{low:1e4,high:1e4},vol:{low:1e4,high:1e4}})}})).pass,false);
 });
+
+test("day-clustered inference: block bootstrap over days, day-shifted null, prior shift", async () => {
+  const { bssOfDays, pooledBss, clusterBootstrapBss, dayStats, brierTerm } = await import("../lib/calibration/bootstrap.ts");
+  const { dayBlockPermuteLabels } = await import("../lib/calibration/controls.ts");
+  const { priorShift } = await import("../lib/calibration/residual.ts");
+
+  // --- brierTerm and dayStats
+  assert.equal(brierTerm([1, 0, 0], 0), 0);
+  assert.ok(Math.abs(brierTerm([0.5, 0.5, 0], 0) - 0.5) < 1e-12);
+  const ds = dayStats([1, 1, 2, 2, 3], [0.2, 0.3, 0.1, 0.1, NaN], [0.4, 0.4, 0.2, 0.2, 0.9]);
+  assert.deepEqual(ds, [{ day: 1, model: 0.5, base: 0.8 }, { day: 2, model: 0.2, base: 0.4 }], "same-day samples are summed; a non-finite term is skipped, not zeroed");
+
+  // --- bssOfDays / pooledBss
+  assert.ok(Math.abs(bssOfDays(ds) - (1 - 0.7 / 1.2)) < 1e-12);
+  assert.equal(bssOfDays([]), null);
+  assert.equal(bssOfDays([{ day: 1, model: 1, base: 0 }]), null, "a base Brier of 0 has no BSS");
+  assert.ok(Math.abs(pooledBss([[{ day: 1, model: 0.5, base: 1 }], [{ day: 1, model: 1, base: 1 }]], [3, 1]) - 0.375) < 1e-12, "fold BSS 0.5 and 0 pooled with weights 3 and 1");
+  assert.equal(pooledBss([[{ day: 1, model: 0.5, base: 1 }], []], [1, 1]), null, "a fold with no days: no pooled score");
+
+  // --- the bootstrap: a model with a real edge is significantly above 0, a model with none straddles 0, and clustering matters
+  let seed = 7;
+  const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+  const makeFolds = (edge, dayEffectSd) => Array.from({ length: 3 }, () => Array.from({ length: 90 }, (_, d) => {
+    // each day: base Brier 100 (about 300 rows); the model's Brier is lower by `edge` on average, plus one shared day effect (the market of that day)
+    const dayEffect = (rnd() - 0.5) * 2 * dayEffectSd;
+    return { day: d, base: 100, model: 100 * (1 - edge) + dayEffect * 100 };
+  }));
+  const real = clusterBootstrapBss(makeFolds(0.03, 0.02), [1, 1, 1], { draws: 400, seed: 3 });
+  assert.ok(real.lo > 0, "a 3% edge with modest day noise: the interval is above 0 (" + real.lo.toFixed(4) + ")");
+  assert.ok(real.shareAboveZero > 0.99);
+  const none = clusterBootstrapBss(makeFolds(0, 0.04), [1, 1, 1], { draws: 400, seed: 3 });
+  assert.ok(none.lo < 0 && none.hi > 0, "no edge: the interval covers 0 (" + none.lo.toFixed(4) + " .. " + none.hi.toFixed(4) + ")");
+  // the same observed edge is NOT significant when the days are noisy: this is why rows must not be treated as independent
+  const noisy = clusterBootstrapBss(makeFolds(0.01, 0.06), [1, 1, 1], { draws: 400, seed: 3 });
+  const calm = clusterBootstrapBss(makeFolds(0.01, 0.005), [1, 1, 1], { draws: 400, seed: 3 });
+  assert.ok(noisy.hi - noisy.lo > 2 * (calm.hi - calm.lo), "the interval widens with the day-level noise");
+  assert.equal(clusterBootstrapBss([[], []], [1, 1]), null);
+  const fixed = makeFolds(0.02, 0.02);
+  assert.deepEqual(clusterBootstrapBss(fixed, [1, 1, 1], { draws: 50, seed: 9 }), clusterBootstrapBss(fixed, [1, 1, 1], { draws: 50, seed: 9 }), "deterministic in the seed");
+  assert.notDeepEqual(clusterBootstrapBss(fixed, [1, 1, 1], { draws: 50, seed: 9 }), clusterBootstrapBss(fixed, [1, 1, 1], { draws: 50, seed: 10 }), "another seed, another resampling");
+
+  // --- dayBlockPermuteLabels: blocks of days permuted inside a set, one map for every coin; class mix, cross-coin same-day structure and block-internal order kept
+  const samples = [];
+  const days = [];
+  const labels = [];
+  const coins = ["A", "B", "C"];
+  const pattern = [0, 1, 2, 2, 0, 0, 1, 2, 1, 0, 2, 1];
+  for (let d = 0; d < 120; d++) for (const g of coins) { samples.push({ group: g }); days.push(d); labels.push(pattern[Math.floor(d / 10)]); } // every coin sees the same market block on a day
+  const all = samples.map((_, i) => i);
+  const r = dayBlockPermuteLabels(samples, days, labels, all, 10, 11);
+  assert.equal(r.masked, 0, "every coin has every day: nothing is masked");
+  // the class mix of the set is exactly unchanged
+  const mix = (xs) => [0, 1, 2].map((c) => Array.from(xs).filter((x) => x === c).length).join(",");
+  assert.equal(mix(r.labels), mix(labels), "the class mix is preserved exactly");
+  // cross-coin, same-day structure survives: on every day all three coins carry the same label
+  for (let d = 0; d < 120; d++) { const x = r.labels[d * 3], y = r.labels[d * 3 + 1], z = r.labels[d * 3 + 2]; assert.ok(x === y && y === z, "day " + d); }
+  // blocks of 10 days keep their internal order: inside each block the labels are one constant (the pattern is constant over 10 days), so every block is intact
+  for (let blk = 0; blk < 12; blk++) { const first = r.labels[blk * 30]; for (let d = 0; d < 10; d++) assert.equal(r.labels[(blk * 10 + d) * 3], first, "block " + blk + " day " + d); }
+  // the alignment with the original days is broken for a good part of them
+  let same = 0; for (let i = 0; i < labels.length; i++) if (r.labels[i] === labels[i]) same++;
+  assert.ok(same < labels.length * 0.75, "a good part of the samples got a label from another day: " + same + " of " + labels.length + " unchanged");
+  assert.deepEqual(Array.from(dayBlockPermuteLabels(samples, days, labels, all, 10, 11).labels), Array.from(r.labels), "deterministic in the seed");
+  assert.notDeepEqual(Array.from(dayBlockPermuteLabels(samples, days, labels, all, 10, 12).labels), Array.from(r.labels), "another seed, another permutation");
+  // a permutation stays INSIDE the set it is given: two sets that share no day never exchange labels
+  const early = all.filter((i) => days[i] < 60), late = all.filter((i) => days[i] >= 60);
+  const pe = dayBlockPermuteLabels(samples, days, labels, early, 10, 5), pl = dayBlockPermuteLabels(samples, days, labels, late, 10, 5);
+  assert.equal(mix(pe.labels), mix(early.map((i) => labels[i])), "the early set keeps its own mix");
+  assert.equal(mix(pl.labels), mix(late.map((i) => labels[i])), "the late set keeps its own mix: the train-to-test drift stays what it really is");
+  // blockDays = 1 is a plain day permutation; a block longer than the set leaves the set unchanged
+  assert.equal(mix(dayBlockPermuteLabels(samples, days, labels, all, 1, 3).labels), mix(labels));
+  assert.deepEqual(Array.from(dayBlockPermuteLabels(samples, days, labels, all, 500, 3).labels), labels, "one block: nothing to permute");
+  // a coin with no sample on the source day is masked, never substituted
+  const holey = all.filter((i) => !(samples[i].group === "B" && days[i] >= 60 && days[i] < 90));
+  const rh = dayBlockPermuteLabels(samples, days, labels, holey, 10, 11);
+  assert.ok(rh.masked > 0 && rh.masked < holey.length, "days with a hole are masked (" + rh.masked + ")");
+  assert.ok(Array.from(rh.labels).every((v) => v === -1 || v >= 0));
+  assert.throws(() => dayBlockPermuteLabels(samples.slice(1), days, labels, all, 10, 1), /line up/);
+  assert.throws(() => dayBlockPermuteLabels(samples, days, labels, all, 0, 1), /positive integer/);
+  assert.throws(() => dayBlockPermuteLabels(samples, days, labels, all, 2.5, 1), /positive integer/);
+
+  // --- prior shift: forecasts calibrated to the source prior are restated for the target prior, using training priors only
+  const src = [0.35, 0.3, 0.35], tgt = [0.2, 0.57, 0.23];
+  const [sameAsSource] = priorShift([src], src, tgt);
+  for (let c = 0; c < 3; c++) assert.ok(Math.abs(sameAsSource[c] - tgt[c]) < 1e-12, "a forecast that is exactly the source base rate becomes exactly the target base rate (no skill in, none out)");
+  const shifted = priorShift([[0.6, 0.1, 0.3], [0.2, 0.2, 0.6]], src, tgt);
+  for (const q of shifted) assert.ok(Math.abs(q.reduce((a, b) => a + b, 0) - 1) < 1e-12, "renormalised");
+  assert.ok(shifted[0][0] > shifted[1][0] && shifted[1][2] > shifted[0][2], "the ordering of the forecasts between rows is kept");
+  assert.deepEqual(priorShift([[0.5, 0.5, 0]], [0.5, 0, 0.5], [0.3, 0.4, 0.3])[0], [1, 0, 0], "a class with a source prior of 0 stays at 0");
+  assert.equal(priorShift([[0, 1, 0]], [0.5, 0, 0.5], [0.3, 0.4, 0.3])[0], null, "nothing left to normalise: null, not a default");
+  assert.equal(priorShift([[0.5, 0.5]], src, tgt)[0], null, "the wrong number of classes");
+  assert.throws(() => priorShift([[1, 0]], [0.5, 0.5], [1, 0, 0]), /same number of classes/);
+  // the point of the adjustment: an uninformative forecast at the SOURCE prior is heavily penalised against target labels, and not once shifted
+  const { bss } = await import("../lib/calibration/metrics.ts");
+  const y = Array.from({ length: 1000 }, (_, i) => (i % 100 < 20 ? 0 : i % 100 < 77 ? 1 : 2)); // 20 / 57 / 23
+  const plainForecasts = y.map(() => src.slice());
+  const raw = bss(plainForecasts, y, tgt);
+  const adj = bss(priorShift(plainForecasts, src, tgt), y, tgt);
+  assert.ok(raw < -0.15, "raw BSS of a source-calibrated, skill-free forecast against target labels: " + raw);
+  assert.ok(Math.abs(adj) < 1e-9, "after the prior shift the same skill-free forecast scores 0: " + adj);
+});

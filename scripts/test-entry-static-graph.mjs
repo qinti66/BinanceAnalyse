@@ -17,6 +17,7 @@ const ENTRIES = [
   "make-delisted-plan.mjs",
   "check-4h-reconcile.mjs",
   "retrim-delisted.mjs",
+  "verify-delisted-batch.mjs",
   "collect-indicators.mjs",
   "backfill-funding.mjs",
   "backfill-klines.mjs",

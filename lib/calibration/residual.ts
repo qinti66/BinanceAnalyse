@@ -51,3 +51,21 @@ export function residualLabelAt(o: {
   const label = residualTripleBarrier({ coinCloses, btcCloses, t: 0, horizonBars, k: o.k, atrPct: a / bars[i].c, cost: o.cost, beta: est.beta });
   return label === null ? { label: null, reason: "residual label unavailable" } : { label, reason: null };
 }
+
+/**
+ * Prior-shift adjustment: forecasts calibrated to one class mix, restated for another. The residual (BTC-beta-adjusted) labels are mostly flat (the market move is
+ * removed), the plain labels are not, so forecasts calibrated to the plain mix are punished against the residual labels by the prior mismatch alone, whatever
+ * skill they have. Each forecast is multiplied, class by class, by (target prior / source prior) and renormalised. NO new parameter: both priors are the class
+ * frequencies of the TRAINING fold (source: plain labels, target: residual labels), so nothing from the test fold enters. A class with a source prior of 0 keeps
+ * probability 0 (it cannot be revived). Forecasts that cannot be renormalised come back as null, never as a default.
+ */
+export function priorShift(probs: number[][], sourceRates: number[], targetRates: number[]): (number[] | null)[] {
+  if (sourceRates.length !== targetRates.length) throw new Error("the two priors must have the same number of classes");
+  const ratio = targetRates.map((t, c) => (sourceRates[c] > 0 ? t / sourceRates[c] : 0));
+  return probs.map((p) => {
+    if (p.length !== ratio.length) return null;
+    const q = p.map((x, c) => x * ratio[c]);
+    const z = q.reduce((a, b) => a + b, 0);
+    return z > 0 && Number.isFinite(z) ? q.map((x) => x / z) : null;
+  });
+}

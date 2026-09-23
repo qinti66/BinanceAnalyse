@@ -18,10 +18,11 @@ import { tripleBarrier, roundTripCost, labelK, classIndex, SLIPPAGE_ROUND_TRIP_A
 import { walkForwardFolds, foldViolations, uniquenessWeights, effectiveN, MIN_TEST_START_MS } from "../lib/calibration/splits.ts";
 import { fitSoftmax, predictProba } from "../lib/calibration/softmax.ts";
 import { baseRates, bss, ece, classCounts } from "../lib/calibration/metrics.ts";
-import { randomFeatureBaseline, blockShiftLabels, leakCheck } from "../lib/calibration/controls.ts";
+import { randomFeatureBaseline, blockShiftLabels, dayBlockPermuteLabels, leakCheck } from "../lib/calibration/controls.ts";
+import { clusterBootstrapBss, dayStats, brierTerm, pooledBss as pooledBssOfDays } from "../lib/calibration/bootstrap.ts";
 import { evaluateGate, CALIBRATION_GATE } from "../lib/calibration/gate.ts";
 import { regimeCoverage, FROZEN_REGIME_CUTPOINTS, btcTrailingReturnPct } from "../lib/calibration/regime.ts";
-import { residualLabelAt } from "../lib/calibration/residual.ts";
+import { residualLabelAt, priorShift } from "../lib/calibration/residual.ts";
 import { assertNativeKlines } from "./kline-source.mjs";
 
 const HOUR = 3600000;
@@ -117,8 +118,15 @@ const shift = blockShiftLabels(samples, Y, 4242);
 console.log(`label control: labels rotated within each coin (${shift.shifted} samples shifted, ${shift.unshifted} in coins too short to shift)`);
 const YS = shift.labels;
 const L2 = 0.05;
+const NULL_DRAWS = Number(process.env.NULL_DRAWS ?? 30);
+const BOOT_DRAWS = 1000;
+const NULL_BLOCK_DAYS = Number(process.env.NULL_BLOCK_DAYS ?? 7); // labels keep their order inside a block of this many days
+const sampleDay = samples.map((x) => Math.floor((x.time + 1) / DAY));
 const rows = [];
 const allTest = { probs: [], y: [], w: [], days: [], trend: [], vol: [] };
+const foldDays = { plain: [], resA: [], resB: [] }; // per fold: the day sums of the Brier terms, for the day-clustered bootstrap
+const foldWeights = [];
+const foldFits = []; // what the day-shifted null needs to re-fit
 let baseline = null;
 for (const f of folds) {
   const trainY = f.trainIdx.map((i) => Y[i]);
@@ -133,23 +141,34 @@ for (const f of folds) {
   const model = fitSoftmax(f.trainIdx.map((i) => X[i]), trainY, 3, { l2: L2, sampleWeights: trW, maxIter: 60 });
   const probs = predictProba(model, f.testIdx.map((i) => X[i]));
   const real = bss(probs, testY, rates, teW);
-  // residual skill: the SAME forecasts against the BTC-beta-adjusted labels (base rates from the training residual labels); samples with no residual label are left out
+  const testDays = f.testIdx.map((i) => sampleDay[i]);
+  foldDays.plain.push(dayStats(testDays, probs.map((p, j) => brierTerm(p, testY[j]) * teW[j]), testY.map((y, j) => brierTerm(rates, y) * teW[j])));
+  foldWeights.push(effectiveN(teW));
+  foldFits.push({ f, trW, teW });
+
+  // Residual skill. The residual (BTC-beta-adjusted) labels have another class mix than the plain ones (mostly flat: the market move is removed), so forecasts
+  // calibrated to the plain mix are penalised against them by the prior mismatch alone. THE GATE'S DEFINITION (architect ruling, calibration-log T31): the BSS of the
+  // prior-shift-adjusted forecasts against the residual labels, the adjustment using only the TRAINING fold's priors (no new parameter). Reported side by side:
+  // the unadjusted BSS (the original definition) and (b) a model re-fitted on the residual labels (a diagnostic that scores a model which is never deployed).
   const trR = f.trainIdx.filter((i) => YR[i] >= 0);
   const teR = f.testIdx.map((i, j) => (YR[i] >= 0 ? j : -1)).filter((j) => j >= 0);
   const residualRates = trR.length ? baseRates(trR.map((i) => YR[i]), 3, trR.map((i) => weights[i])) : null;
-  const residual = residualRates && teR.length ? bss(teR.map((j) => probs[j]), teR.map((j) => YR[f.testIdx[j]]), residualRates, teR.map((j) => teW[j])) : null;
-  // Two DIAGNOSTICS of why the plain residual BSS can be so negative (they are reported, they are NOT what the gate reads):
-  //  (a) prior-shift: the residual labels have another class mix than the plain ones (mostly flat: the market move is removed), so forecasts calibrated to the plain mix
-  //      are penalised even with skill. Re-weight each forecast by the ratio of the TRAINING residual prior to the TRAINING plain prior and renormalise (no new parameter).
-  //  (b) own model: fit the same model on the residual labels and score it against the residual base rates: does the feature set carry information beyond the market?
-  let residualShift = null;
+  let residual = null;
+  let residualRaw = null;
   let residualOwn = null;
   if (residualRates && rates && teR.length) {
-    const ratio = residualRates.map((r, c) => (rates[c] > 0 ? r / rates[c] : 0));
-    const shifted = teR.map((j) => { const q = probs[j].map((pc, c) => pc * ratio[c]); const z = q.reduce((a, b) => a + b, 0); return q.map((x) => x / z); });
-    residualShift = bss(shifted, teR.map((j) => YR[f.testIdx[j]]), residualRates, teR.map((j) => teW[j]));
+    const yR = teR.map((j) => YR[f.testIdx[j]]);
+    const wR = teR.map((j) => teW[j]);
+    const dR = teR.map((j) => testDays[j]);
+    residualRaw = bss(teR.map((j) => probs[j]), yR, residualRates, wR);
+    const shifted = priorShift(teR.map((j) => probs[j]), rates, residualRates);
+    const okIdx = shifted.map((q, k) => (q === null ? -1 : k)).filter((k) => k >= 0);
+    residual = bss(okIdx.map((k) => shifted[k]), okIdx.map((k) => yR[k]), residualRates, okIdx.map((k) => wR[k]));
+    foldDays.resA.push(dayStats(okIdx.map((k) => dR[k]), okIdx.map((k) => brierTerm(shifted[k], yR[k]) * wR[k]), okIdx.map((k) => brierTerm(residualRates, yR[k]) * wR[k])));
     const ownModel = fitSoftmax(trR.map((i) => X[i]), trR.map((i) => YR[i]), 3, { l2: L2, sampleWeights: trR.map((i) => weights[i]), maxIter: 60 });
-    residualOwn = bss(predictProba(ownModel, teR.map((j) => X[f.testIdx[j]])), teR.map((j) => YR[f.testIdx[j]]), residualRates, teR.map((j) => teW[j]));
+    const ownProbs = predictProba(ownModel, teR.map((j) => X[f.testIdx[j]]));
+    residualOwn = bss(ownProbs, yR, residualRates, wR);
+    foldDays.resB.push(dayStats(dR, ownProbs.map((p, k) => brierTerm(p, yR[k]) * wR[k]), yR.map((y, k) => brierTerm(residualRates, y) * wR[k])));
   }
   const shufTrainY = f.trainIdx.map((i) => YS[i]);
   const shufTestY = f.testIdx.map((i) => YS[i]);
@@ -157,12 +176,12 @@ for (const f of folds) {
   const shuf = bss(predictProba(shufModel, f.testIdx.map((i) => X[i])), shufTestY, baseRates(shufTrainY, 3, trW), teW);
   const rb = randomFeatureBaseline({ trainY, testY, k: 3, nFeatures: FEATURE_IDS.length, l2: L2, trainWeights: trW, testWeights: teW, draws: 20, seed: 100 + f.index, maxIter: 60 });
   baseline = rb ?? baseline;
-  rows.push({ residual, residualShift, residualOwn, residualN: teR.length, fold: f.index, train: trainY.length, test: testY.length, purged: f.purged, effTrain: Math.round(effectiveN(trW)), effTest: Math.round(effectiveN(teW)), real, shuf, randP95: rb?.p95 ?? null, randMean: rb?.mean ?? null, classes: classCounts(testY, 3) });
+  rows.push({ residual, residualRaw, residualOwn, residualN: teR.length, fold: f.index, train: trainY.length, test: testY.length, purged: f.purged, effTrain: Math.round(effectiveN(trW)), effTest: Math.round(effectiveN(teW)), real, shuf, randP95: rb?.p95 ?? null, randMean: rb?.mean ?? null, classes: classCounts(testY, 3) });
   probs.forEach((p, j) => {
     allTest.probs.push(p);
     allTest.y.push(testY[j]);
     allTest.w.push(teW[j]);
-    const day = Math.floor((samples[f.testIdx[j]].time + 1) / DAY);
+    const day = testDays[j];
     const r = regimeByDay.get(day);
     allTest.days.push(day);
     allTest.trend.push(r?.trend ?? NaN);
@@ -186,9 +205,57 @@ const leak = leakCheck({ realBss: pooledBss, shuffledBss: pooledShuf, randomP95:
 const eceRes = allTest.y.length ? ece(allTest.probs, allTest.y, { minBinSamples: 50, maxBins: 10 }) : null;
 const cov = regimeCoverage({ trend: allTest.trend, vol: allTest.vol, days: allTest.days, cutpoints: FROZEN_REGIME_CUTPOINTS });
 const avgW = (key) => { const g = good.filter((r) => r[key] !== null && r[key] !== undefined); const w = g.reduce((a, r) => a + r.effTest, 0); return w ? g.reduce((a, r) => a + r[key] * r.effTest, 0) / w : null; };
-console.log("residual DIAGNOSTICS (not read by the gate): prior-shift-adjusted forecasts per fold", rows.map((r) => (r.note ? "-" : f4(r.residualShift))).join(" | "), "| pooled", f4(avgW("residualShift")), "|| a model fitted on the residual labels, per fold", rows.map((r) => (r.note ? "-" : f4(r.residualOwn))).join(" | "), "| pooled", f4(avgW("residualOwn")));
-console.log("residual BSS per fold (same forecasts vs BTC-beta-adjusted labels):", rows.map((r) => (r.note ? "-" : f4(r.residual) + " (n " + r.residualN + ")")).join(" | "), "| pooled", f4(pooledResidual));
-console.log(`\npooled BSS ${f4(pooledBss)} | shuffled ${f4(pooledShuf)} | random-feature p95 ${f4(p95)} | leak control: ${leak.status} (${leak.reason})`);
+console.log("residual BSS, THE GATE'S DEFINITION (prior-shift-adjusted forecasts vs residual labels; training priors only), per fold:", rows.map((r) => (r.note ? "-" : f4(r.residual))).join(" | "), "| pooled", f4(pooledResidual));
+console.log("  side by side: unadjusted (the original definition) per fold", rows.map((r) => (r.note ? "-" : f4(r.residualRaw))).join(" | "), "| pooled", f4(avgW("residualRaw")), " || (b) a model re-fitted on the residual labels (never deployed; a diagnostic) per fold", rows.map((r) => (r.note ? "-" : f4(r.residualOwn))).join(" | "), "| pooled", f4(avgW("residualOwn")));
+
+// Day-clustered inference. Rows of one day share one market, so the effective number of independent observations is about the number of DAYS, and a row-independent
+// noise baseline is too narrow. (1) a block bootstrap over days for the pooled BSS; (2) a null built from the SAME features and the same label structure with the
+// labels of every coin taken from another day (the same day-shift for all coins), re-fitted in every fold.
+const wts = foldWeights;
+const bootPlain = clusterBootstrapBss(foldDays.plain, wts, { draws: BOOT_DRAWS, seed: 11 });
+const bootA = foldDays.resA.length === foldDays.plain.length ? clusterBootstrapBss(foldDays.resA, wts, { draws: BOOT_DRAWS, seed: 12 }) : null;
+const bootB = foldDays.resB.length === foldDays.plain.length ? clusterBootstrapBss(foldDays.resB, wts, { draws: BOOT_DRAWS, seed: 13 }) : null;
+const ci = (b) => (b ? `${f4(b.observed)}  95% CI [${f4(b.lo)}, ${f4(b.hi)}]  share of resamples above 0: ${(100 * b.shareAboveZero).toFixed(1)}%` : "-");
+console.log(`\nDAY-CLUSTERED BOOTSTRAP (${BOOT_DRAWS} resamples of whole days within each fold), pooled BSS:`);
+console.log("  plain      ", ci(bootPlain));
+console.log("  residual (a, the gate's definition)", ci(bootA));
+console.log("  residual (b, own model)            ", ci(bootB));
+console.log("  sanity: pooled BSS from the day sums", f4(pooledBssOfDays(foldDays.plain, wts)), "vs the fold-weighted BSS above", f4(pooledBss));
+const nullPooled = [];
+if (NULL_DRAWS > 0) {
+  const t1 = Date.now();
+  for (let seed = 1; seed <= NULL_DRAWS; seed++) {
+    let num = 0;
+    let den = 0;
+    for (let k = 0; k < foldFits.length; k++) {
+      const { f, trW, teW } = foldFits[k];
+      // the day-block permutation is applied INSIDE the training set and INSIDE the test set separately, so the class-mix drift between them stays what it really is
+      const shTr = dayBlockPermuteLabels(samples, sampleDay, Y, f.trainIdx, NULL_BLOCK_DAYS, 9000 + 1000 * seed + 2 * k);
+      const shTe = dayBlockPermuteLabels(samples, sampleDay, Y, f.testIdx, NULL_BLOCK_DAYS, 9000 + 1000 * seed + 2 * k + 1);
+      const tr = f.trainIdx.map((i, idx) => idx).filter((idx) => shTr.labels[idx] >= 0);
+      const te = f.testIdx.map((i, idx) => idx).filter((idx) => shTe.labels[idx] >= 0);
+      if (tr.length < 100 || te.length < 50) continue;
+      const ytr = tr.map((idx) => shTr.labels[idx]);
+      const yte = te.map((idx) => shTe.labels[idx]);
+      const wtr = tr.map((idx) => trW[idx]);
+      const mdl = fitSoftmax(tr.map((idx) => X[f.trainIdx[idx]]), ytr, 3, { l2: L2, sampleWeights: wtr, maxIter: 60 });
+      const sc = bss(predictProba(mdl, te.map((idx) => X[f.testIdx[idx]])), yte, baseRates(ytr, 3, wtr), te.map((idx) => teW[idx]));
+      if (sc !== null) {
+        num += sc * wts[k];
+        den += wts[k];
+      }
+    }
+    if (den > 0) nullPooled.push(num / den);
+  }
+  nullPooled.sort((a, b) => a - b);
+  const nm = nullPooled.reduce((a, b) => a + b, 0) / nullPooled.length;
+  const nsd = Math.sqrt(nullPooled.reduce((a, b) => a + (b - nm) ** 2, 0) / Math.max(1, nullPooled.length - 1));
+  const q = (x) => nullPooled[Math.min(nullPooled.length - 1, Math.floor(x * nullPooled.length))];
+  const geReal = nullPooled.filter((x) => x >= pooledBss).length;
+  console.log(`\nDAY-SHIFTED NULL (${nullPooled.length} draws: same features; labels day-block-permuted inside each fold's training set and inside its test set, blocks of ${NULL_BLOCK_DAYS} days, the same map for all coins; re-fitted in every fold; ${Math.round((Date.now() - t1) / 1000)}s):`);
+  console.log(`  pooled BSS of the null: mean ${f4(nm)}  sd ${f4(nsd)}  p50 ${f4(q(0.5))}  p95 ${f4(q(0.95))}  max ${f4(nullPooled.at(-1))}   | real pooled BSS ${f4(pooledBss)}: ${geReal} of ${nullPooled.length} null draws are at least as high (permutation p >= ${((geReal + 1) / (nullPooled.length + 1)).toFixed(3)})`);
+}
+console.log(`\nROW-INDEPENDENT baselines (kept for comparison; they understate the noise): pooled BSS ${f4(pooledBss)} | shuffled ${f4(pooledShuf)} | random-feature p95 ${f4(p95)} | leak control: ${leak.status} (${leak.reason})`);
 console.log(`ECE ${eceRes ? f4(eceRes.ece) : "-"} | regime coverage in DAYS (frozen cutpoints):`, cov ? JSON.stringify({ trend: cov.trend, vol: cov.vol }) : "null (a day carried two different values, or days did not line up)");
 const testSpanDays = allTest.days.length ? maxOf(allTest.days) - minOf(allTest.days) + 1 : null;
 const report = {
