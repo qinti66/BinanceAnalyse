@@ -9,6 +9,7 @@
 // identified, none obtained. Its verdict on that is part of the rehearsal.
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { existsSync, readFileSync as readFileSyncFs, renameSync, writeFileSync as writeFileSyncFs } from "node:fs";
 import { toBars } from "../lib/structure/bars.ts";
 import { atrSeries } from "../lib/structure/atr.ts";
 import { buildFeatureVector, FEATURE_IDS } from "../lib/indicators/features/registry.ts";
@@ -221,10 +222,39 @@ console.log("  plain      ", ci(bootPlain));
 console.log("  residual (a, the gate's definition)", ci(bootA));
 console.log("  residual (b, own model)            ", ci(bootB));
 console.log("  sanity: pooled BSS from the day sums", f4(pooledBssOfDays(foldDays.plain, wts)), "vs the fold-weighted BSS above", f4(pooledBss));
+// Per-permutation checkpointing (calibration-log T31: two background kills so far). The checkpoint is keyed by k (1..NULL_DRAWS): each draw's seed is a
+// deterministic function of k alone, so a resumed run fills exactly the missing k's with exactly the seeds an uninterrupted run would have used --
+// "keep going from the current count" would silently reassign seeds to different k's once anything is missing, and is never used here.
+const CHECKPOINT = process.env.NULL_CHECKPOINT ?? join(dataDir, `null-checkpoint-h${H}-every${EVERY}-block${NULL_BLOCK_DAYS}.json`);
+function loadCheckpoint() {
+  if (!existsSync(CHECKPOINT)) return {};
+  try {
+    const doc = JSON.parse(readFileSyncFs(CHECKPOINT, "utf8"));
+    if (doc.horizon !== H || doc.every !== EVERY || doc.blockDays !== NULL_BLOCK_DAYS) return {}; // a different run's checkpoint: start clean
+    return doc.draws ?? {};
+  } catch (e) {
+    // A partial write from a kill mid-save, or a missing/corrupt file: treat as if nothing were recorded (every draw is redone). Logged, not silent:
+    // a silently swallowed error here previously made checkpointing look like it worked when it never ran at all (calibration-log T31).
+    console.log(`checkpoint ${CHECKPOINT} unreadable (${e.message}); starting the null draws from scratch`);
+    return {};
+  }
+}
+function saveCheckpoint(draws) {
+  const tmp = CHECKPOINT + ".tmp";
+  writeFileSyncFs(tmp, JSON.stringify({ horizon: H, every: EVERY, blockDays: NULL_BLOCK_DAYS, draws }));
+  renameSync(tmp, CHECKPOINT);
+}
+const checkpointed = loadCheckpoint();
 const nullPooled = [];
 if (NULL_DRAWS > 0) {
   const t1 = Date.now();
+  const resumedCount = Object.keys(checkpointed).length;
+  if (resumedCount) console.log(`resuming from checkpoint ${CHECKPOINT}: ${resumedCount}/${NULL_DRAWS} draws already on disk, filling the gap by k`);
   for (let seed = 1; seed <= NULL_DRAWS; seed++) {
+    if (checkpointed[seed] !== undefined) {
+      nullPooled.push(checkpointed[seed]);
+      continue;
+    }
     let num = 0;
     let den = 0;
     for (let k = 0; k < foldFits.length; k++) {
@@ -245,7 +275,12 @@ if (NULL_DRAWS > 0) {
         den += wts[k];
       }
     }
-    if (den > 0) nullPooled.push(num / den);
+    if (den > 0) {
+      const val = num / den;
+      nullPooled.push(val);
+      checkpointed[seed] = val;
+      saveCheckpoint(checkpointed);
+    }
   }
   nullPooled.sort((a, b) => a - b);
   const nm = nullPooled.reduce((a, b) => a + b, 0) / nullPooled.length;
