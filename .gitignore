@@ -33,5 +33,11 @@ data/indicators/positions/
 # 导出给用户下载的数据包（由 scripts/serve-export.mjs 提供下载）
 data/export/
 
+# 预测留档：不可重新生成（记的是"当时"的排名，事后无法补），以部署服务器为存放地
+data/predictions/
+
+# 一键采集脚本每次运行的报告，纯本地状态
+data/collect-all-last-report.json
+
 # 从服务器拷回的数据副本（体积大，只在本地使用，不进 git）
 CypeData/
