@@ -44,6 +44,7 @@ export default function IndicatorsPage(){
  const local=useSyncExternalStore(noSubscribe,isLocalHost,()=>false);
  const [directionFilter,setDirectionFilter]=useState("all"),[clock,setClock]=useState(()=>Date.now());
  const [onlyEarly,setOnlyEarly]=useState(true);
+ const [freshness,setFreshness]=useState<{positionsOldestLastFetchAt:string|null;klinesLastBarAt:string|null;fundingLastRowAt:string|null}|null>(null);
  // AI 解读结果按币种缓存在内存里（不持久化），切换币种来回看不用重复请求；手动点击才会发起请求，不自动触发。
  const [aiResults,setAiResults]=useState<Record<string,{text:string;model:string;generatedAt:string}>>({});
  const [aiLoading,setAiLoading]=useState<string|null>(null);
@@ -69,6 +70,8 @@ export default function IndicatorsPage(){
    const isLocal=isLocalHost();
    readSnapshot().catch(e=>setError(String(e.message))).finally(()=>setLoading(false));
    if(isLocal)fetch(SERVICE+"/status",{signal:AbortSignal.timeout(2000)}).then(r=>r.json() as Promise<JobStatus>).then(j=>{if(j.state==="running"){setPolling(true);setStatus(j.message)}else setStatus("本地更新服务已就绪 · 只在点击时采集");}).catch(()=>setStatus("本地更新服务未启动；仍可查看已保存的真实快照。"));
+   // 服务器上的一键采集脚本（scripts/collect-all.mjs）每次跑完写一份小文件；没有这个文件（比如定时任务从未成功过）时静默忽略，不当错误处理。
+   fetch("/indicators/freshness.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{if(j)setFreshness(j)}).catch(()=>{});
  },[]);
  useEffect(()=>{
    if(!polling)return;
@@ -109,6 +112,7 @@ export default function IndicatorsPage(){
  {loading&&!data?<div className="sq-empty">正在读取指标快照…</div>:!data?<section className="sq-empty"><Database size={32}/><h2>尚无真实数据</h2><p>没有快照时不展示虚构币种或演示排行榜。</p></section>:<>
  <div className="im-stats"><Stat label="代币合约覆盖" value={data.coverage.contracts+" / "+(data.coverage.um+data.coverage.cm)} note={"U 本位 "+data.coverage.um+" · 币本位 "+data.coverage.cm}/><Stat label="合并后代币" value={String(data.coverage.tokens)} note="同币种多合约聚合，避免重复入选"/><Stat label="整点持仓数据" value={data.coverage.oiContracts+" / "+data.coverage.contracts} note={"流通市值可用 "+data.coverage.marketCapTokens+" 币"}/><Stat label="观察名单" value={String(data.coverage.candidates)} note="满足数据、流动性与多信号门槛"/></div>
  <div className={"im-timing "+(old?"im-stale":"")}><CheckCircle2 size={16}/><span>统一分析时点：{timestamp(data.cutoff)}（北京时间） · 采集完成：{timestamp(data.completedAt)}{old?" · 已超过6小时，仅作历史观察":""}</span></div>
+ <FreshnessBar freshness={freshness} now={clock}/>
  {data.coins.length>0&&!data.coins.some(c=>c.earlySignal)&&<div className="sq-notice" role="alert"><AlertTriangle size={17}/><span>当前快照由旧版规则生成，没有早期分和“疑似启动”数据，“仅看疑似启动”筛选下会显示为空。请点击“更新指标数据”重新采集。</span></div>}
  <div className="sq-notice"><AlertTriangle size={17}/><span>IO 净流入是主动买入额减主动卖出额，不是充值提现。持仓市值是未平仓合约名义价值，不是保证金。观察名单同时包含上涨、下跌与拥挤风险，不等于买入名单。</span></div>
  {sort==="squeeze"&&<div className="sq-notice"><AlertTriangle size={17}/><span>本排名回答"哪些币即将脱离横盘"，<strong>不回答方向</strong>。基于回测（docs/findings-v1.md），<strong>尚未经过前瞻验证</strong>。数值是波动压缩百分位（越低越紧），不是概率，也不针对单个币给出精确预测。</span></div>}
@@ -123,6 +127,17 @@ export default function IndicatorsPage(){
  </>}<footer className="sq-footer">指标模块独立采集与筛选 · 不修改广场数据 · 无定时任务 · 不自动下单</footer></div></main>;
 }
 function Stat({label,value,note}:{label:string;value:string;note:string}){return <div className="sq-card im-stat"><span>{label}</span><strong>{value}</strong><small>{note}</small></div>}
+// 一键采集脚本（scripts/collect-all.mjs，通常由服务器上的定时任务触发）跑完后写 public/indicators/freshness.json；这里只做展示，不做告警系统——
+// 定时任务一旦静默失败，用户每天都会打开的是这个页面，不是日志文件，所以新鲜度必须显示在用户真正会看到的地方（架构裁定）。
+function FreshnessBar({freshness,now}:{freshness:{positionsOldestLastFetchAt:string|null;klinesLastBarAt:string|null;fundingLastRowAt:string|null}|null;now:number}){
+ if(!freshness)return null;
+ const ageDays=(iso:string|null)=>iso==null?null:(now-Date.parse(iso))/86400000;
+ const fmt=(d:number|null)=>d==null?"缺失":d.toFixed(1)+" 天前";
+ const pos=ageDays(freshness.positionsOldestLastFetchAt),kl=ageDays(freshness.klinesLastBarAt),fu=ageDays(freshness.fundingLastRowAt);
+ const posStale=pos!=null&&pos>7,klStale=kl!=null&&kl>2,fuStale=fu!=null&&fu>2;
+ const any=posStale||klStale||fuStale;
+ return <div className={"im-timing "+(any?"im-stale":"")}><CheckCircle2 size={16}/><span>持仓历史最后更新：<strong>{fmt(pos)}</strong>（10天未跑将出现永久缺口） · K线最后更新：{fmt(kl)} · 资金费率最后更新：{fmt(fu)} · 来自一键采集脚本／定时任务</span></div>;
+}
 function DirectionDetail({analysis:a,token,cutoff}:{analysis:DirectionAnalysis;token:string;cutoff:number}){
  return <section className="sq-card sq-detail im-direction-detail" aria-label="币种方向研判"><div className="sq-row"><h2>{token} · 综合参数分析</h2><span className={"sq-tag "+color(a.direction)}>{a.label}</span></div><p className="im-analysis-summary">{a.summary}</p><p className="sq-note">基于 {timestamp(cutoff)}（北京时间）的4h价格与资金窗口，辅以1h技术指标；不是实时行情。</p><div className="im-factor-grid">{a.factors.map(f=><article key={f.label}><h3>{f.label}</h3><strong>{f.value}</strong><p>{f.reading}</p></article>)}</div><p className="im-direction-risk">{a.risks.length?"风险与反对依据："+a.risks.join("；"):"没有触发已定义的风险门槛，不代表没有风险。"}</p><p className="sq-note">{a.conditions}</p><p className="sq-note">规则 {DIRECTION_RULE} · 研究用启发式规则，尚未回测；偏向不是胜率，不构成买卖指令。同类技术特征的方向回测见 docs/findings-v1.md。</p></section>;
 }

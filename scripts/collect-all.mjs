@@ -4,7 +4,9 @@
 //   node scripts/collect-all.mjs
 //
 // This is a THIN ORCHESTRATOR: every safety rule already lives in the scripts it calls and is not touched here.
-//   - collect-indicators.mjs: universe, live snapshot, positions T2 store (its own rate limiter, its own 403/418/429 handling).
+//   - update-indicators.mjs: the same collect -> enrich -> analyze sequence the local update service runs (its own lock file at
+//     data/indicators/update.lock, so this refuses to double-run if that service is mid-update). This is what actually refreshes
+//     public/indicators/latest.json -- the file the /indicators page reads -- not just the raw snapshot.
 //   - backfill-klines.mjs (backfillSymbol): resumable "extend the tail" logic, its own rate limiter, 451/418/403 stop the whole run.
 //   - backfill-funding.mjs (backfillFundingSymbol): resumable, stops hard on 418/429/403, never retries past a limit.
 //   - binance-net.mjs preflight(): direct connection on the server (no HTTPS_PROXY there), the existing route-selection logic covers it.
@@ -15,7 +17,7 @@
 // trigger, if the user wants one, is a separate cron entry that calls this same command and is documented in scripts/README-collect-all.md.
 import "./require-node.mjs";
 import { execFileSync } from "node:child_process";
-import { mkdir, readFile, writeFile, readdir } from "node:fs/promises";
+import { mkdir, readFile, writeFile, readdir, rename } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { preflight, createGet, RegionBlockedError } from "./binance-net.mjs";
@@ -33,16 +35,16 @@ function say(line) {
   console.log(line);
 }
 
-// --- Stage 1: live indicators snapshot (universe + ticker/funding/premium + positions T2 store) -------------------------------------------------
-say("== stage 1/3: live indicators snapshot (collect-indicators.mjs) ==");
+// --- Stage 1: live indicators snapshot, refreshing public/indicators/latest.json (collect -> enrich -> analyze, via update-indicators.mjs) --------
+say("== stage 1/3: live indicators snapshot (update-indicators.mjs: collect -> enrich -> analyze) ==");
 try {
-  const out = execFileSync(process.execPath, [join(root, "scripts", "collect-indicators.mjs")], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  const out = execFileSync(process.execPath, [join(root, "scripts", "update-indicators.mjs")], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
   const lines = out.trim().split("\n");
   report.stages.indicators = { ok: true, lastLine: lines[lines.length - 1] };
   say("  ok: " + lines[lines.length - 1]);
 } catch (e) {
   report.stages.indicators = { ok: false, error: String(e.stderr || e.message).slice(0, 2000) };
-  say("  FAILED (see report): " + String(e.stderr || e.message).split("\n")[0]);
+  say("  FAILED (see report; a stale update.lock or a concurrent update from the local service both land here): " + String(e.stderr || e.message).split("\n")[0]);
 }
 
 // Prediction snapshot (input side only, see log-predictions.mjs) -- logged right after the live snapshot exists, so a stale/missing snapshot never
@@ -179,6 +181,31 @@ report.positions = {
   mustRerunBy: oldestFetch != null ? new Date(oldestFetch + (REFETCH_DAYS - MARGIN_DAYS) * DAY).toISOString() : "unknown -- no positions store found yet",
 };
 await writeFile(join(root, "data", "collect-all-last-report.json"), JSON.stringify(report, null, 2));
+
+// Public, page-facing freshness snapshot (architect: a cron that fails silently is worse than no cron -- the ONE place a user actually looks is the
+// page, not a log file). Ground-truth reads from the data itself, not just "the script ran successfully", so a stopped-early run is reflected too.
+async function lastRowTime(path, pick) {
+  try {
+    const doc = JSON.parse(await readFile(path, "utf8"));
+    const rows = doc.rows;
+    if (!Array.isArray(rows) || !rows.length) return null;
+    return pick(rows[rows.length - 1]);
+  } catch {
+    return null;
+  }
+}
+const klinesLastBarAt = await lastRowTime(join(root, "data", "calibration", "klines", "1h", "BTCUSDT.json"), (r) => Number(r[6])); // closeTime
+const fundingLastRowAt = await lastRowTime(join(root, "data", "calibration", "funding", "BTCUSDT.json"), (r) => Number(r.time));
+const freshness = {
+  generatedAt: new Date().toISOString(),
+  positionsOldestLastFetchAt: oldestFetch != null ? new Date(oldestFetch).toISOString() : null,
+  klinesLastBarAt: klinesLastBarAt != null ? new Date(klinesLastBarAt).toISOString() : null,
+  fundingLastRowAt: fundingLastRowAt != null ? new Date(fundingLastRowAt).toISOString() : null,
+};
+const freshnessDir = join(root, "public", "indicators");
+await mkdir(freshnessDir, { recursive: true });
+await writeFile(join(freshnessDir, "freshness.json.tmp"), JSON.stringify(freshness));
+await rename(join(freshnessDir, "freshness.json.tmp"), join(freshnessDir, "freshness.json"));
 
 say("\n================ SUMMARY ================");
 say(`started  ${report.startedAt}`);
